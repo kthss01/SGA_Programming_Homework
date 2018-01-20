@@ -1,0 +1,97 @@
+// 1.11(목) Day1
+// 과제 : cout << << endl로 자신이 좋아 하는 케릭터 그려오기
+
+#include <iostream>
+using namespace std;
+
+void main()
+{
+	cout << "                                                                  v ivi                                                                               " << endl;
+	cout << "                                                       vYvvvuuVBBr   rvYujr                                                                           " << endl;
+	cout << "                                                   KDqvvi DBBXvVBu       iUDd                                                                         " << endl;
+	cout << "                                                iBgr     kBi      JE        iBr                                                                       " << endl;
+	cout << "                                               rBr      BB         BBXivvvvriPBBi                                                                     " << endl;
+	cout << "                                              vB       MP   jUIBBQBgqPXVuuJjJUUMQQBXs                                                                 " << endl;
+	cout << "                                             iB        BBSQBMkvii                 isZBBKi                                                             " << endl;
+	cout << "                                             Bi     rPBBri               i            isQBD                                                           " << endl;
+	cout << "                                             B   iEBQVBi      i   iiiiiii i i i          iEBP                                                         " << endl;
+	cout << "                                            rBiiBBVi iBv   iii iii iii i iii i i iii i      RBv                                                       " << endl;
+	cout << "                                            iBBBr     BM  iii iiiiiii iiiiiiiiiiiii i iii    iBB                                                      " << endl;
+	cout << "                                            BBK       uBi iiii iiiii i iii iii i iii i i i     EBr                                                    " << endl;
+	cout << "                                          vBdBB    ii  ri i i iii iii iii i iiiiiiiiiii   iii   rBu                                                   " << endl;
+	cout << "                                         BBi  si iiii    i i i iii iiiiiiiii iiiii iii iiiii i   iBL                                                  " << endl;
+	cout << "                                        BB       ii iii i iiiii i iiiii iii iiiiiiiiiiiiiii iii   iBi                                                 " << endl;
+	cout << "                                       BB    i  iiiiiiii i iii i iii iiiiiiiiiiiiiiiii iii iii i   JB                                                 " << endl;
+	cout << "                                      BB    i i iiiiiii iiiii i i iiiii iii i iiiiiii i i i   iii   gB                                                " << endl;
+	cout << "                                     vB      iiiiiiiiiii iiiiiii i i i iiiii i i i iiiii i i iii     BB                                               " << endl;
+	cout << "                                     BS   iiiii iii i i i iii i iii i i i iii iiiiiiiii i i i iii    iBi                                              " << endl;
+	cout << "                                     Bi  iii i iiiiiii iiiii iii i i i iiiiiiiiiiiiiiiiiiiiiiiii ii   EB                                              " << endl;
+	cout << "                                    QB   iiii i i iiiiiiiiiiiii iii iii iiiiiiiiiii iii i iii i iii    BI                                             " << endl;
+	cout << "                                    BB   iii iiiii i iii iii i i i iii i iiiiiiiii iii i iiiiiii i ii  vB                                             " << endl;
+	cout << "                                    BD   ii i iii i i i i i iii iiiiiiiii i iiiiiii iiiii i iii i iii   BR                                            " << endl;
+	cout << "                                    BQ   iiiiiiiiiiiii i i iii i i i i iii iii i i iii i iii iii i i i  iB                                            " << endl;
+	cout << "                                    XB  iiiiiiiiiii i i iii i iii iii iiiiiii iiiiiiiiiiiii iii i i ii   QB                                           " << endl;
+	cout << "                                     B   iii i i i i i iiiiiiiiiiiiiii i iii i i i iiiii i iii iii i i   kBU                                          " << endl;
+	cout << "                                     BJ  ii iii i i i iiiii iiiiiii i i   i iii ii  i i iiii ii iii i i  ivBb                                         " << endl;
+	cout << "                                     kB  i i i i iiiii i i iiiiiiiiii  i             i i i i i              gB                                        " << endl;
+	cout << "                                      Bi  i i iiiiiii iiiiiiiiiiii        iiii         ii         iiiiiii    Bj                                       " << endl;
+	cout << "                                      Bg    iiiiiiiiiiiiii ii       iruuuqPIkUVJLuvi          vuuIKXPbPPPSVuiBb                                       " << endl;
+	cout << "                                      vB  iiiii iii i iii i iii   vPqYri        irIjXL     iqDPvi         ivkBQ                                       " << endl;
+	cout << "                                       BY  iii iii i iiiiiii    UQsi    ii iii i    iYKS igQr    i i iiiii    qB                                      " << endl;
+	cout << "                                       vB   i iiiii iii i i   vBV   iiiiiiiiiiiiiiii   YBBv   iiiiiiiiiiiiiii  rQr                                    " << endl;
+	cout << "                                        Br   i i   i iiiii   IQi  iiiiiiiiiiiiiiiiiiii   i  iiiiiiiiiiiiiiiiiii iBi                                   " << endl;
+	cout << "                                        BB  i i      iii i  XI  iiiiiiiiiiiiiiiiiiiiiiii  iiiiiiiiiiiiiiiiiiiiii iU                                   " << endl;
+	cout << "                                        iBi     MBi    i   vP  iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii us                                  " << endl;
+	cout << "                                         BE    UBBBi  ii   Bi iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii iiiiiiiii iv                                  " << endl;
+	cout << "                                    i    rB    gB BB   ii rV iiiiiiii    iiiiiiiiiiiiiiiiiiiiiiiiiiii    iiiiiiiiiiv                                  " << endl;
+	cout << "                                   kBBi   Br   BZ iBv  ii Jv iiiiiii iivi iiiiiiiiiiiiiiiiiiiiiiiiii vBBi iiiiiii ir                                  " << endl;
+	cout << "                                    BBBD  IB  iBj  gB     Jv iiiiiii qBBr iiiiiiiiiiiiiiiiiiiiiiiiii vQBi iiiiiii UX                                  " << endl;
+	cout << "                                    B  BBiIB  iBi  iBq  i ik iiiiiii ivi iiiiiiiiiiiiiiiiii i iiiiii      iiiiii  Zi                                  " << endl;
+	cout << "                                    qu  rBBBv jB    IBi    gi iiiiiii    iiiiiiiiiiiiiiii  i        iiiii    ii  Du                                   " << endl;
+	cout << "                                    iB   iBBB PB     Bd    iV  iiiiiiiiiiiiiiiiiiiiiiiiii iBMYJLjEqKPSSSqQZv   iEu                                    " << endl;
+	cout << "                                     Bi    BBiBQ  i  sBr i  LQ  iiiiiiiiiiiiiiiiiiiiiii  rBJiiiiii        rRX iBY                                     " << endl;
+	cout << "                                     dk     BBBJ      BZ     sQi  iiiiiiiiiiiiiiiiiii   jBi                 UBP                                       " << endl;
+	cout << "                                     rB      BX          i i  iQPi  iiiiiiiiiiiiii    IQd    i i i i  ii i   BL                                       " << endl;
+	cout << "                                      Bi     gI           i i   LPgvi              rkBZi    ii ii i iii i    Bu                                       " << endl;
+	cout << "                                      i      BBBBBBBv  iiiii i    ikPkkrrriiiirrXXgdL                       ZB                                        " << endl;
+	cout << "                                           QBv    iVs iiii  iiii     irvuVKPqIkLvi                        YBBBV                                       " << endl;
+	cout << "                                          BB irLsvi    iiii  i i i i                 iiirvvssuuVqSKPZZRBBBBqi dBL                                     " << endl;
+	cout << "                                         XB YQBBBBBBL   iii i i iii         iiJPMBBBBBBBBBBQQMgZEPPPqUUsvi  ii rBE                                    " << endl;
+	cout << "                                         BV  iBb   Vb  iiiiiiiii i      iIQBBBQbuvriii i                iiiiiii iBB                                   " << endl;
+	cout << "                                         QB  jB         i iiiii      vQBBRUri    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiii iBD                                  " << endl;
+	cout << "                                          BI  i          iiiii    iDBBPr   iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii iBi                                 " << endl;
+	cout << "                                          iBBi     ibBi i iii    dBBr  iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii PB                                 " << endl;
+	cout << "                                            vQBBRBBBBr   i i   iBBi  iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiBv                                " << endl;
+	cout << "                                               iBQ        i   rBM  iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii BP                                " << endl;
+	cout << "                                                Bk   i i i   iBg iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii gg                                " << endl;
+	cout << "                                                BY  iii ii   BB iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii kB                                " << endl;
+	cout << "                                                Bv  iiii i  sBi iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiBu                               " << endl;
+	cout << "                                                Bi  iiiii   BR iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii rB                               " << endl;
+	cout << "                                               iB  iii ii  iBs iiiiiii iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii  kB                               " << endl;
+	cout << "                                               QB   iiiii  iBr iiiii  ZBi iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii   iJBBr                               " << endl;
+	cout << "                                               Bj  iiiii   vBi iiiiiiBBXii       iiiiiiiiiiiiiiiiiiiii       ivkgBBQv                                 " << endl;
+	cout << "                                              iBi  iiii i  rBr iiii BBZQBBBBBZqIsviiiiii    i   iiiiirvvsugQBQQQvi                                    " << endl;
+	cout << "                                              jB   iiiii   iBY iiiiiJi  iivLUdMBBBBBBBBBBBBBBBBBBBBBBBBQBBD                                           " << endl;
+	cout << "                                              Bu  i iiiii   BQ iiiiiiiiiiii       iiiirrvrvrrrrrriiii   gB                                            " << endl;
+	cout << "                                              Bi iiiiiiii   uBi iiiiiiiiiiiiiiiiiiiiiiii i i iiii     iBB                                             " << endl;
+	cout << "                                             bB   i iii i    BB iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii iYPBBu                                              " << endl;
+	cout << "                                             Bv  i iii iii   iBg iiiiiiiiiiiiiiiiiiiiiiiiiiiiiii vBBri                                                " << endl;
+	cout << "                                    rJYuUjsUBB  iii i i iii   iBQ  iiiiiiiiiiiiiiiiiiiiiiiiiiii vBu                                                   " << endl;
+	cout << "                                   vKi      Qv  i  ii  i  ii   iBBr iiiiiiiiiiiiiiiiiiiiiiiii  bBL                                                    " << endl;
+	cout << "                                  ij iiiii sg   i i iiiii i ii   bBQi  iiiiiiiiiiiiiiiiiiiii vBBi                                                     " << endl;
+	cout << "                                 iu iiiiiiSBi      iii i iiiiii   iQBBsi   iiiiiiiiiiiii   vBBV                                                       " << endl;
+	cout << "                                 Si iiiii iqBL      iii i i i i i   ikBBBqvii          iikBBv                                                         " << endl;
+	cout << "                                ki iiiiiii  iuMdr    iii iii iiii      iYMBBBBQQggDgRBBBBBi                                                           " << endl;
+	cout << "                               rr iiiiiiiiii   rDgui      i i i i ii        irLjVVVkUviiBB                                                            " << endl;
+	cout << "                              ik iiiiiiiiiiiii   iYqMLi      i i i   i                 JP rSui                                                        " << endl;
+	cout << "                              Jiiiiiiiiiiiiiiiiii   ijPXJi      ii  i iii i            QY   ijPui                                                     " << endl;
+	cout << "                             jr iiiiiiiiiiiiiiiiiiii   ivKPYvi         i i i iiiii i   Pi ii   iUKU                                                   " << endl;
+	cout << "                            vv iiiiiiiiiiiiiiiiiiiiiiii   iivkXIvii         iii iii i iJ  iiiii   irKi                                                " << endl;
+	cout << "                           iP  iiiiiiiiiiiiiiiiiiiiiiiiiiii   iirusKUvii       i i  i  gi iiiiiiii  iSi                                               " << endl;
+	cout << "                            gr  iiiiiiiiiiiiiiiiiiiiiiiiiiiiiii    ivvXPJkVsi    i ii  Es  iiiiiii i iU                                               " << endl;
+	cout << "                             Bqii iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii     iIBgRi  ii  i LBr  iiiii viiiii                                              " << endl;
+	cout << "                            iP rkii iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii  i  vBi   i    BBRi  ii YY iiir                                              " << endl;
+	cout << "                            j   iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii   iBL  i i    IBi    i iiiiiL                                             " << endl;
+	cout << "                           ui iiiiiiiiiii iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiviiiii  PP  iii    vBi iZ  iiiiiii                                            " << endl;
+	cout << "                     iiirkQBii          ivi                            ii        uDi        iBSBBI       v                                            " << endl;
+}
