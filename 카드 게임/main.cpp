@@ -5,16 +5,23 @@
 
 using namespace std;
 
+// 구분선을 만들기 위한 함수
 void makeStar() {
 	for (int i = 0; i < 40; i++)
 		cout << "*";
 	cout << endl;
 }
-// 숫자로 이루어진 카드를 문양과 숫자로 만드는 함수
+// 숫자로 이루어진 카드를 문양과 숫자로된 문자열로 만드는 함수
 string showCard(int num) {
 	string card;
 	string cardType[4] = { "♠","♥","♣","◆" };
 	int type, cardNum;
+
+	/*
+	스페이드	하트	다이아몬드	클럽 순으로 구분
+	0~12		13~25	26~38		39~51
+	*/
+
 	// 스페이드
 	if (num <= 12) {
 		type = 0;
@@ -46,6 +53,7 @@ string showCard(int num) {
 	else if (cardNum == 12)
 		card += "K";
 	else
+		// to_string(숫자) 숫자를 문자열로 바꿔주는 함수
 		card += to_string(cardNum+1);
 
 	// test
@@ -56,6 +64,7 @@ string showCard(int num) {
 
 int cheat(int card1, int card2, int card3) {
 	// 테스트를 위한 치트
+	// 카드가 사이에 있는지 확인
 	int min, max;
 	if (card1 % 13 <= card3 % 13) {
 		min = card1 % 13;
@@ -145,7 +154,7 @@ void main()
 			int bet;
 			cout << "배팅액 입력 : ";
 			//cin >> bet;
-			// 치트
+			// 치트 - 배팅값을 입력받지 않고 랜덤으로 배팅
 			bet = (rand() % (money / 1000) + 1) * 1000;
 			cout << "배팅액 : " << bet << endl;
 
@@ -167,6 +176,11 @@ void main()
 			cout << endl;
 			cout << endl;
 
+			// 왼쪽과 오른쪽 카드 중 작은값과 큰 값을 구한다.
+			/*
+				5 10 이런 식 -> min = 5,  max = 10
+				10 5 이런 식 -> min = 10, max = 5
+			*/
 			int min, max;
 			if (table[0] % 13 <= table[2] % 13) {
 				min = table[0] % 13;
@@ -177,6 +191,14 @@ void main()
 				max = table[0] % 13;
 			}
 
+			// 문양에 관계 없이 숫자만을 비교하기 위해 나머지를 구한다
+			
+			/*
+			스페이드	하트		다이아몬드		클럽 순
+			0~12		13~25		26~38			39~51
+			0~12		13~25 % 13  26~38 % 13		39~51 % 13
+						= 0~12		= 0~12			= 0~12
+			*/
 			if (min <= table[1] % 13 && table[1] % 13 <= max) {
 				cout << "숫자가 사이에 있습니다. 배팅액 +" << bet << endl;
 				money += bet;
@@ -218,7 +240,7 @@ void main()
 */
 
 /*
-	문제점 몇 개 발견
+	문제점 몇 개 발견 -> 수정 완료
 	1~10 사이로 해야되는데
 	10 5 1 이런식일때는 체크 안됨
 
