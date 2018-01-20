@@ -17,7 +17,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "문자열 뒤집기", "문�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "문자열 뒤집기(특수문자 제외)", "특수문자 제외 문자열 뒤집기\특수문자 제외 문자열 뒤집기.vcxproj", "{1A741718-5F83-4845-936C-204D439D838F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "카드 게임", "카드 게임\카드 게임.vcxproj", "{37FD3C5F-2D5C-4341-9FB3-B5AA231BE079}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "월남뽕게임(카드 게임)", "월남뽕게임(카드 게임)\카드 게임.vcxproj", "{37FD3C5F-2D5C-4341-9FB3-B5AA231BE079}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
