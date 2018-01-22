@@ -22,6 +22,11 @@ string showCard(int num) {
 	0~12		13~25	26~38		39~51
 	*/
 
+	// 이거 그냥 나누거나 나머지 계산하면 한 줄로 가능
+	cardNum = num % 13;
+	type = num / 13;
+
+	/*
 	// 스페이드
 	if (num <= 12) {
 		type = 0;
@@ -42,6 +47,8 @@ string showCard(int num) {
 		type = 3;
 		cardNum = num - 39;
 	}
+	*/
+
 	card = cardType[type];
 
 	if (cardNum == 0)

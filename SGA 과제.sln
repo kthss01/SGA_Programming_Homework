@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "문자열 뒤집기(특수�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "월남뽕게임(카드 게임)", "월남뽕게임(카드 게임)\카드 게임.vcxproj", "{37FD3C5F-2D5C-4341-9FB3-B5AA231BE079}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "하이 로우 세븐(카드 게임)", "하이 로우 세븐(카드 게임)\하이 로우 세븐(카드 게임).vcxproj", "{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -91,6 +93,14 @@ Global
 		{37FD3C5F-2D5C-4341-9FB3-B5AA231BE079}.Release|x64.Build.0 = Release|x64
 		{37FD3C5F-2D5C-4341-9FB3-B5AA231BE079}.Release|x86.ActiveCfg = Release|Win32
 		{37FD3C5F-2D5C-4341-9FB3-B5AA231BE079}.Release|x86.Build.0 = Release|Win32
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Debug|x64.ActiveCfg = Debug|x64
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Debug|x64.Build.0 = Debug|x64
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Debug|x86.Build.0 = Debug|Win32
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Release|x64.ActiveCfg = Release|x64
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Release|x64.Build.0 = Release|x64
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Release|x86.ActiveCfg = Release|Win32
+		{9E70CA1D-0E13-4A41-A15E-A5B938FFB5BF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
