@@ -15,8 +15,6 @@ void main()
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(hC, &csbi);
 
-
-
 	SetConsoleTextAttribute(hC, LINE_COLOR);
 	printf("%s\n", "                          a biU bri                                   ");
 	printf("%s\n", "                       aba qYa7a   ba                                 ");
