@@ -32,7 +32,7 @@ void makeLine() {
 
 void showPuzzle(int* puzzle, int gameCount) {
 	makeLine();
-	cout << "\t   슬라이딩 게임" << endl;
+	cout << "\t슬라이딩 퍼즐 게임" << endl;
 	makeLine();
 
 	cout << endl;
