@@ -3,11 +3,13 @@
 #include <time.h>
 #include <Windows.h>
 #include <string>
+#include <stdio.h>
 
 using namespace std;
 
 Ssudda::Ssudda()
 {
+	SelectPlayer();
 	Init();
 }
 
@@ -163,7 +165,7 @@ string Ssudda::ShowLevelToCard(int level)
 	switch (level)
 	{
 	case Ssudda::GwangTtaeng38:
-		card = "천하무적 38광땡";
+		card = "38광땡";
 		break;
 	case Ssudda::GwangTtaeng:
 		card = "광땡";
@@ -251,13 +253,8 @@ string Ssudda::ShowLevelToCard(int level)
 	return card;
 }
 
-void Ssudda::Init()
+void Ssudda::SelectPlayer()
 {
-	for (int i = 0; i < 20; i++)
-		card[i] = i;
-
-	Shuffle();
-
 	while (true) {
 		cout << "플레이할 사용자를 입력하세요 (2 ~ 4) : ";
 		cin >> playerNumber;
@@ -274,6 +271,16 @@ void Ssudda::Init()
 			cout << "다시 입력하세요" << endl;
 		}
 	}
+}
+
+void Ssudda::Init()
+{
+	for (int i = 0; i < 20; i++)
+		card[i] = i;
+
+	Shuffle();
+
+	tableMoney = 0;		// 테이블 금액 초기화
 }
 
 void Ssudda::Release()
@@ -299,6 +306,14 @@ void Ssudda::Update()
 		player[i].SetCard(card[draw], card[draw + 1]);
 		draw += 2;
 
+		// test
+		//player[0].SetCard(2, 7);
+
+		// 플레이어들 모두 올인하도록 설정
+		player[i].SetBetting(player[i].GetMoney());
+		// 플레이어들 배팅 금액, 테이블 금액에 더하기
+		tableMoney += player[i].GetBetting();
+
 		// 섯다 족보를 통해 플레이어 레벨 구분하기
 		player[i].SetLevel(CheckCombination(player[i].GetCard()));
 	}
@@ -309,29 +324,60 @@ void Ssudda::Update()
 	/*
 		승패 계산부분과 금액 계산부분 (배팅액에 따라 달라지게)
 		수정하면 좋을듯 
+		무승부에 대한 처리도
 	*/
 
-	int win = INT_MAX;
+	bool isDraw = false;
+	int winLevel = INT_MAX;
 	int winner;
 	// 승패 계산 , 레벨이 제일 낮은 플레이어가 승자
 	for (int i = 0; i < playerNumber; i++) {
-		if (player[i].GetLevel() < win) {
-			win = player[i].GetLevel();
+		// 레벨(족보)이 같은 경우 무승부
+		if (winLevel == player[i].GetLevel())
+			isDraw = true;
+		// 레벨이 낮을 수록 승자 (제일 낮은게 38광땡)
+		if (player[i].GetLevel() < winLevel) {
+			winLevel = player[i].GetLevel();
 			winner = i;
 		}
 	}
 
-	cout << "승자는 " << winner + 1 << "번째 플레이어 입니다. ";
-	cout << "(" << ShowLevelToCard(player[winner].GetLevel()) << " 승리 ";
-	cout << "+" << player[winner].GetMoney() << "원)" << endl;
-	// 승자에게 금액 모두 몰아주기
-	for (int i = 0; i < playerNumber; i++) {
-		if (winner != i) {
-			int loserMoney = player[i].GetMoney();
-			int winnerMoney = player[winner].GetMoney();
-			player[winner].SetMoney(winnerMoney + loserMoney);
-			player[i].SetMoney(0);
-			
+	if (isDraw == false) {
+		// 금액 계산
+		// 승자는 테이블의 모든 금액만큼 획득
+		int money = player[winner].GetMoney();
+		player[winner].SetMoney(money + tableMoney);
+
+		// 승자 표시 및 플레이어들 금액 보여주기
+		for (int i = 0; i < playerNumber; i++) {
+			if (i == winner) {
+				cout << "플레이어" << winner + 1 << " 승리 ";
+				cout << "소지금 : " << player[winner].GetMoney();
+				cout << " (승 +" << tableMoney << ")" << endl;
+			} 
+			else {
+				cout << "플레이어" << i + 1 << " 패배 ";
+				cout << "소지금 : " << player[i].GetMoney();
+				cout << " (패 -" << player[i].GetBetting() << ")" << endl;
+			}
+		}
+	}
+	else {
+		cout << "무승부 입니다." << endl;
+		// 배팅된 금액 돌려받기
+		for (int i = 0; i < playerNumber; i++) {
+			// 플레이어의 금액
+			int money = player[i].GetMoney();
+			// 플레이어의 배팅액
+			int bet = player[i].GetBetting();
+			player[i].SetMoney(money + bet);
+		}
+
+		// 플레이어들 금액 보여주기
+		for (int i = 0; i < playerNumber; i++) {
+			cout << "플레이어" << i + 1 << " 무승부 ";
+			cout << "소지금 : " << player[winner].GetMoney();
+			cout << " (무 +" << player[i].GetBetting() << ")" << endl;
 		}
 	}
 
@@ -345,10 +391,26 @@ void Ssudda::Render()
 	cout << endl;
 
 	for (int i = 0; i < playerNumber; i++) {
-		cout << "플레이어 " << i + 1 << " 의 카드 : ";
+		/*cout << "플레이어 " << i + 1 << " 의 카드 : ";
 		cout << player[i].GetCard()[0] % 10 + 1 << " " << player[i].GetCard()[1] % 10 + 1 << " ";
-		cout << "(" << ShowLevelToCard(player[i].GetLevel()) << ")" << endl;
+		cout << "(" << ShowLevelToCard(player[i].GetLevel()) << ") ";
+		cout << "배팅액 : " << player[i].GetBetting() << endl;*/
+
+		// printf함수를 통해 포맷을 정하여 콘솔에 출력
+		printf("플레이어%d ", i + 1);
+		
+		if (player[i].GetMoney() == 0)
+			printf("(All-in):");
+		else
+			printf("(%6d):", player[i].GetMoney());
+
+		printf(" %2d %2d (%6s) 배팅액 : %d\n",
+			player[i].GetCard()[0] % 10 + 1,
+			player[i].GetCard()[1] % 10 + 1,
+			ShowLevelToCard(player[i].GetLevel()).c_str(),
+			player[i].GetBetting());
 	}
+	cout << "\n테이블 금액 : " << tableMoney << endl;
 
 	for (int i = 0; i < 50; i++) {
 		cout << "=";

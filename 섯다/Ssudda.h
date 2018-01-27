@@ -9,6 +9,7 @@ class Ssudda
 private:
 	int card[20];
 	int playerNumber;
+	int tableMoney;			// 해당 판에 배팅된 총 금액
 	Player player[4];
 
 	enum combo { 
@@ -29,6 +30,8 @@ public:
 	// 두 카드를 섯다 족보를 통해 레벨로 바꿔주는 함수
 	int CheckCombination(int* card);	
 	string ShowLevelToCard(int level);
+	
+	void SelectPlayer();	// 플레이어 수 선택하는 함수
 
 	void Init();
 	void Release();
