@@ -47,8 +47,9 @@ int Ssudda::CheckCombination(int * card)
 	if (card[0] + 1 == 3 && card[1] + 1 == 8) {
 		level = GwangTtaeng38;
 	}
-	// ±§∂Ø
-	else if (card[0] + 1 == 1 && card[1] + 1 == 8) {
+	// ±§∂Ø 18, 13 ±§∂Ø µŒ∞≥¿”
+	else if (card[0] + 1 == 1 && card[1] + 1 == 8
+		|| card[0]+1 == 1 && card[1] + 1 == 3) {
 		level = GwangTtaeng;
 	}
 	// ¿Â∂Ø(10)
