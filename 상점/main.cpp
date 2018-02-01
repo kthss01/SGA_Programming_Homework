@@ -63,29 +63,32 @@ void main()
 }
 
 bool buyItem(ITEM_TYPE category, Shop& shop, Customer& customer) {
-	vector<Item> items;
-	Item item;
+	Item* items;
+	Item* item;
 	int gold;
 	int selectNumber;
+	int itemCount;
 
 	system("cls");
 	shop.ShowItem(category);
 	items = shop.GetItems(category);
 
+	itemCount = shop.GetItemCount(category);
+
 	cout << "현재 gold :" << customer.GetGold() << endl;
 	cout << "구매할 아이템의 번호를 입력하세요." << endl;
-	cout << "itmeCount : " << items.size() << endl;
+	cout << "itmeCount : " << itemCount << endl;
 	cout << "=== 상점메뉴로 나가길 원하면 0번 ===" << endl;
 	cin >> selectNumber;
 
 	if (selectNumber == 0)
 		return false;
-	else if (selectNumber > 0 && selectNumber <= items.size()) {
-		item = items[selectNumber - 1];
+	else if (selectNumber > 0 && selectNumber <= itemCount) {
+		item = &items[selectNumber - 1];
 		// 사게 되는 경우 금액 감소, 아이템 전달
 		if (shop.Buy(category, selectNumber - 1, customer.GetGold())) {
 			gold = customer.GetGold();
-			customer.SetGold(gold - item.GetPrice());
+			customer.SetGold(gold - item->GetPrice());
 			customer.InsertItem(item);
 		}
 	}
@@ -104,11 +107,11 @@ bool sellItem(Shop& shop, Customer& customer) {
 	if (selectNumber == 0)
 		return false;
 	else if(selectNumber > 0 && selectNumber <= customer.GetItemCount()) {
-		Item item = customer.GetItem(selectNumber - 1);
+		Item* item = customer.GetItem(selectNumber - 1);
 		customer.DeleteItem(selectNumber - 1);
 		gold = customer.GetGold();
-		customer.SetGold(gold + item.GetPrice() / 2);	// 절반값 반환
-		int id = shop.GetItemIndex(item.GetItemType(), item.GetName());
-		shop.Sell(item.GetItemType(), id);
+		customer.SetGold(gold + item->GetPrice() / 2);	// 절반값 반환
+		int id = shop.GetItemIndex(item->GetItemType(), item->GetName());
+		shop.Sell(item->GetItemType(), id);
 	}
 }

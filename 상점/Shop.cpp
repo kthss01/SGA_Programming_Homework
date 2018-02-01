@@ -10,6 +10,10 @@ Shop::Shop()
 
 Shop::~Shop()
 {
+	delete[] weapon;
+	delete[] armour;
+	delete[] potion;
+	delete[] acce;
 }
 
 void Shop::ShowSelect()
@@ -30,7 +34,7 @@ void Shop::ShowItem(ITEM_TYPE category)
 	switch (category)
 	{
 	case WEAPON:
-		for (int i=0; i<weapon.size(); i++){
+		for (int i=0; i<weaponSize; i++){
 			weapon[i].MakeLine();
 			cout << "아이템 번호 : " << i + 1 << endl;
 			weapon[i].Show();
@@ -38,7 +42,7 @@ void Shop::ShowItem(ITEM_TYPE category)
 		}
 		break;
 	case ARMOUR:
-		for (int i = 0; i<armour.size(); i++) {
+		for (int i = 0; i<armourSize; i++) {
 			armour[i].MakeLine();
 			cout << "아이템 번호 : " << i + 1 << endl;
 			armour[i].Show();
@@ -46,7 +50,7 @@ void Shop::ShowItem(ITEM_TYPE category)
 		}
 		break;
 	case POTION:
-		for (int i = 0; i<potion.size(); i++) {
+		for (int i = 0; i<potionSize; i++) {
 			potion[i].MakeLine();
 			cout << "아이템 번호 : " << i + 1 << endl;
 			potion[i].Show();
@@ -54,7 +58,7 @@ void Shop::ShowItem(ITEM_TYPE category)
 		}
 		break;
 	case ACCESSORY:
-		for (int i = 0; i<acce.size(); i++) {
+		for (int i = 0; i<acceSize; i++) {
 			acce[i].MakeLine();
 			cout << "아이템 번호 : " << i + 1 << endl;
 			acce[i].Show();
@@ -177,99 +181,94 @@ void Shop::Sell(ITEM_TYPE category, int id)
 
 void Shop::MakeWeapon()
 {
-	Weapon w[5];
-	w[0].Init(
+	weaponSize = 5;
+	weapon = new Weapon[weaponSize];
+	weapon[0].Init(
 		WEAPON, "연습용 목도", 500, 4,
 		"잘 다듬어진 나무칼. 무게가 잘 맞춰져있어 초보자가 다루기 쉽다.", 1
 	);
-	w[1].Init(
+	weapon[1].Init(
 		WEAPON, "숏 소드", 2000, 7,
 		"가장 다루기 쉽고 안정적인 공격을 할 수 있는 무기", 1
 	);
-	w[2].Init(
+	weapon[2].Init(
 		WEAPON, "롱 소드", 3000, 9,
 		"길이가 길면서도 안정적인 공격력을 자랑하는 무기.", 1
 	);
-	w[3].Init(
+	weapon[3].Init(
 		WEAPON, "투 핸디드 소드", 7000, 25,
 		"보통 사람의 키보다 클 정도의 장검으로 한손으로는 사용 할 수 없다.", 1
 	);
-	w[4].Init(
+	weapon[4].Init(
 		WEAPON, "클레이모어", 8000, 28,
 		"두께가 얇고 탄력성이 있는 예리한 날로 적을 베기 위해 만들어진 양손검.", 1
 	);
-
-	for (int i = 0; i < 5; i++)
-		weapon.push_back(w[i]);
 }
 
 void Shop::MakeArmour()
 {
-	Armour a[5];
-	a[0].Init(
+	armourSize = 5;
+	armour = new Armour[armourSize];
+	armour[0].Init(
 		ARMOUR, "초보자용 바지", 50, 1,
 		"초보자가 보통 입는 간단한 옷이다.", 1
 	);
-	a[1].Init(
+	armour[1].Init(
 		ARMOUR, "사냥꾼옷", 200, 2,
 		"가죽소재의 상의와 튼튼한 천으로 된 바지로 이루어져있다.", 1
 	);
-	a[2].Init(
+	armour[2].Init(
 		ARMOUR, "라이트 레더메일", 600, 4,
 		"통짜 가죽을 묶어서 만든 가죽갑옷", 1
 	);
-	a[3].Init(
+	armour[3].Init(
 		ARMOUR, "체인메일", 2000, 8,
 		"쇠고리를 엮은 사슬로 만든 갑옷이다.", 1
 	);
-	a[4].Init(
+	armour[4].Init(
 		ARMOUR, "플레이트메일", 4000, 14,
 		"철판을 덧대어 만든 튼튼한 갑옷이다.", 1
 	);
-
-	for (int i = 0; i < 5; i++)
-		armour.push_back(a[i]);
 }
 
 void Shop::MakePotion()
 {
+	potionSize = 5;
 	string hp[5] = { "10", "30", "50", "100", "300" };
 	int price[5] = { 50,200,400,1000,4000 };
-	Potion p[5];
-	for (int i = 0; i < 5; i++) {
-		p[i].Init(
+	potion = new Potion[potionSize];
+	for (int i = 0; i < potionSize; i++) {
+		potion[i].Init(
 			POTION, "생명력 " + hp[i] + " 포션", price[i], atoi(hp[i].c_str()),
 			"생명력을 " + hp[i] + " 회복할 수 있는 포션", 1
 		);
-		potion.push_back(p[i]);
 	}
 }
 
 void Shop::MakeAcce()
 {
-	Accessory a[5];
-	a[0].Init(
+	acceSize = 5;
+	acce = new Accessory[acceSize];
+	acce[0].Init(
 		ACCESSORY, "녹슨 반지", 50, 1,
 		"녹이 슬어 빛을 잃어버린 반지", 1
 	);
-	a[1].Init(
+	acce[1].Init(
 		ACCESSORY, "반지", 100, 2,
 		"심플하고 밝은 빛깔의 반지", 1
 	);
-	a[2].Init(
+	acce[2].Init(
 		ACCESSORY, "은반지", 500, 3,
 		"은으로 만들어진 반지", 1
 	);
-	a[3].Init(
+	acce[3].Init(
 		ACCESSORY, "금반지", 1000, 4,
 		"금으로 만들어진 반지", 1
 	);
-	a[4].Init(
+	acce[4].Init(
 		ACCESSORY, "다이아반지", 2000, 5,
 		"다이아몬드가 박혀있는 반지", 1
 	);
-	for (int i = 0; i < 5; i++)
-		acce.push_back(a[i]);
 }
 
 void Shop::ReadItem(ITEM_TYPE category)
@@ -291,7 +290,7 @@ void Shop::ReadItem(ITEM_TYPE category)
 	}
 }
 
-vector<Item>& Shop::GetItems(ITEM_TYPE category)
+Item* Shop::GetItems(ITEM_TYPE category)
 {
 	switch (category)
 	{
@@ -317,25 +316,25 @@ int Shop::GetItemIndex(ITEM_TYPE category, string name)
 	switch (category)
 	{
 	case WEAPON:
-		for (int i = 0; i < weapon.size(); i++) {
+		for (int i = 0; i < weaponSize; i++) {
 			if (weapon[i].GetName() == name)
 				index = i;
 		}
 		break;
 	case ARMOUR:
-		for (int i = 0; i < armour.size(); i++) {
+		for (int i = 0; i < armourSize; i++) {
 			if (armour[i].GetName() == name)
 				index = i;
 		}
 		break;
 	case POTION:
-		for (int i = 0; i < potion.size(); i++) {
+		for (int i = 0; i < potionSize; i++) {
 			if (potion[i].GetName() == name)
 				index = i;
 		}
 		break;
 	case ACCESSORY:
-		for (int i = 0; i < acce.size(); i++) {
+		for (int i = 0; i < acceSize; i++) {
 			if (acce[i].GetName() == name)
 				index = i;
 		}
@@ -343,6 +342,29 @@ int Shop::GetItemIndex(ITEM_TYPE category, string name)
 	}
 
 	return index;
+}
+
+int Shop::GetItemCount(ITEM_TYPE category)
+{
+	int count;
+
+	switch (category)
+	{
+	case WEAPON:
+		count = weaponSize;
+			break;
+	case ARMOUR:
+		count = armourSize;
+		break;
+	case POTION:
+		count = potionSize;
+		break;
+	case ACCESSORY:
+		count = acceSize;
+		break;
+	}
+
+	return count;
 }
 
 void Shop::Init()

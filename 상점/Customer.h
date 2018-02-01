@@ -9,7 +9,7 @@ using namespace std;
 class Customer
 {
 private:
-	vector<Item> inventory;
+	vector<Item*> inventory;
 	int gold;
 public:
 	Customer();
@@ -21,10 +21,10 @@ public:
 
 	void SetGold(int gold);
 
-	void InsertItem(Item item);
+	void InsertItem(Item* item);
 	void DeleteItem(int index);
 
-	Item GetItem(int index);
+	Item* GetItem(int index);
 	int GetItemCount();
 };
 

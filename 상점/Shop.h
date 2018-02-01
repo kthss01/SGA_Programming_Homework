@@ -13,10 +13,15 @@ using namespace std;
 class Shop
 {
 private:
-	vector<Item> weapon;
-	vector<Item> armour;
-	vector<Item> potion;
-	vector<Item> acce;
+	Item* weapon;
+	Item* armour;
+	Item* potion;
+	Item* acce;
+
+	int weaponSize;
+	int armourSize;
+	int potionSize;
+	int acceSize;
 public:
 	Shop();
 	~Shop();
@@ -42,9 +47,11 @@ public:
 	void ReadItem(ITEM_TYPE category);
 
 	// 특정 목록에 아이템이 담긴 vector를 반환하는 함수
-	vector<Item>& GetItems(ITEM_TYPE category);
+	Item* GetItems(ITEM_TYPE category);
 	// 특정 목록에 담긴 아이템의 Index를 반환하는 함수
 	int GetItemIndex(ITEM_TYPE category, string name);
+	// 특정 목록에 담긴 아이템의 갯수 반환하는 함수
+	int GetItemCount(ITEM_TYPE category);
 
 	void Init();	// Shop 클래스 초기화 (아이템 읽어옴)
 	//void Release();

@@ -19,10 +19,10 @@ void Customer::ShowInventory()
 	cout << "판매할 아이템의 번호를 입력하세요." << endl;
 	cout << "=== 메인화면으로 나가길 원하면 0번 ===" << endl;
 	for (int i = 0; i<inventory.size(); i++) {
-		inventory[i].MakeLine();
+		inventory[i]->MakeLine();
 		cout << "아이템 번호 : " << i + 1 << endl;
-		inventory[i].Show();
-		inventory[i].MakeLine();
+		inventory[i]->Show();
+		inventory[i]->MakeLine();
 	}
 }
 
@@ -36,7 +36,7 @@ void Customer::SetGold(int gold)
 	this->gold = gold;
 }
 
-void Customer::InsertItem(Item item)
+void Customer::InsertItem(Item* item)
 {
 	inventory.push_back(item);
 }
@@ -46,7 +46,7 @@ void Customer::DeleteItem(int id)
 	inventory.erase(inventory.begin() + id);
 }
 
-Item Customer::GetItem(int index)
+Item* Customer::GetItem(int index)
 {
 	return inventory[index];
 }
