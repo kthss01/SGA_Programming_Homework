@@ -85,11 +85,15 @@ bool buyItem(ITEM_TYPE category, Shop& shop, Customer& customer) {
 		return false;
 	else if (selectNumber > 0 && selectNumber <= itemCount) {
 		item = &items[selectNumber - 1];
+		Item newItem;
+		newItem.Init(
+			item->GetItemType(), item->GetName(), item->GetPrice(),
+			item->GetStat(), item->GetComment(), 1);
 		// 사게 되는 경우 금액 감소, 아이템 전달
 		if (shop.Buy(category, selectNumber - 1, customer.GetGold())) {
 			gold = customer.GetGold();
 			customer.SetGold(gold - item->GetPrice());
-			customer.InsertItem(item);
+			customer.InsertItem(newItem);
 		}
 	}
 	return true;
@@ -107,11 +111,11 @@ bool sellItem(Shop& shop, Customer& customer) {
 	if (selectNumber == 0)
 		return false;
 	else if(selectNumber > 0 && selectNumber <= customer.GetItemCount()) {
-		Item* item = customer.GetItem(selectNumber - 1);
+		Item item = customer.GetItem(selectNumber - 1);
 		customer.DeleteItem(selectNumber - 1);
 		gold = customer.GetGold();
-		customer.SetGold(gold + item->GetPrice() / 2);	// 절반값 반환
-		int id = shop.GetItemIndex(item->GetItemType(), item->GetName());
-		shop.Sell(item->GetItemType(), id);
+		customer.SetGold(gold + item.GetPrice() / 2);	// 절반값 반환
+		int id = shop.GetItemIndex(item.GetItemType(), item.GetName());
+		shop.Sell(item.GetItemType(), id);
 	}
 }
