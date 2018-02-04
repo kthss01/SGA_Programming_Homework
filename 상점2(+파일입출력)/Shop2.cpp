@@ -74,7 +74,7 @@ bool Shop2::ItemSetup()
 	return true;
 }
 
-int Shop2::ItemOutput(int num)
+int Shop2::ItemOutput(int num, int selectNum)
 {
 	int itemCount = 0;
 	m_viItem = m_vItem.begin();
@@ -82,8 +82,12 @@ int Shop2::ItemOutput(int num)
 		// 내가 선택한 아이템 종류만 출력
 		if (m_viItem->itemKind != num) continue;
 
+		itemCount++;
+		if (itemCount == selectNum) {
+			SetColor(SET_COLOR);
+		}
 		cout << "==================================" << endl;
-		cout << "아이템 번호 : " << ++itemCount << endl;
+		cout << "아이템 번호 : " << itemCount << endl;
 		cout << "이름 : " << m_viItem->name << endl;
 		cout << "가격 : " << m_viItem->price << endl;
 		cout << "능력치 : " << m_viItem->attribute << endl;
@@ -94,6 +98,7 @@ int Shop2::ItemOutput(int num)
 			? cout << m_viItem->count << endl
 			: cout << "매진" << endl;
 		cout << "==================================" << endl;
+		SetDefaultColor();
 	}
 	return itemCount;
 }

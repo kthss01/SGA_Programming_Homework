@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Item.h"
+#include "Color.h"
 
-class Inventory
+class Inventory : public Color
 {
 protected:
 	vector<tagItemInfo> m_vItem;
@@ -16,7 +17,7 @@ public:
 	~Inventory();
 
 	// 인벤토리 보여주기
-	int ShowInventory();
+	int ShowInventory(int selectNum);
 	// 아이템 추가
 	void AddItem(tagItemInfo item);
 	// 아이템 판매

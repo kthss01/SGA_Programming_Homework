@@ -14,18 +14,23 @@ Inventory::~Inventory()
 {
 }
 
-int Inventory::ShowInventory()
+int Inventory::ShowInventory(int m_selectNum)
 {
 	int itemCount = 0;
 	m_viItem = m_vItem.begin();
 	for (m_viItem; m_viItem != m_vItem.end(); ++m_viItem) {
+		itemCount++;
+
+		if (itemCount == m_selectNum)
+			SetColor(SET_COLOR);
 		cout << "==================================" << endl;
-		cout << "아이템 번호 : " << ++itemCount << endl;
+		cout << "아이템 번호 : " << itemCount << endl;
 		cout << "이름 : " << m_viItem->name << endl;
 		cout << "가격 : " << m_viItem->price << endl;
 		cout << "능력치 : " << m_viItem->attribute << endl;
 		cout << "설명: " << m_viItem->description << endl;
 		cout << "==================================" << endl;
+		SetDefaultColor();
 	}
 	return itemCount;
 }

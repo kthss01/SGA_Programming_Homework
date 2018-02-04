@@ -1,8 +1,10 @@
 #pragma once
 
 #include <Windows.h>
+#include <conio.h>
 #include "Shop2.h"
 #include "Player2.h"
+#include "Color.h"
 
 // À§Ä¡
 enum LOCATION {
@@ -11,7 +13,7 @@ enum LOCATION {
 	LOCATION_INVENTORY
 };
 
-class MainGame
+class MainGame : public Color
 {
 private:
 	Shop2* m_shop;
@@ -20,6 +22,7 @@ private:
 
 	int m_gold;
 	int m_selectNum;
+	int m_selectPtr;
 public:
 	MainGame();
 	~MainGame();
