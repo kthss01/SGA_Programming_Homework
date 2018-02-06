@@ -26,6 +26,8 @@ int chaMove = 20;
 	-> 몰라서 다 잘라서 그림
 
 	스트링 출력방법 (printf, cout은 문제있음)
+	gotoxy() 함수있음 (커서 위치 제어) 이걸로 지정한 위치에 출력
+	space 2칸 == enter 1칸 정도로 가진다 알고 하면됨
 */
 
 void main() {
