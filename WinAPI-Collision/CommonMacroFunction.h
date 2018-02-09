@@ -43,6 +43,20 @@ inline bool Collision(RECT rect1, RECT rect2) {
 	return false;
 }
 
+// 스위치문 안에서 내부에서 사각형 충돌이 일어났는지 확인
+inline bool InnerCollision(RECT rect1, RECT rect2) {
+
+	if ((rect1.left <= rect2.left && rect2.left <= rect1.right)
+		&& (rect1.left <= rect2.right && rect2.right <= rect1.right)) {
+		if ((rect1.top <= rect2.top && rect2.top <= rect1.bottom)
+			&& (rect1.top <= rect2.bottom && rect2.bottom <= rect1.bottom)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+// 방향까지 확인하여 스위치문 끝나고 나서 내부에서 사각형 충돌 여부 확인
 inline bool InnerCollision(RECT rect1, RECT rect2, int dir) {
 	switch (dir) {
 	case VK_LEFT:
