@@ -39,6 +39,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinApi-GuGuDan", "WinApi-Gu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-Collision", "WinAPI-Collision\WinAPI-Collision.vcxproj", "{3B027070-9472-4305-8335-D2887EF87F58}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-RectMoveNConversion", "WinAPI-RectMoveNConversion\WinAPI-RectMoveNConversion.vcxproj", "{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -191,6 +193,14 @@ Global
 		{3B027070-9472-4305-8335-D2887EF87F58}.Release|x64.Build.0 = Release|x64
 		{3B027070-9472-4305-8335-D2887EF87F58}.Release|x86.ActiveCfg = Release|Win32
 		{3B027070-9472-4305-8335-D2887EF87F58}.Release|x86.Build.0 = Release|Win32
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Debug|x64.ActiveCfg = Debug|x64
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Debug|x64.Build.0 = Debug|x64
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Debug|x86.ActiveCfg = Debug|Win32
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Debug|x86.Build.0 = Debug|Win32
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Release|x64.ActiveCfg = Release|x64
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Release|x64.Build.0 = Release|x64
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Release|x86.ActiveCfg = Release|Win32
+		{62C5364B-CC92-4D2C-8C84-BDEA32FBDD8D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
