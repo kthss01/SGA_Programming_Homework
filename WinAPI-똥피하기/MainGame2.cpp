@@ -45,7 +45,7 @@ void MainGame2::SetupRectInfo()
 			rcInfo[i].rect = RectMakeCenter
 			(
 				RND->GetInt(WINSIZEX),
-				RND->GetFromInto(-300, -50),
+				RND->GetFromInto(-500, -50),
 				lvInfo[currentLevel].size,
 				lvInfo[currentLevel].size
 			);
@@ -69,7 +69,7 @@ HRESULT MainGame2::Init()
 
 	player = RectMake(WINSIZEX / 2 - 50, WINSIZEY - 100, 30, 30);
 
-	isLevelUp = false;
+	isLevelUp = true;
 	isGameOver = false;
 
 	timeCount = 0;
@@ -172,21 +172,29 @@ void MainGame2::Render(HDC hdc)
 	}
 
 	if (isLevelUp) {
-		TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 - 50,
-			"레벨 업!", strlen("레벨 업!"));
-		TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2,
+		TextOut(hdc, WINSIZEX / 2 - 80, WINSIZEY / 2,
 			"시작하려면 Space", strlen("시작하려면 Space"));
 		switch (currentLevel)
 		{
+		case LEVEL_ZERO:
+			TextOut(hdc, WINSIZEX / 2 - 85, WINSIZEY / 2 - 50,
+				"똥 피하기 게임", strlen("똥 피하기 게임"));
+			break;
 		case LEVEL_ONE:
-			TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 + 50,
+			TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 - 50,
+				"레벨 업!", strlen("레벨 업!"));
+			TextOut(hdc, WINSIZEX / 2 - 85, WINSIZEY / 2 + 50,
 				"갯수 증가, 크기 감소", strlen("갯수 증가, 크기 감소"));
 			break;
 		case LEVEL_TWO:
+			TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 - 50,
+				"레벨 업!", strlen("레벨 업!"));
 			TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 + 50,
 				"속도 증가", strlen("속도 증가"));
 			break;
 		case LEVEL_END:
+			TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 - 50,
+				"레벨 업!", strlen("레벨 업!"));
 			TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 + 50,
 				"속도 크기 랜덤", strlen("속도 크기 랜덤"));
 			break;
