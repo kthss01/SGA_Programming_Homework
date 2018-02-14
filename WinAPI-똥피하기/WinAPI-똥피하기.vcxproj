@@ -20,11 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{AD4E458C-A9FD-4C01-A61B-1EAD8D820A35}</ProjectGuid>
+    <ProjectGuid>{DEB557BA-E86C-4072-81F9-5EEBCD667507}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>WinApiGuGuDan</RootNamespace>
+    <RootNamespace>WinAPI똥피하기</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
-    <ProjectName>WinAPI-GuGuDan</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -148,26 +147,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="GameNode.h" />
+    <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="MainGame2.h" />
+    <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="WinApi-GuGuDan.h" />
+    <ClInclude Include="WinAPI-똥피하기.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameNode.cpp" />
+    <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="MainGame2.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="WinApi-GuGuDan.cpp" />
+    <ClCompile Include="WinAPI-똥피하기.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WinApi-GuGuDan.rc" />
+    <ResourceCompile Include="WinAPI-똥피하기.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico" />
-    <Image Include="WinApi-GuGuDan.ico" />
+    <Image Include="WinAPI-똥피하기.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
