@@ -172,7 +172,7 @@ void MainGame2::Render(HDC hdc)
 	}
 
 	if (isLevelUp) {
-		TextOut(hdc, WINSIZEX / 2 - 80, WINSIZEY / 2,
+		TextOut(hdc, WINSIZEX / 2 - 85, WINSIZEY / 2,
 			"시작하려면 Space", strlen("시작하려면 Space"));
 		switch (currentLevel)
 		{
