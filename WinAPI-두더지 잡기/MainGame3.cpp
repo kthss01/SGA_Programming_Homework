@@ -76,6 +76,10 @@ void MainGame3::Render(HDC hdc)
 
 	char str[128];
 	
+	//test
+	sprintf_s(str, "X: %d Y: %d", g_ptMouse.x, g_ptMouse.y);
+	TextOut(hdc, 0, 0, str, strlen(str));
+
 	for (int i = 0; i < 16; i++) {
 		if (number == i) {
 			// GetStockObject 미리 지정되있는거
