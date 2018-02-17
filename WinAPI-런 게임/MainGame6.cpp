@@ -55,8 +55,12 @@ void MainGame6::Update()
 
 	if (INPUT->GetKey(VK_SPACE)) {
 		isJump = true;
+		isStart = true;
 		gravity += jumpPower;
 	}
+
+	if (!isStart)
+		return;
 
 	currentTime = GetTickCount();
 	if (currentTime - prevTime > 50) {
@@ -147,6 +151,13 @@ void MainGame6::Render(HDC hdc)
 		VARIABLE_PITCH | FF_ROMAN, TEXT("궁서"));
 	OldFont = (HFONT)SelectObject(hdc, hFont);
 
+	if (!isStart) {
+		TextOut(hdc, WINSIZEX / 2 - 250, WINSIZEY / 2 - 150, 
+			"시작하려면 Space바를 누르세요", 
+			strlen("시작하려면 Space바를 누르세요"));
+
+	}
+
 	sprintf_s(str, "플레이어 높이 : %d", -player.top + 450);
 	TextOut(hdc, 0, 520, str, strlen(str));
 
@@ -157,7 +168,8 @@ void MainGame6::Render(HDC hdc)
 	TextOut(hdc, 0, 620, str, strlen(str));
 
 	if (isOver) {
-		TextOut(hdc, WINSIZEX / 2 - 50, WINSIZEY / 2 - 150 , "게임 오버", strlen("게임 오버"));
+		TextOut(hdc, WINSIZEX / 2 - 50, 570 , 
+			"게임 오버", strlen("게임 오버"));
 		this->Release();
 	}
 
