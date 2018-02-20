@@ -51,6 +51,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-같은 숫자 찾기
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-런 게임", "WinAPI-런 게임\WinAPI-런 게임.vcxproj", "{6F12CDCD-DE47-40C3-9189-1C6AC1CCD11D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-아날로그 시계", "WinAPI-아날로그 시계\WinAPI-아날로그 시계.vcxproj", "{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -251,6 +253,14 @@ Global
 		{6F12CDCD-DE47-40C3-9189-1C6AC1CCD11D}.Release|x64.Build.0 = Release|x64
 		{6F12CDCD-DE47-40C3-9189-1C6AC1CCD11D}.Release|x86.ActiveCfg = Release|Win32
 		{6F12CDCD-DE47-40C3-9189-1C6AC1CCD11D}.Release|x86.Build.0 = Release|Win32
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Debug|x64.ActiveCfg = Debug|x64
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Debug|x64.Build.0 = Debug|x64
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Debug|x86.ActiveCfg = Debug|Win32
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Debug|x86.Build.0 = Debug|Win32
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Release|x64.ActiveCfg = Release|x64
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Release|x64.Build.0 = Release|x64
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Release|x86.ActiveCfg = Release|Win32
+		{8FF19549-156D-4C6F-A3AB-7D8B09AEA037}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
