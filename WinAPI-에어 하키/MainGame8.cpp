@@ -63,7 +63,7 @@ HRESULT MainGame8::Init()
 
 	angle = 0;
 
-	speedLimit = 20;
+	speedLimit = 30;
 
 	return S_OK;
 }
@@ -147,7 +147,7 @@ void MainGame8::Update()
 			player[1].x, player[1].y, player[1].width, player[1].height);
 	}
 
-	if (INPUT->GetKey(VK_UP) && player[0].rc.top > field.top) {
+	if (INPUT->GetKey(VK_UP) && player[1].rc.top > field.top) {
 		player[1].speed += power;
 
 		if (player[1].speed > speedLimit)
@@ -182,10 +182,10 @@ void MainGame8::Update()
 		if (circleCollision(player[0].rc, ball.rc) == true) {
 			ball.speed += player[0].speed;
 	
-			//// 팅겨져 나가는게 속도 때문이라 판단
-			//// 그것도 아님
-			//if (ball.speed > speedLimit)
-			//	ball.speed = speedLimit;
+			// 팅겨져 나가는게 속도 때문이라 판단
+			// 어느정도 문제는 잇음
+			if (ball.speed > speedLimit)
+				ball.speed = speedLimit;
 
 			player[0].speed = 0;
 			angle = GetAngle(player[0].rc, ball.rc);
@@ -195,9 +195,9 @@ void MainGame8::Update()
 		if (circleCollision(player[1].rc, ball.rc) == true) {
 			ball.speed += player[1].speed;
 
-			//// 팅겨져 나가는게 속도 때문이라 판단
-			//if (ball.speed > speedLimit)
-			//	ball.speed = speedLimit;
+			// 팅겨져 나가는게 속도 때문이라 판단
+			if (ball.speed > speedLimit)
+				ball.speed = speedLimit;
 
 			player[1].speed = 0;
 			angle = GetAngle(player[1].rc, ball.rc);
@@ -205,12 +205,15 @@ void MainGame8::Update()
 		}
 
 		if (isMove) {
+
+			// RectMakeCenter로 만들어서 문제 생기는지도 -> 아님 
 			ball.x += cos(angle) * ball.speed;
 			ball.y += -sin(angle) * ball.speed;
 
 			ball.rc = RectMakeCenter(
 				ball.x, ball.y, ball.width, ball.height);
 
+			// 스코어 부분
 			RECT temp;
 			if (IntersectRect(&temp, &ball.rc, &score[0].rc)) {
 				score[1].score += 1;
@@ -222,18 +225,33 @@ void MainGame8::Update()
 				TagInit();
 			}
 
+			// 문제 찾음 borderCollision에서 x,y값으로 비교하므로 
+			// x, y값도 수정 해주어야함
+			// 완벽한 해결 방안은 아닌거 같기는 함 속도 제한도 걸어보았지만
 			if (borderCollision()) {
 				if (ball.rc.left < field.left) {
-					angle = PI - angle;
+					ball.rc.left = field.left;
+					ball.rc.right = field.left + ball.width;
+					ball.x = ball.rc.left + ball.width / 2;
+					angle = M_PI - angle;
 				}
 				else if (ball.rc.top < field.top) {
-					angle = 2 * PI - angle;
+					ball.rc.top = field.top;
+					ball.rc.bottom = field.top + ball.height;
+					ball.y = ball.rc.top + ball.height / 2;
+					angle = 2 * M_PI - angle;
 				}
 				else if (ball.rc.right > field.right) {
-					angle = PI - angle;
+					ball.rc.right = field.right;
+					ball.rc.left = field.right - ball.width;
+					ball.x = ball.rc.right - ball.width / 2;
+					angle = M_PI - angle;
 				}
 				else if (ball.rc.bottom > field.bottom) {
-					angle = 2 * PI - angle;
+					ball.rc.bottom = field.bottom;
+					ball.rc.top = field.bottom - ball.height;
+					ball.y = ball.rc.bottom - ball.height / 2;
+					angle = 2 * M_PI - angle;
 				}
 			}
 		}
@@ -411,8 +429,8 @@ float MainGame8::GetAngle(RECT rc1, RECT rc2)
 	float angle = acos(deltaX / distance);
 	
 	if (center2.y > center1.y) {
-		angle = 2 * PI - angle;
-		if (angle >= 2 * PI) angle -= 2 * PI;
+		angle = 2 * M_PI - angle;
+		if (angle >= 2 * M_PI) angle -= 2 * M_PI;
 	}
 
 	return angle;
