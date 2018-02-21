@@ -63,7 +63,7 @@ HRESULT MainGame8::Init()
 
 	angle = 0;
 
-	speedLimit = 30;
+	speedLimit = 20;
 
 	return S_OK;
 }
@@ -172,7 +172,7 @@ void MainGame8::Update()
 	currentTime = GetTickCount();
 	if (currentTime - prevTime > 100) {
 
-		ball.speed -= 0.05f;
+		//ball.speed -= 0.05f;
 
 		if (ball.speed <= 0) {
 			ball.speed = 0;
@@ -181,6 +181,12 @@ void MainGame8::Update()
 
 		if (circleCollision(player[0].rc, ball.rc) == true) {
 			ball.speed += player[0].speed;
+	
+			//// 팅겨져 나가는게 속도 때문이라 판단
+			//// 그것도 아님
+			//if (ball.speed > speedLimit)
+			//	ball.speed = speedLimit;
+
 			player[0].speed = 0;
 			angle = GetAngle(player[0].rc, ball.rc);
 			isMove = true;
@@ -188,6 +194,11 @@ void MainGame8::Update()
 
 		if (circleCollision(player[1].rc, ball.rc) == true) {
 			ball.speed += player[1].speed;
+
+			//// 팅겨져 나가는게 속도 때문이라 판단
+			//if (ball.speed > speedLimit)
+			//	ball.speed = speedLimit;
+
 			player[1].speed = 0;
 			angle = GetAngle(player[1].rc, ball.rc);
 			isMove = true;
@@ -310,32 +321,68 @@ bool MainGame8::circleCollision(RECT rc1, RECT rc2)
 	return false;
 }
 
+// 여기 문제 떄문에 필드에서 팅겨 나가는 거 같음
 bool MainGame8::borderCollision()
 {
+	//// 이방법은 야매임 되긴 하는데 이거는 사각형 충돌 같음
+	//for (int i = 0; i < 4; i++) {
+	//	switch (i) {
+	//		// left collision
+	//	case 0:
+	//		if (ball.rc.left < field.left)
+	//			return true;
+	//		break;
+	//		// top collision
+	//	case 1:
+	//		if (ball.rc.top < field.top)
+	//			return true;
+	//		break;
+	//		// right collsion
+	//	case 2:
+	//		if (ball.rc.right > field.right)
+	//			return true;
+	//		break;
+	//		// bottom collsion
+	//	case 3:
+	//		if (ball.rc.bottom > field.bottom)
+	//			return true;
+	//		break;
+	//	}
+	//}
 
-	for (int i = 0; i < 4; i++) {
-		switch (i) {
-			// left collision
-		case 0:
-			if (ball.rc.left < field.left)
-				return true;
-			break;
-			// top collision
-		case 1:
-			if (ball.rc.top < field.top)
-				return true;
-			break;
-			// right collsion
-		case 2:
-			if (ball.rc.right > field.right)
-				return true;
-			break;
-			// bottom collsion
-		case 3:
-			if (ball.rc.bottom > field.bottom)
-				return true;
-			break;
-		}
+	int deltaX, deltaY;
+	float distance;
+	float radius = ball.height / 2;
+
+	// up
+	deltaX = 0;
+	deltaY = ball.y - field.top;
+	distance = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if (distance < radius) {
+		return true;
+	}
+	// down
+	deltaX = 0;
+	deltaY = field.bottom - ball.y;
+	distance = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if (distance < radius) {
+		return true;
+	}
+
+	// left
+	deltaX = ball.x - field.left;
+	deltaY = 0;
+	distance = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if (distance < radius) {
+		return true;
+	}
+
+	// right
+	deltaX = field.right - ball.x;
+	deltaY = 0;
+	distance = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if (distance < radius) {
+		return true;
 	}
 
 	return false;
@@ -364,7 +411,8 @@ float MainGame8::GetAngle(RECT rc1, RECT rc2)
 	float angle = acos(deltaX / distance);
 	
 	if (center2.y > center1.y) {
-		angle = -angle;
+		angle = 2 * PI - angle;
+		if (angle >= 2 * PI) angle -= 2 * PI;
 	}
 
 	return angle;
