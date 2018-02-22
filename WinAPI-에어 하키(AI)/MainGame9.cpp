@@ -80,7 +80,7 @@ void MainGame9::Update()
 {
 	GameNode::Update();
 
-	if (INPUT->GetKey(VK_LBUTTON))
+	if (INPUT->GetKey(VK_SPACE))
 		isStart = true;
 
 	if (!isStart) return;
@@ -342,8 +342,8 @@ void MainGame9::Render(HDC hdc)
 	HFONT OldFont2 = (HFONT)SelectObject(memDC, hFont2);
 
 	if (!isStart) {
-		sprintf_s(str, "시작하려면 왼쪽 버튼 클릭!");
-		TextOut(memDC, WINSIZEX / 2 - 300, WINSIZEY / 2 - 200, str, strlen(str));
+		sprintf_s(str, "시작하려면 SPACE !");
+		TextOut(memDC, WINSIZEX / 2 - 225, WINSIZEY / 2 - 200, str, strlen(str));
 	}
 
 	SelectObject(memDC, OldFont2);

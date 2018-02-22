@@ -68,6 +68,10 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
+	case WM_SETCURSOR:
+		SetCursor(NULL);
+		ShowCursor(FALSE);
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
