@@ -33,6 +33,7 @@ private:
 	float angle;
 
 	bool isMove;
+	bool isStart;
 
 	int speedLimit;
 

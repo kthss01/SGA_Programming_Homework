@@ -60,6 +60,7 @@ HRESULT MainGame9::Init()
 	prevTime = GetTickCount();
 
 	isMove = false;
+	isStart = false;
 
 	angle = 0;
 
@@ -78,6 +79,12 @@ void MainGame9::Release()
 void MainGame9::Update()
 {
 	GameNode::Update();
+
+	if (INPUT->GetKey(VK_LBUTTON))
+		isStart = true;
+
+	if (!isStart) return;
+
 
 	// player0 Control
 	// 마우스 버튼 클릭 형식은 불편함
@@ -126,6 +133,7 @@ void MainGame9::Update()
 			player[0].speed += power;
 		}
 
+		// 이것도 손보면 좋은데 여기까지 하자
 		player[1].speed += power;
 
 		// player1(AI) Control
@@ -329,7 +337,17 @@ void MainGame9::Render(HDC hdc)
 	SelectObject(memDC, oldBrush);
 	DeleteObject(myBrush);
 
+	HFONT hFont2 = CreateFont(50, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+		VARIABLE_PITCH | FF_ROMAN, TEXT("궁서"));
+	HFONT OldFont2 = (HFONT)SelectObject(memDC, hFont2);
 
+	if (!isStart) {
+		sprintf_s(str, "시작하려면 왼쪽 버튼 클릭!");
+		TextOut(memDC, WINSIZEX / 2 - 300, WINSIZEY / 2 - 200, str, strlen(str));
+	}
+
+	SelectObject(memDC, OldFont2);
+	DeleteObject(hFont2);
 
 	//=================================================
 	this->GetBackBuffer()->Render(hdc);
