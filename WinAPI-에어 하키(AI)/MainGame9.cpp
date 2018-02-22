@@ -63,7 +63,7 @@ HRESULT MainGame9::Init()
 
 	angle = 0;
 
-	speedLimit = 30;
+	speedLimit = 45;
 
 	POINT old_ptMouse = g_ptMouse;
 
@@ -134,10 +134,13 @@ void MainGame9::Update()
 
 			float angle = GetAngle(player[1].rc, ball.rc);
 
-			if(GetDistance(player[1].rc, ball.rc) < 30){
-				//angle = (float)RND->GetInt(3141592) / 1000000.0f;
-				angle += (float)RND->GetFromInto(-1, 1) / 1000.0f;
-			}
+			player[1].x += cos(angle) * player[1].speed;
+			player[1].y += -sin(angle) * player[1].speed;
+		}
+		else if (ball.x < field.left + (field.right - field.left) 
+			&& player[1].x < field.right - 50) {
+
+			float angle = GetAngle(player[1].rc, score[1].rc);
 
 			player[1].x += cos(angle) * player[1].speed;
 			player[1].y += -sin(angle) * player[1].speed;
@@ -161,7 +164,7 @@ void MainGame9::Update()
 		if (player[1].x < field.left + (field.right - field.left) / 2)
 			player[1].x = field.left + (field.right - field.left) / 2;
 		if (player[1].x > field.right) {
-			player[1].x = field.right / 2;
+			player[1].x = field.right;
 		}
 		if (player[1].y < field.top)
 			player[1].y = field.top;
@@ -188,6 +191,10 @@ void MainGame9::Update()
 
 			player[0].speed = 0;
 			angle = GetAngle(player[0].rc, ball.rc);
+			
+			// 무한 충돌 방지
+			angle += (float)RND->GetFromInto(-1, 1) / 1000.0f;
+			
 			isMove = true;
 		}
 
@@ -200,6 +207,10 @@ void MainGame9::Update()
 
 			player[1].speed = 0;
 			angle = GetAngle(player[1].rc, ball.rc);
+			
+			// 무한 충돌 방지
+			angle += (float)RND->GetFromInto(-1, 1) / 1000.0f;
+
 			isMove = true;
 		}
 
@@ -216,40 +227,52 @@ void MainGame9::Update()
 			RECT temp;
 			if (IntersectRect(&temp, &ball.rc, &score[0].rc)) {
 				score[1].score += 1;
-				TagInit();
+				//TagInit();
 			}
 
 			if (IntersectRect(&temp, &ball.rc, &score[1].rc)) {
 				score[0].score += 1;
-				TagInit();
+				//TagInit();
 			}
 
 			// 문제 찾음 borderCollision에서 x,y값으로 비교하므로 
 			// x, y값도 수정 해주어야함
 			// 완벽한 해결 방안은 아닌거 같기는 함 속도 제한도 걸어보았지만
+			// 해결 방안 또 생각해봄 다시 뒤로 돌아가는 방법이 좋은듯
+			// 넘어가버리면 ball.x y가 움직였던 이전 상태로 돌아간 후 
+			// 각도 변경 하는 방법 속도 제한만 어느 정도 걸면 안 팅겨나감
+			// 해결
 			if (borderCollision()) {
 				if (ball.rc.left < field.left) {
-					ball.rc.left = field.left;
-					ball.rc.right = field.left + ball.width;
-					ball.x = ball.rc.left + ball.width / 2;
+					//ball.rc.left = field.left;
+					//ball.rc.right = field.left + ball.width;
+					//ball.x = ball.rc.left + ball.width / 2;
+					ball.x -= cos(angle) * ball.speed;
+					ball.y -= -sin(angle) * ball.speed;
 					angle = M_PI - angle;
 				}
 				else if (ball.rc.top < field.top) {
-					ball.rc.top = field.top;
-					ball.rc.bottom = field.top + ball.height;
-					ball.y = ball.rc.top + ball.height / 2;
+					//ball.rc.top = field.top;
+					//ball.rc.bottom = field.top + ball.height;
+					//ball.y = ball.rc.top + ball.height / 2;
+					ball.x -= cos(angle) * ball.speed;
+					ball.y -= -sin(angle) * ball.speed;
 					angle = 2 * M_PI - angle;
 				}
 				else if (ball.rc.right > field.right) {
-					ball.rc.right = field.right;
-					ball.rc.left = field.right - ball.width;
-					ball.x = ball.rc.right - ball.width / 2;
+					//ball.rc.right = field.right;
+					//ball.rc.left = field.right - ball.width;
+					//ball.x = ball.rc.right - ball.width / 2;
+					ball.x -= cos(angle) * ball.speed;
+					ball.y -= -sin(angle) * ball.speed;
 					angle = M_PI - angle;
 				}
 				else if (ball.rc.bottom > field.bottom) {
-					ball.rc.bottom = field.bottom;
-					ball.rc.top = field.bottom - ball.height;
-					ball.y = ball.rc.bottom - ball.height / 2;
+					//ball.rc.bottom = field.bottom;
+					//ball.rc.top = field.bottom - ball.height;
+					//ball.y = ball.rc.bottom - ball.height / 2;
+					ball.x -= cos(angle) * ball.speed;
+					ball.y -= -sin(angle) * ball.speed;
 					angle = 2 * M_PI - angle;
 				}
 			}
