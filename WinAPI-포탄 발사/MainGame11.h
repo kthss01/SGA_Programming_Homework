@@ -26,13 +26,13 @@ struct tagBulletInfo {
 	float shootTime;
 };
 
-#define BULLET_MAX 50
+#define BULLET_MAX 100
 
 class MainGame11 : public GameNode
 {
 private:
 	tagTankInfo tank;
-	tagBulletInfo bullet[50];
+	tagBulletInfo bullet[BULLET_MAX];
 
 	float angleLimit;
 
