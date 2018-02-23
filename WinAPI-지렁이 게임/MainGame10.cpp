@@ -71,7 +71,7 @@ void MainGame10::Render(HDC hdc)
 {
 	HDC memDC = this->GetBackBuffer()->GetMemDC();
 	PatBlt(memDC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
-	//=================================================
+	//==================================================
 
 	for (int i = tailCount; i >= 0; i--) {
 		EllipseMake(memDC, tail[i].rc);
