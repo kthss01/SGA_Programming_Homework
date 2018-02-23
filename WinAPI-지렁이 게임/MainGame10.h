@@ -36,6 +36,7 @@ private:
 	float prevTime;
 	float currentTime;
 
+	bool isStart;
 public:
 	MainGame10();
 	~MainGame10();

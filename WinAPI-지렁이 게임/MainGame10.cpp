@@ -30,6 +30,8 @@ HRESULT MainGame10::Init()
 
 	prevTime = GetTickCount();
 
+	isStart = false;
+
 	return S_OK;
 }
 
@@ -42,10 +44,13 @@ void MainGame10::Update()
 {
 	GameNode::Update();
 
+	if (INPUT->GetKey(VK_SPACE)) isStart = true;
+	if (!isStart) return;
+
 	if (INPUT->GetKey(VK_LEFT)) { angle += angleSpeed * M_PI / 180; }
 	if (INPUT->GetKey(VK_RIGHT)) { angle -= angleSpeed * M_PI / 180; }
-	if (INPUT->GetKeyDown(VK_UP)) { angleSpeed += 0.01f; }
-	if (INPUT->GetKeyDown(VK_DOWN)) { angleSpeed -= 0.01f; }
+	if (INPUT->GetKeyUp(VK_UP)) { angleSpeed += 0.5f; }
+	if (INPUT->GetKeyDown(VK_DOWN)) { angleSpeed -= 0.5f; }
 
 	WormMove();
 
