@@ -22,13 +22,12 @@ HRESULT MainGame10::Init()
 
 	head.x = WINSIZEX / 2;
 	head.y = WINSIZEY / 2;
-	head.radius = 50;
-	head.rc = RectMakeCenter(
-		head.x, head.y, head.radius, head.radius);
-	head.eye = RectMakeCenter(
-		head.x + cos(angle) * 20, head.y + -sin(angle) * 20,
-		head.radius - 25, head.radius - 25);
+	head.radius = 25;
 	
+	head.eye.x = head.x + cos(angle) * 20;
+	head.eye.y = head.y + -sin(angle) * 20;
+	head.eye.radius = head.radius - 12.5;
+
 	prevTime = GetTickCount();
 
 	return S_OK;
@@ -74,11 +73,24 @@ void MainGame10::Render(HDC hdc)
 	//==================================================
 
 	for (int i = tailCount; i >= 0; i--) {
-		EllipseMake(memDC, tail[i].rc);
+		Ellipse(memDC, 
+			tail[i].x - tail[i].radius,
+			tail[i].y - tail[i].radius,
+			tail[i].x + tail[i].radius,
+			tail[i].y + tail[i].radius);
 	}
 
-	EllipseMake(memDC, head.rc);
-	EllipseMake(memDC, head.eye);
+	Ellipse(memDC,
+		head.x - head.radius,
+		head.y - head.radius,
+		head.x + head.radius,
+		head.y + head.radius);
+
+	Ellipse(memDC,
+		head.eye.x - head.eye.radius,
+		head.eye.y - head.eye.radius,
+		head.eye.x + head.eye.radius,
+		head.eye.y + head.eye.radius);
 
 	//for (int i = 0; i < tailCount; i++)
 	//	EllipseMake(memDC, tail[i].rc);
@@ -102,6 +114,9 @@ void MainGame10::WormMove()
 	head.x += cosf(angle) * speed;
 	head.y += -sinf(angle) * speed;
 
+	head.eye.x = head.x + cos(angle) * 20;
+	head.eye.y = head.y + -sin(angle) * 20;
+
 	// º® Ãæµ¹
 	// left
 	if (head.x - head.radius < 0) {
@@ -123,12 +138,6 @@ void MainGame10::WormMove()
 		head.y = WINSIZEY - head.radius;
 		angle = 2 * M_PI - angle;
 	}
-
-	head.rc = RectMakeCenter(
-		head.x, head.y, head.radius, head.radius);
-	head.eye = RectMakeCenter(
-		head.x + cos(angle) * 20, head.y + -sin(angle) * 20,
-		head.radius - 25, head.radius - 25);
 }
 
 void MainGame10::WormTail()
@@ -140,7 +149,6 @@ void MainGame10::WormTail()
 		tail[i] = tail[i - 1];
 	}
 
-	tail[0].rc = head.rc;
 	tail[0].x = head.x;
 	tail[0].y = head.y;
 	tail[0].radius = head.radius;

@@ -2,15 +2,18 @@
 
 #include "GameNode.h"
 
+struct tagEyeInfo {
+	float x, y;
+	int radius;
+};
+
 struct tagHeadInfo {
-	RECT eye;
-	RECT rc;
-	int x, y;
+	tagEyeInfo eye;
+	float x, y;
 	int radius;
 };
 
 struct tagTailInfo {
-	RECT rc;
 	int x, y;
 	int radius;
 };
