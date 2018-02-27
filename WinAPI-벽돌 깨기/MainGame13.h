@@ -4,6 +4,7 @@
 
 #define BLOCKMAX 4 * 12
 #define ITEMMAX 10
+#define BALLMAX 3
 
 struct tagBlockInfo {
 	RECT rc;
@@ -17,6 +18,7 @@ struct tagBallInfo {
 	float radius;
 	float angle;
 	float speed;
+	bool isFire;
 };
 
 struct tagBarInfo {
@@ -29,7 +31,7 @@ struct tagBarInfo {
 
 enum ItemKind {
 	ITEM_NULL,
-	ITEM_MULTY,
+	ITEM_MULT,
 	ITEM_FAST,
 	ITEM_SLOW,
 	ITEM_LONG,
@@ -49,10 +51,12 @@ class MainGame13 : public GameNode
 {
 private:
 	tagBlockInfo block[BLOCKMAX];
-	tagBallInfo ball;
+	tagBallInfo ball[BALLMAX];
 	tagBarInfo bar;
 	tagItemInfo item[ITEMMAX];
 	bool isOver;
+	int ballCount;
+	float initSpeed;
 public:
 	MainGame13();
 	~MainGame13();
