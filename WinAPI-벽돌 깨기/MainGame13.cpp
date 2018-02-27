@@ -57,6 +57,7 @@ HRESULT MainGame13::Init()
 	for (int i = 0; i < BLOCKMAX; i++) {
 		num[i] = i;
 	}
+
 	//// 테스트용 셔플
 	//int num[12];
 	//for (int i = 0; i < 12; i++) {
