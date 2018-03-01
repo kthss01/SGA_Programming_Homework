@@ -49,6 +49,9 @@ HRESULT MainGame16::Init()
 
 	gravity = 0;
 
+	rc = RectMake(WINSIZEX / 2, WINSIZEY / 2 - WINSIZEY / 16,
+		WINSIZEX / 8, WINSIZEY / 8);
+
 	return S_OK;
 }
 
@@ -71,7 +74,7 @@ void MainGame16::Update()
 		if (marioInfo.state == STATE_RIGHTJUMPUP
 			|| marioInfo.state == STATE_LEFTJUMPUP) {
 			if (marioInfo.speed > -5.0f)
-				marioInfo.speed -= 0.3f;
+				marioInfo.speed -= 1;
 			marioInfo.state = STATE_LEFTJUMPUP;
 		}
 		// 점프 중인 경우 점프 방향만 변경 (하강 중)
@@ -79,7 +82,7 @@ void MainGame16::Update()
 			|| marioInfo.state == STATE_LEFTJUMPDOWN)
 		{
 			if(marioInfo.speed > -5.0f)
-				marioInfo.speed -= 0.3f;
+				marioInfo.speed -= 1;
 			marioInfo.state = STATE_LEFTJUMPDOWN;
 		}
 		// 달리기 중인 경우
@@ -144,14 +147,14 @@ void MainGame16::Update()
 		if (marioInfo.state == STATE_LEFTJUMPUP
 			|| marioInfo.state == STATE_RIGHTJUMPUP) {
 			if (marioInfo.speed < 5.0f)
-				marioInfo.speed += 0.3f;
+				marioInfo.speed += 1;
 			marioInfo.state = STATE_RIGHTJUMPUP;
 		}
 		// 점프 중인 경우 점프 방향만 변경 (하강 중)
 		else if (marioInfo.state == STATE_LEFTJUMPDOWN
 			|| marioInfo.state == STATE_RIGHTJUMPDOWN) {
 			if (marioInfo.speed < 5.0f)
-				marioInfo.speed += 0.3f;
+				marioInfo.speed += 1;
 			marioInfo.state = STATE_RIGHTJUMPDOWN;
 		}
 		// 달리기 중인 경우
@@ -281,16 +284,12 @@ void MainGame16::Update()
 	if (INPUT->GetKeyDown('A')) { marioInfo.isRun = true; }
 	if (INPUT->GetKeyUp('A')) { marioInfo.isRun = false; }
 
+	// 모든 경우 중력 적용
+	marioInfo.y -= gravity;
+
 	// State 에 따른 추가적 변화
 	switch (marioInfo.state)
 	{
-		// 점프 중 y에 중력 적용
-	case STATE_LEFTJUMPUP:
-	case STATE_LEFTJUMPDOWN:
-	case STATE_RIGHTJUMPUP:
-	case STATE_RIGHTJUMPDOWN:
-		marioInfo.y -= gravity;
-		break;
 		// 달리기 중 방향 변환시 속도가 정지되면 idle 상태로 변경
 	case STATE_LEFTRUN:
 	case STATE_LEFTRUNCHANGE:
@@ -302,8 +301,38 @@ void MainGame16::Update()
 		if (marioInfo.speed == 0)
 			marioInfo.state = STATE_RIGHTIDLE;
 		break;
-	default:
-		break;
+	}
+
+	RECT rcMario = RectMake(marioInfo.x, marioInfo.y,
+		marioInfo.width, marioInfo.height);
+	RECT temp;
+	if (IntersectRect(&temp, &rc, &rcMario)) {
+		// left
+		if (marioInfo.x + marioInfo.width / 2 < rc.left
+			&& marioInfo.y + marioInfo.height / 2 > rc.top) {
+			marioInfo.x = rc.left - marioInfo.width;
+		}
+		// right
+		if (marioInfo.x + marioInfo.width / 2 > rc.right
+			&& marioInfo.y + marioInfo.height / 2 > rc.top) {
+			marioInfo.x = rc.right;
+		}
+		// up
+		if (marioInfo.y + marioInfo.height / 2 < rc.top) {
+			gravity = 0;
+			marioInfo.y = rc.top - marioInfo.height;
+			if (marioInfo.state == STATE_LEFTJUMPUP
+				|| marioInfo.state == STATE_LEFTJUMPDOWN)
+				marioInfo.state = STATE_LEFTIDLE;
+			if (marioInfo.state == STATE_RIGHTJUMPUP
+				|| marioInfo.state == STATE_RIGHTJUMPDOWN)
+				marioInfo.state = STATE_RIGHTIDLE;
+		}
+		// bottom
+		if (marioInfo.y + marioInfo.height / 2 > rc.bottom) {
+			gravity = 0;
+			marioInfo.y = rc.bottom;
+		}
 	}
 
 	// 바닥 이상으론 떨어지지 않도록 바닥보다 아래인 경우
@@ -331,11 +360,8 @@ void MainGame16::Update()
 
 	currentTime = GetTickCount();
 	if (currentTime - prevTime > 100) {
-		if (marioInfo.state == STATE_LEFTJUMPDOWN
-			|| marioInfo.state == STATE_LEFTJUMPUP
-			|| marioInfo.state == STATE_RIGHTJUMPDOWN
-			|| marioInfo.state == STATE_RIGHTJUMPUP)
-			gravity -= 2;
+	
+		gravity -= 2;
 
 		// 상태에 따른 애니메이션 변경
 		CheckAniForState();
@@ -351,7 +377,7 @@ void MainGame16::Render(HDC hdc)
 	//=================================================
 
 	bg->Render(memDC);
-
+	
 	for (int i = 0; i < 8; i++) {
 		tile->Render(memDC, WINSIZEX / 8 * i, WINSIZEY - WINSIZEY / 4);
 	}
@@ -452,6 +478,8 @@ void MainGame16::Render(HDC hdc)
 		sprintf_s(str, "가속 중");
 		TextOut(memDC, 10, 70, str, strlen(str));
 	}
+
+	//RectangleMake(memDC, rc);
 
 	//=================================================
 	this->GetBackBuffer()->Render(hdc);

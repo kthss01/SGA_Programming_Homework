@@ -72,6 +72,8 @@ private:
 	tagAnimationInfo ani[32];
 	tagMarioInfo marioInfo;
 
+	RECT rc;
+
 	float gravity;
 	float currentTime;
 	float prevTime;
