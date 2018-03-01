@@ -42,7 +42,9 @@ enum MarioState {
 	STATE_RIGHTJUMPUP = 2,
 	STATE_RIGHTJUMPDOWN,
 	STATE_LEFTVICTORY = 29,
-	STATE_RIGHTVICTORY = 25
+	STATE_RIGHTVICTORY = 25,
+	STATE_RIGHTRUNCHANGE = 12,
+	STATE_LEFTRUNCHANGE = 8
 };
 
 struct tagAnimationInfo {
@@ -57,6 +59,7 @@ struct tagMarioInfo {
 	float speed;
 	MarioState state;
 	int stateCount;
+	bool isRun;
 };
 
 class MainGame16 : public GameNode
