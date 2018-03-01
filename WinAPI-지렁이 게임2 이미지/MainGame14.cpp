@@ -110,17 +110,25 @@ void MainGame14::PokemonMove()
 			// 속도가 너무 높았을 때 뛰쳐나가지 않게 하는거임
 			// 속도 조절 하면 안해도 되는 경우
 			// 왼쪽 
-			if (m_pokemon[i].x - m_pokemon[i].radius < 0)
+			if (m_pokemon[i].x - m_pokemon[i].radius < 0) {
+				m_pokemon[i].x = m_pokemon[i].radius;
 				m_pokemon[i].angle = PI - m_pokemon[i].angle;
+			}
 			// 오른쪽
-			if (m_pokemon[i].x + m_pokemon[i].radius > WINSIZEX)
+			if (m_pokemon[i].x + m_pokemon[i].radius > WINSIZEX) {
+				m_pokemon[i].x = WINSIZEX - m_pokemon[i].radius;
 				m_pokemon[i].angle = PI - m_pokemon[i].angle;
+			}
 			// 위
-			if (m_pokemon[i].y - m_pokemon[i].radius < 0)
+			if (m_pokemon[i].y - m_pokemon[i].radius < 0) {
+				m_pokemon[i].y = m_pokemon[i].radius;
 				m_pokemon[i].angle = -m_pokemon[i].angle;
+			}
 			// 아래
-			if (m_pokemon[i].y + m_pokemon[i].radius > WINSIZEY)
+			if (m_pokemon[i].y + m_pokemon[i].radius > WINSIZEY) {
+				m_pokemon[i].y = WINSIZEY - m_pokemon[i].radius;
 				m_pokemon[i].angle = -m_pokemon[i].angle;
+			}
 		}
 		else {
 			// 이런식으로 해두 되는데 컴퓨터 성능에 다라 
