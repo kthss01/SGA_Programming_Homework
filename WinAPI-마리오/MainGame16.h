@@ -84,6 +84,6 @@ public:
 	void Update() override;
 	void Render(HDC hdc) override;
 
-	void CheckState();
+	void CheckAniForState();
 };
 

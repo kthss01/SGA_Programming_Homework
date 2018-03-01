@@ -64,75 +64,168 @@ void MainGame16::Update()
 {
 	GameNode::Update();
 
+
+	// 왼쪽 방향키
 	if (INPUT->GetKey(VK_LEFT)) {
+		// 점프 중인 경우 점프 방향만 변경 (상승 중)
 		if (marioInfo.state == STATE_RIGHTJUMPUP
 			|| marioInfo.state == STATE_LEFTJUMPUP)
 			marioInfo.state = STATE_LEFTJUMPUP;
+		// 점프 중인 경우 점프 방향만 변경 (하강 중)
 		else if (marioInfo.state == STATE_RIGHTJUMPDOWN
 			|| marioInfo.state == STATE_LEFTJUMPDOWN)
 			marioInfo.state = STATE_LEFTJUMPDOWN;
+		// 달리기 중인 경우
 		else if (marioInfo.isRun) {
-			marioInfo.speed -= 0.1f;
+			// 속도값 변경
+			marioInfo.speed -= 0.2f;
+			// 일정 속도 이상 달리기 상태로 변경
 			if (marioInfo.speed <= -10.0f)
 				marioInfo.state = STATE_LEFTRUN;
+			// 달리기 상태 중 방향 전환 시
 			else if (marioInfo.speed > 0)
 				marioInfo.state = STATE_RIGHTRUNCHANGE;
+			// 그 외 일정 속도 이하인 경우
 			else
 				marioInfo.state = STATE_LEFTWALK;
 		}
+		// 왼쪽으로 달리는 중 그냥 걷는 경우
+		else if (marioInfo.state == STATE_LEFTRUN
+			|| marioInfo.state == STATE_LEFTRUNCHANGE)
+		{
+			// 속도 감소
+			marioInfo.speed += 0.2f;
+			// 걷기 속도 도달 시 걷기로 변경 및 걷기 모션
+			if (marioInfo.speed > -5.0f) {
+				marioInfo.speed = -5.0f;
+				marioInfo.state = STATE_LEFTWALK;
+			}
+		}
+		// 오른쪽으로 달리는 중 그냥 걷는 경우
+		else if (marioInfo.state == STATE_RIGHTRUN
+			|| marioInfo.state == STATE_RIGHTRUNCHANGE)
+		{
+			// 방향 전환 모션으로 변경
+			marioInfo.state = STATE_RIGHTRUNCHANGE;
+			// 속도 증가
+			marioInfo.speed -= 0.2f;
+
+			// 걷기 속도 도달 시 걷기로 변경 및 걷기 모션
+			if (marioInfo.speed < -5.0f) {
+				marioInfo.speed = 5.0f;
+				marioInfo.state = STATE_RIGHTWALK;
+			}
+		}
+		// 그냥 걷는 경우
 		else {
 			marioInfo.state = STATE_LEFTWALK;
 			marioInfo.speed = -5.0f;
 		}
-		marioInfo.x += marioInfo.speed;
-
-		// 화면 밖 벗어날 시
-		if (marioInfo.x + marioInfo.width< 0)
-			marioInfo.x = WINSIZEX;
-		if (marioInfo.x > WINSIZEX)
-			marioInfo.x = -marioInfo.width;
-
 	}
-	if (INPUT->GetKeyUp(VK_LEFT)) { 
+
+	// 오른쪽 방향키를 때는 경우
+	if (INPUT->GetKeyUp(VK_LEFT)) {
+		// 걷고 있는 중이면 왼쪽 정지 상태로 변경
 		if(marioInfo.state == STATE_LEFTWALK)
 			marioInfo.state = STATE_LEFTIDLE; 
 	}
 	
-	if (INPUT->GetKey(VK_RIGHT)) { 
+	if (INPUT->GetKey(VK_RIGHT)) {
+		// 점프 중인 경우 점프 방향만 변경 (상승 중)
 		if (marioInfo.state == STATE_LEFTJUMPUP
 			|| marioInfo.state == STATE_RIGHTJUMPUP)
 			marioInfo.state = STATE_RIGHTJUMPUP;
+		// 점프 중인 경우 점프 방향만 변경 (하강 중)
 		else if (marioInfo.state == STATE_LEFTJUMPDOWN
 			|| marioInfo.state == STATE_RIGHTJUMPDOWN)
 			marioInfo.state = STATE_RIGHTJUMPDOWN;
+		// 달리기 중인 경우
 		else if (marioInfo.isRun) {
-			marioInfo.speed += 0.1f;
+			marioInfo.speed += 0.2f;
+			// 일정 속도 이상 달리기 상태로 변경
 			if (marioInfo.speed >= 10.0f)
 				marioInfo.state = STATE_RIGHTRUN;
+			// 달리기 상태 중 방향 전환 시
 			else if (marioInfo.speed < 0)
 				marioInfo.state = STATE_LEFTRUNCHANGE;
+			// 그 외 일정 속도 이하인 경우
 			else
 				marioInfo.state = STATE_RIGHTWALK;
 		}
+		// 오른쪽으로 달리는 중 그냥 걷는 경우
+		else if (marioInfo.state == STATE_RIGHTRUN
+			|| marioInfo.state == STATE_RIGHTRUNCHANGE)
+		{
+			// 속도 감소
+			marioInfo.speed -= 0.2f;
+			// 걷기 속도 도달 시 걷기로 변경 및 걷기 모션
+			if (marioInfo.speed < 5.0f) {
+				marioInfo.speed = 5.0f;
+				marioInfo.state = STATE_RIGHTWALK;
+			}
+		}
+		// 왼쪽으로 달리는 중 그냥 걷는 경우
+		else if (marioInfo.state == STATE_LEFTRUN
+			|| marioInfo.state == STATE_LEFTRUNCHANGE)
+		{
+			// 방향 전환 모션으로 변경
+			marioInfo.state = STATE_LEFTRUNCHANGE;
+			// 속도 증가
+			marioInfo.speed += 0.2f;
+
+			// 걷기 속도 도달 시 걷기로 변경 및 걷기 모션
+			if (marioInfo.speed > 5.0f) {
+				marioInfo.speed = 5.0f;
+				marioInfo.state = STATE_RIGHTWALK;
+			}
+		}
+		// 그냥 걷는 경우
 		else {
 			marioInfo.state = STATE_RIGHTWALK;
 			marioInfo.speed = 5.0f;
 		}
-
-		marioInfo.x += marioInfo.speed;
-
-		// 화면 밖 벗어날 시
-		if (marioInfo.x + marioInfo.width< 0)
-			marioInfo.x = WINSIZEX;
-		if (marioInfo.x > WINSIZEX)
-			marioInfo.x = -marioInfo.width;
 	}
-	if (INPUT->GetKeyUp(VK_RIGHT)) { 
+	// 오른쪽 방향키를 때는 경우
+	if (INPUT->GetKeyUp(VK_RIGHT)) {
+		// 걷고 있는 중이면 오른쪽 정지 상태로 변경
 		if(marioInfo.state == STATE_RIGHTWALK)
 			marioInfo.state = STATE_RIGHTIDLE; 
 	}
+	
+	// 방향키를 때서 속도가 유지된 상태일 때
+	if (marioInfo.state == STATE_LEFTIDLE
+		|| marioInfo.state == STATE_RIGHTIDLE
+		|| marioInfo.state == STATE_LEFTRUNCHANGE
+		|| marioInfo.state == STATE_RIGHTRUNCHANGE
+		|| marioInfo.state == STATE_RIGHTRUN
+		|| marioInfo.state == STATE_LEFTRUN) {
+		// 속도를 0에 값게 줄이거나 늘림 (정지 할 수 있도록)
+		// 속도 변경이 달릴 때 상승 속도랑 같으면 더 속도 안올라감
+		if (marioInfo.speed < 0)
+			marioInfo.speed += 0.1f;
+		else if (marioInfo.speed > 0)
+			marioInfo.speed -= 0.1f;
 
+		// 0에 비슷한 값에 도달시 0으로 변경 (소수값이므로 0이 안될 수 있어서)
+		if (-0.001f <= marioInfo.speed &&
+			marioInfo.speed <= 0.001)
+			marioInfo.speed = 0;
+	}
+
+	// 속도에 따른 x 값 변경
+	marioInfo.x += marioInfo.speed;
+
+	// 화면 밖 벗어날 시
+	// 좌측
+	if (marioInfo.x + marioInfo.width< 0)
+		marioInfo.x = WINSIZEX;
+	// 우측
+	if (marioInfo.x > WINSIZEX)
+		marioInfo.x = -marioInfo.width;
+
+	// 점프
  	if (INPUT->GetKeyDown(VK_SPACE)) {
+		// 왼쪽 방향시 왼쪽 점프
 		if (marioInfo.state == STATE_LEFTWALK ||
 			marioInfo.state == STATE_LEFTIDLE ||
 			marioInfo.state == STATE_LEFTRUN) {
@@ -141,6 +234,7 @@ void MainGame16::Update()
 			gravity = 10.0f;
 		}
 
+		// 오른쪽 방향시 오른쪽 점프
 		if (marioInfo.state == STATE_RIGHTWALK ||
 			marioInfo.state == STATE_RIGHTIDLE ||
 			marioInfo.state == STATE_RIGHTRUN) {
@@ -150,47 +244,56 @@ void MainGame16::Update()
 		}
 	}
 
+	// 빅토리 포즈
 	if (INPUT->GetKeyDown('V')) {
+		// 왼쪽 정지 상태시 왼쪽 빅토리
 		if (marioInfo.state == STATE_LEFTIDLE)
 			marioInfo.state = STATE_LEFTVICTORY;
+		// 오른쪽 정지 상태시 오른쪽 빅토리
 		if (marioInfo.state == STATE_RIGHTIDLE)
 			marioInfo.state = STATE_RIGHTVICTORY;
+		// 왼쪽 빅토리시 오른쪽 빅토리
 		if (marioInfo.state == STATE_LEFTVICTORY)
 			marioInfo.state = STATE_RIGHTVICTORY;
+		// 오른쪽 빅토리시 왼쪽 빅토리
 		else if (marioInfo.state == STATE_RIGHTVICTORY)
 			marioInfo.state = STATE_LEFTVICTORY;
 	}
 
-	if (INPUT->GetKey('A')) { marioInfo.isRun = true; }
+	// 가속도 버튼 클릭시 달리기
+	if (INPUT->GetKeyDown('A')) { marioInfo.isRun = true; }
 	if (INPUT->GetKeyUp('A')) { marioInfo.isRun = false; }
 
+	// State 에 따른 추가적 변화
 	switch (marioInfo.state)
 	{
-	case STATE_LEFTIDLE:
-		break;
-	case STATE_RIGHTIDLE:
-		break;
-	case STATE_LEFTWALK:
-		break;
-	case STATE_RIGHTWALK:
-		break;
-	case STATE_LEFTRUN:
-		break;
-	case STATE_RIGHTRUN:
-		break;
+		// 점프 중 y에 중력 적용
 	case STATE_LEFTJUMPUP:
 	case STATE_LEFTJUMPDOWN:
 	case STATE_RIGHTJUMPUP:
 	case STATE_RIGHTJUMPDOWN:
 		marioInfo.y -= gravity;
 		break;
+		// 달리기 중 방향 변환시 속도가 정지되면 idle 상태로 변경
+	case STATE_LEFTRUN:
+	case STATE_LEFTRUNCHANGE:
+		if (marioInfo.speed == 0)
+			marioInfo.state = STATE_LEFTIDLE;
+		break;
+	case STATE_RIGHTRUN:
+	case STATE_RIGHTRUNCHANGE:
+		if (marioInfo.speed == 0)
+			marioInfo.state = STATE_RIGHTIDLE;
+		break;
 	default:
 		break;
 	}
 
+	// 바닥 이상으론 떨어지지 않도록 바닥보다 아래인 경우
 	if (marioInfo.y > WINSIZEY - WINSIZEY / 4 - ani[0].height) {
 		marioInfo.y = WINSIZEY - WINSIZEY / 4 - ani[0].height;
 
+		// 점프 상태에서 정지 상태로 변경
   		if (marioInfo.state == STATE_LEFTJUMPDOWN ||
 			marioInfo.state == STATE_LEFTJUMPUP)
 			marioInfo.state = STATE_LEFTIDLE;
@@ -199,19 +302,20 @@ void MainGame16::Update()
 			marioInfo.state = STATE_RIGHTIDLE;
 	}
 	
+	// 일정 높이 이상시 상승 모션에서 하강 모션으로 변경 (중력이 0일 때)
 	if (gravity == 0 && marioInfo.state == STATE_LEFTJUMPUP)
 		marioInfo.state = STATE_LEFTJUMPDOWN;
 	if (gravity == 0 && marioInfo.state == STATE_RIGHTJUMPUP)
 		marioInfo.state = STATE_RIGHTJUMPDOWN;
 
+	
+
 	currentTime = GetTickCount();
 	if (currentTime - prevTime > 100) {
-
-
 		gravity -= 2;
-		//marioInfo.speed -= 0.1f;
-		
-		CheckState();
+
+		// 상태에 따른 애니메이션 변경
+		CheckAniForState();
 
 		prevTime = GetTickCount();
 	}
@@ -315,12 +419,16 @@ void MainGame16::Render(HDC hdc)
 	sprintf_s(str, "speed : %f", marioInfo.speed);
 	TextOut(memDC, 10, 50, str, strlen(str));
 
+	if (marioInfo.isRun) {
+		sprintf_s(str, "가속 중");
+		TextOut(memDC, 10, 70, str, strlen(str));
+	}
 
 	//=================================================
 	this->GetBackBuffer()->Render(hdc);
 }
 
-void MainGame16::CheckState()
+void MainGame16::CheckAniForState()
 {
 	switch (marioInfo.state)
 	{
