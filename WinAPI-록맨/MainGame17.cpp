@@ -77,7 +77,12 @@ void MainGame17::Update()
 			}
 		}
 		else {
-			if (rockmanInfo.state != STATE_LEFTJUMP) {
+			if (rockmanInfo.state == STATE_LEFTWALLCATCH) {
+				rockman->SetY(rockman->GetY() - 75.0f);
+				if (rockman->GetFrameX() < 9)
+					rockman->SetFrameX(rockman->GetFrameX() + 1);
+			}
+			else if (rockmanInfo.state != STATE_LEFTJUMP) {
 				rockmanInfo.state = STATE_LEFTJUMP;
 				rockman->SetFrameX(5);
 				rockman->SetFrameY(4);
@@ -116,7 +121,12 @@ void MainGame17::Update()
 			}
 		}
 		else {
-			if (rockmanInfo.state != STATE_RIGHTJUMP) {
+			if (rockmanInfo.state == STATE_RIGHTWALLCATCH) {
+				rockman->SetY(rockman->GetY() - 75.0f);
+				if(rockman->GetFrameX() < 9)
+					rockman->SetFrameX(rockman->GetFrameX() + 1);
+			}
+			else if (rockmanInfo.state != STATE_RIGHTJUMP) {
 				rockmanInfo.state = STATE_RIGHTJUMP;
 				rockman->SetFrameX(5);
 				rockman->SetFrameY(5);
@@ -161,13 +171,15 @@ void MainGame17::Update()
 
 	if (rockmanInfo.isGround == false) {
 		if (rockmanInfo.state == STATE_LEFTIDLE ||
-			rockmanInfo.state == STATE_LEFTWALK) {
+			rockmanInfo.state == STATE_LEFTWALK ||
+			rockmanInfo.state == STATE_LEFTWALLCATCH) {
 			rockmanInfo.state = STATE_LEFTJUMP;
 			rockman->SetFrameX(5);
 			rockman->SetFrameY(4);
 		}
 		if (rockmanInfo.state == STATE_RIGHTIDLE ||
-			rockmanInfo.state == STATE_RIGHTWALK) {
+			rockmanInfo.state == STATE_RIGHTWALK ||
+			rockmanInfo.state == STATE_RIGHTWALLCATCH) {
 			rockmanInfo.state = STATE_RIGHTJUMP;
 			rockman->SetFrameX(5);
 			rockman->SetFrameY(5);
