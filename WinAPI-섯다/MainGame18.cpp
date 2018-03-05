@@ -330,40 +330,40 @@ void MainGame18::Render(HDC hdc)
 				// card 1
 				card->FrameRender(memDC, 
 					WINSIZEX / 2 - WINSIZEX / 8 - 6, WINSIZEY - WINSIZEY / 6 - 13,
-					player[0].card1 % 10, player[0].card1 / 20);
+					player[0].card1 % 10, player[0].card1 / 10);
 				// card 2
 				card->FrameRender(memDC,
 					WINSIZEX / 2 - WINSIZEX / 8 - 6 + card->GetFrameWidth(), WINSIZEY - WINSIZEY / 6 - 13,
-					player[0].card2 % 10, player[0].card2 / 20);
+					player[0].card2 % 10, player[0].card2 / 10);
 
 				// 나머지 플레이어
 				card->FrameRender(memDC,
 				38, 216 - card->GetFrameHeight(),
-					player[1].card1 % 10, player[1].card1 / 20);
+					player[1].card1 % 10, player[1].card1 / 10);
 				card->FrameRender(memDC,
 				38 + card->GetFrameWidth(), 216 - card->GetFrameHeight(),
-					player[1].card2 % 10, player[1].card2 / 20);
+					player[1].card2 % 10, player[1].card2 / 10);
 
 				card->FrameRender(memDC,
 				8, 417 - card->GetFrameHeight(),
-					player[2].card1 % 10, player[2].card1 / 20);
+					player[2].card1 % 10, player[2].card1 / 10);
 				card->FrameRender(memDC,
 				8 + card->GetFrameWidth(), 417 - card->GetFrameHeight(),
-					player[2].card2 % 10, player[2].card2 / 20);
+					player[2].card2 % 10, player[2].card2 / 10);
 
 				card->FrameRender(memDC,
 				864, 217 - card->GetFrameHeight(),
-					player[3].card1 % 10, player[3].card1 / 20);
+					player[3].card1 % 10, player[3].card1 / 10);
 				card->FrameRender(memDC,
 				864 + card->GetFrameWidth(), 217 - card->GetFrameHeight(),
-					player[3].card2 % 10, player[3].card2 / 20);
+					player[3].card2 % 10, player[3].card2 / 10);
 
 				card->FrameRender(memDC,
 				1017 - card->GetFrameWidth() * 2, 415 - card->GetFrameHeight(),
-					player[4].card1 % 10, player[4].card1 / 20);
+					player[4].card1 % 10, player[4].card1 / 10);
 				card->FrameRender(memDC,
 				1017 - card->GetFrameWidth(), 415 - card->GetFrameHeight(),
-					player[4].card2 % 10, player[4].card2 / 20);
+					player[4].card2 % 10, player[4].card2 / 10);
 			}
 
 			// 족보 그리기
@@ -611,8 +611,8 @@ void MainGame18::Render(HDC hdc)
 		}
 	
 		// test
-		sprintf_s(str, "x : %d, y : %d", g_ptMouse.x, g_ptMouse.y);
-		TextOut(memDC, 10, 10, str, strlen(str));
+		//sprintf_s(str, "x : %d, y : %d", g_ptMouse.x, g_ptMouse.y);
+		//TextOut(memDC, 10, 10, str, strlen(str));
 	}
 	//=================================================
 	this->GetBackBuffer()->Render(hdc);
@@ -648,12 +648,23 @@ void MainGame18::StartGame()
 	// 섞은 카드 나눠주기
 	// 카드 테스트
 	//player[0].card1 = CARD_4A;
-	//player[0].card2 = CARD_9A;
+	//player[0].card2 = CARD_4B;
 	//for (int i = 1; i < 5; i++) {
 	//	player[i].card1 = cardNum[i];
 	//	player[i].card2 = cardNum[i + 5];
 	//}
 
+	//// 카드 테스트 2 땡잡이
+	//player[0].card1 = CARD_4A;
+	//player[0].card2 = CARD_4B;
+	//player[1].card1 = CARD_3B;
+	//player[1].card2 = CARD_7A;
+	//for (int i = 2; i < 5; i++) {
+	//	player[i].card1 = cardNum[i];
+	//	player[i].card2 = cardNum[i + 5];
+	//}
+
+	// 섞은 카드 나눠주기
 	for (int i = 0; i < 5; i++) {
 		player[i].card1 = cardNum[i];
 		player[i].card2 = cardNum[i + 5];
@@ -887,8 +898,8 @@ JOKBO MainGame18::CheckJokbo(CARD card1, CARD card2)
 	else if (
 		card1 == CARD_3G && card2 == CARD_7A ||
 		card1 == CARD_3G && card2 == CARD_7B ||
-		card1 == CARD_3B && card2 == CARD_7A ||
-		card1 == CARD_3B && card2 == CARD_7B) {
+		card1 == CARD_7A && card2 == CARD_3B ||
+		card1 == CARD_7A && card2 == CARD_3B) {
 		return JB_NNC;
 	}
 	// 암행어사
