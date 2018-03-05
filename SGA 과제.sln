@@ -73,6 +73,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-마리오", "WinAPI-
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-록맨", "WinAPI-록맨\WinAPI-록맨.vcxproj", "{B65C5AAB-F0F7-4978-8EEC-236B9A3A312A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-섯다", "WinAPI-섯다\WinAPI-섯다.vcxproj", "{F03BE6A2-6056-44E9-AACE-E25BF9124487}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -361,6 +363,14 @@ Global
 		{B65C5AAB-F0F7-4978-8EEC-236B9A3A312A}.Release|x64.Build.0 = Release|x64
 		{B65C5AAB-F0F7-4978-8EEC-236B9A3A312A}.Release|x86.ActiveCfg = Release|Win32
 		{B65C5AAB-F0F7-4978-8EEC-236B9A3A312A}.Release|x86.Build.0 = Release|Win32
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Debug|x64.ActiveCfg = Debug|x64
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Debug|x64.Build.0 = Debug|x64
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Debug|x86.ActiveCfg = Debug|Win32
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Debug|x86.Build.0 = Debug|Win32
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Release|x64.ActiveCfg = Release|x64
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Release|x64.Build.0 = Release|x64
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Release|x86.ActiveCfg = Release|Win32
+		{F03BE6A2-6056-44E9-AACE-E25BF9124487}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
