@@ -16,15 +16,20 @@ HRESULT MainGame20::Init()
 	GameNode::Init();
 
 	isDebug = false;
+	// 게임 끝났는지 확인 
 	isOver = false;
 
+	// 배경 이미지 읽어오기
 	_bg = new Image;
 	_bg->Init("images/background.bmp", WINSIZEX, WINSIZEY);
 
+	// 계기판 이미지 읽어오기
 	_speedometer = new Image;
 	_speedometer->Init("images/speedometer.bmp", 
 		150, 150, true, RGB(182, 185, 183));
 
+	// 캐릭터 이미지 읽어오기
+	// y값 일괄 설정을 위한 임시 변수
 	int tempY = 6;
 
 	_character[0] = new Image;
@@ -52,16 +57,15 @@ HRESULT MainGame20::Init()
 	_character[7]->Init("images/yoshi.bmp", 
 		WINSIZEX / 9, WINSIZEY / 8, true, RGB(182, 185, 183));
 
+	// 각각의 캐릭터 이미지 위치 지정
 	for (int i = 0; i < 8; i++) {
+		// 플레이어 캐릭터
 		if (i == 0) {
-			_character[i]->SetFrameX(6);
-			_character[i]->SetFrameY(1);
 			_character[i]->SetX(WINSIZEX / 2 + _character[i]->GetWidth() / 2);
 			_character[i]->SetY(WINSIZEY - _character[i]->GetHeight() / 2);
 		}
+		// 나머지 캐릭터
 		else {
-			_character[i]->SetFrameX(0);
-			_character[i]->SetFrameY(1);
 			_character[i]->SetX(_character[i]->GetWidth() / 2 
 				+ _character[i]->GetWidth() * i);
 			_character[i]->SetY(-_character[i]->GetHeight() / 2
@@ -69,13 +73,17 @@ HRESULT MainGame20::Init()
 		}
 	}
 
+	// 루프 렌더를 위한 x, y 변수
 	offsetX = 0;
 	offsetY = 0;
 
+	// 속도 및 최고 속도
 	speed = 0;
 	maxSpeed = 20.0f;
 
+	// 계기판 침 길이
 	length = 50;
+	// 계기판 침을 위한 x,y LineMake함수에서 쓰임
 	ptX = WINSIZEX - _speedometer->GetWidth() / 2
 		+ cosf(-speed / maxSpeed * PI - PI * 3 / 4) * length;
 	ptY = WINSIZEY - _speedometer->GetHeight() / 2
@@ -121,10 +129,13 @@ void MainGame20::Update()
 	for (int i = 1; i < 8; i++) {
 		_character[i]->SetY(_character[i]->GetY() + speed);
 
+		// 바닥 내려가면 다시 위로
 		if (_character[i]->GetY()
 			- _character[i]->GetHeight() / 2 > WINSIZEY)
 			_character[i]->SetY(-_character[i]->GetHeight() / 2);
 
+		// 플레이어 캐릭터와 충돌 할때
+		// 그냥 충돌하는게 너무 쉽게 되서 Rect 크기를 절반으로 줄여서 충돌 체크
 		if (i != 1 && IntersectRect(&temp,
 			//&_character[0]->GetBoundingBox(),
 			&RectMakeCenter(_character[0]->GetX(), _character[0]->GetY(),
@@ -134,21 +145,28 @@ void MainGame20::Update()
 			&RectMakeCenter(_character[i]->GetX(), _character[i]->GetY(),
 				_character[i]->GetWidth() / 2,
 				_character[i]->GetHeight() / 2))) {
+			// 충돌 시 스피드 감소
 			speed -= 10;
+			// 스피드 0보다 작아지면 (정지 상태)
 			if (speed <= 0) {
+				// 타이머 죽여서 게임 멈추고
 				KillTimer(g_hWnd, 1);
+				// 게임 오버 bool 변수 true
 				isOver = true;
 			}
+			// 충돌시 충돌한 캐릭터 (플레이어 캐릭터 말고) 화면 밖으로 보내기
 			_character[i]->SetY(-_character[i]->GetFrameHeight() / 2
 				- RND->GetInt(1000));
 		}
 	}
 
+	// 일정시간 지나면 스피드 0으로 바뀌게
 	if (speed > 0)
 		speed -= 0.125f;
 	else if (speed < 0)
 		speed += 0.125f;
 
+	// 계기판 속도에 맞춰서 변화하도록 
 	ptX = WINSIZEX - _speedometer->GetWidth() / 2
 		+ cosf(-speed / maxSpeed * PI - PI * 3 / 4) * length;
 	ptY = WINSIZEY - _speedometer->GetHeight() / 2
@@ -173,9 +191,11 @@ void MainGame20::Render(HDC hdc)
 		//	_character[0]->GetX(), 
 		//	_character[0]->GetY());
 
+		// 루프렌더로 배경 움직임
 		_bg->LoopRender(memDC, 
 			&RectMake(0, 0, WINSIZEX, WINSIZEY),offsetX, offsetY);
 
+		// 캐릭터 그리기
 		for (int i = 0; i < 8; i++) {
 			//_character[i]->SetTransColor(false, RGB(255, 0, 255));
 			_character[i]->Render(memDC,
@@ -183,10 +203,12 @@ void MainGame20::Render(HDC hdc)
 				_character[i]->GetY() - _character[i]->GetHeight() / 2);
 		}
 
+		// 계기판 그리기
 		_speedometer->Render(memDC, 
 			WINSIZEX - _speedometer->GetWidth(),
 			WINSIZEY - _speedometer->GetHeight());
 
+		// 계기판 침 그리기
 		HPEN pen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0));
 		HPEN oldPen = (HPEN)SelectObject(memDC, pen);
 
@@ -198,10 +220,13 @@ void MainGame20::Render(HDC hdc)
 		SelectObject(memDC, oldPen);
 		DeleteObject(pen);
 
+		// 게임 오버시
 		if (isOver) {
+			// 글자색 배경 투명
 			SetBkMode(memDC, TRANSPARENT);
 			//SetTextColor(memDC, RGB(255, 255, 255));
 
+			// 글자색 크기 변경
 			HFONT hFont = CreateFont(50, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET,
 				0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("궁서"));
 			HFONT oldFont = (HFONT)SelectObject(memDC, hFont);
