@@ -70,7 +70,10 @@ void MainGame19::Update()
 {
 	GameNode::Update();
 
-	if (INPUT->GetKeyDown(VK_RETURN)) { isStart = true; }
+	if (INPUT->GetKeyDown(VK_RETURN)) { 
+		isStart = true; 
+		prevTime = GetTickCount(); 
+	}
 	if (!isStart) return;
 
 	curTime = GetTickCount();
