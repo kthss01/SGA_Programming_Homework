@@ -81,6 +81,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-레이싱 게임", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-계단 오르기(픽셀 충돌)", "WinAPI-픽셀 충돌\WinAPI-픽셀 충돌.vcxproj", "{40C967AB-1C49-4C94-8125-3C4BB2ADE93B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-지뢰 찾기와 오목", "WinAPI-지뢰 찾기와 오목\WinAPI-지뢰 찾기와 오목.vcxproj", "{747BC022-E4FF-4199-BE0C-2A62A43505DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -401,6 +403,14 @@ Global
 		{40C967AB-1C49-4C94-8125-3C4BB2ADE93B}.Release|x64.Build.0 = Release|x64
 		{40C967AB-1C49-4C94-8125-3C4BB2ADE93B}.Release|x86.ActiveCfg = Release|Win32
 		{40C967AB-1C49-4C94-8125-3C4BB2ADE93B}.Release|x86.Build.0 = Release|Win32
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Debug|x64.ActiveCfg = Debug|x64
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Debug|x64.Build.0 = Debug|x64
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Debug|x86.ActiveCfg = Debug|Win32
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Debug|x86.Build.0 = Debug|Win32
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Release|x64.ActiveCfg = Release|x64
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Release|x64.Build.0 = Release|x64
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Release|x86.ActiveCfg = Release|Win32
+		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

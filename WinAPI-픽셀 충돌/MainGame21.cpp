@@ -98,7 +98,7 @@ void MainGame21::Update()
 
 	// 탐지범위 - 10 부터 X 의 탐지 전까지
 	for (int i = _probeX - 10; i < _probeX; i++) {
-		COLORREF color = GetPixel(_bg->GetMemDC(), i, _y);
+		COLORREF color = GetPixel(_bg->GetMemDC(), i, _y - _ball->GetWidth() / 2);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
