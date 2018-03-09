@@ -16,11 +16,11 @@ HRESULT GameScene1::Init()
 	isDebug = false;
 
 	board = new Image;
-	board->Init("images/minesweeper/board.bmp", WINSIZEX, WINSIZEY, true);
+	board->Init("images/minesweeper/board.bmp", BOARDSIZEX, BOARDSIZEY, true);
 
 	for (int i = 0; i < 6; i++) {
 		number[i] = new Image;
-		number[i]->Init("images/minesweeper/number.bmp", 450, 80, 10, 1, true);
+		number[i]->Init("images/minesweeper/number.bmp", 350, 55, 10, 1, true);
 	}
 
 	ChangeNumber(true, MINECOUNT);
@@ -30,9 +30,13 @@ HRESULT GameScene1::Init()
 	sizeX = FIELDX / ROW;
 	sizeY = FIELDY / COL;
 
+	// 메뉴창 이미지 읽기
+	menu = new Image;
+	menu->Init("images/minesweeper/menu.bmp", BOARDSIZEX, 50);
+
 	// 결과 이미지 읽기
 	result = new Image;
-	result->Init("images/minesweeper/result.bmp", 240, 106, 4, 1, true);
+	result->Init("images/minesweeper/result.bmp", 200, 68, 4, 1, true);
 
 	// 마인 이미지 읽기
 	for (int i = 0; i < 9; i++) {
@@ -88,8 +92,8 @@ HRESULT GameScene1::Init()
 				mineInfo[i][j].isMine = false;
 				mineInfo[i][j].status = STATUS_NCB;
 			}
-			mineInfo[i][j].x = 25 + sizeX * j;
-			mineInfo[i][j].y = 256 + sizeY * i;
+			mineInfo[i][j].x = STARTX + sizeX * j;
+			mineInfo[i][j].y = STARTY + sizeY * i;
 			mineInfo[i][j].isFlag = false;
 			mineInfo[i][j].nearMineCount = 0;
 			mineInfo[i][j].rc = RectMake(
@@ -98,6 +102,9 @@ HRESULT GameScene1::Init()
 		}
 	}
 	
+	isOver = false;
+	isClear = false;
+
 	// 주변 마인 갯수 체크
 	MineCheck();
 	// test
@@ -124,6 +131,9 @@ HRESULT GameScene1::Init()
 		}
 	}*/
 
+	rcMineExit = RectMake(WINSIZEX / 2 + BOARDSIZEX - 17, 50, 17, 25);
+	rcMineRestart = RectMake(678, 151, 50, 68);
+
 	return S_OK;
 }
 
@@ -135,12 +145,23 @@ void GameScene1::Release()
 	for (int i = 0; i < 9; i++)
 		SAFE_DELETE(mine[i]);
 	SAFE_DELETE(result);
+	SAFE_DELETE(menu);
 }
 
 void GameScene1::Update()
 {
 	// 마우스 클릭 시
 	if (INPUT->GetKeyDown(VK_LBUTTON)) {
+		if (PtInRect(&rcMineExit, g_ptMouse)) {
+			SCENE->ChangeScene("None");
+			return;
+		}
+
+		if (PtInRect(&rcMineRestart, g_ptMouse)) {
+			this->Init();
+			return;
+		}
+
 		for (int i = 0; i < ROW; i++)
 		{
 			for (int j = 0; j < COL; j++) {
@@ -157,6 +178,9 @@ void GameScene1::Update()
 			}
 		}
 	}
+
+	if (isOver || isClear) return;
+
 	if (INPUT->GetKeyUp(VK_LBUTTON)) {
 		result->SetFrameX(0);
 	}
@@ -224,7 +248,7 @@ void GameScene1::Update()
 	}
 
 	//====================== Debug =====================//
-	if (INPUT->GetKeyDown(VK_F11)) {
+	if (INPUT->GetKeyDown(VK_TAB)) {
 		isDebug = !isDebug;
 	}
 	//==================================================//
@@ -232,10 +256,14 @@ void GameScene1::Update()
 
 void GameScene1::Render()
 {
-	board->Render(GetMemDC());
+	// 보드 그리기
+	board->Render(GetMemDC(), WINSIZEX/2, 100);
+
+	// 메뉴 그리기
+	menu->Render(GetMemDC() , WINSIZEX/2, 100 - menu->GetHeight());
 
 	// 결과 그리기
-	result->FrameRender(GetMemDC(), 226, 75);
+	result->FrameRender(GetMemDC(), 678, 151);
 
 	// 숫자 그리기
 	//number->Render(GetMemDC());
@@ -243,11 +271,11 @@ void GameScene1::Render()
 		// 화면 왼쪽 실제 지뢰 갯수
 		if(i < 3)
 		number[i]->FrameRender(GetMemDC(), 
-			55 + i * (number[i]->GetFrameWidth() + 5), 90);
+			550 + i * (number[i]->GetFrameWidth() + 5), 157);
 		// 화면 오른쪽 지뢰 갯수 - 깃발 꼿은 갯수
 		else
 		number[i]->FrameRender(GetMemDC(),
-			312 + (i-3) * (number[i]->GetFrameWidth() + 5), 90);
+			742 + (i-3) * (number[i]->GetFrameWidth() + 5), 157);
 	}
 
 	// 지뢰 그리기
@@ -277,6 +305,9 @@ void GameScene1::Render()
 				}
 			}
 		}
+
+		RectangleMake(GetMemDC(), rcMineExit);
+		RectangleMake(GetMemDC(), rcMineRestart);
 	}
 	//=================================================
 }
@@ -340,14 +371,16 @@ void GameScene1::GameOver()
 		}
 	}
 
-	KillTimer(g_hWnd, 1);
+	//KillTimer(g_hWnd, 1);
+	isOver = true;
 }
 
 void GameScene1::GameClear()
 {
 	result->SetFrameX(3);
 	
-	KillTimer(g_hWnd, 1);
+	//KillTimer(g_hWnd, 1);
+	isClear = true;
 }
 
 void GameScene1::FindMine(int row, int col)

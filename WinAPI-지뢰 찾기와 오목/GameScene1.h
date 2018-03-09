@@ -25,16 +25,20 @@ struct tagMineInfo {
 
 /*
 	마인 위치할 필드 크기
-	x : 25 ~ 486   = 대략 450
-	y : 256 ~ 722  = 대략 470
+	x : 530 ~ 877 
+	y : 270 ~ 586 
 */
 
+#define BOARDSIZEX 256+128
+#define BOARDSIZEY 512
 #define ROW 10
 #define COL 10
 #define MINECOUNT 50
 
-#define FIELDX float(486 - 25)
-#define FIELDY float(725 - 256)
+#define FIELDX float(877 - 530)
+#define FIELDY float(586 - 270)
+#define STARTX 530
+#define STARTY 270
 
 class GameScene1 : public GameNode
 {
@@ -45,6 +49,8 @@ private:
 	Image * mine[9];
 	Image * result;
 
+	Image* menu;
+
 	float sizeX, sizeY;
 	int flagCount;
 
@@ -52,8 +58,12 @@ private:
 
 	bool isMine[ROW * COL];
 	char str[128];
+	bool isOver;
 	bool isClear;
 	bool isDebug;
+
+	RECT rcMineExit;
+	RECT rcMineRestart;
 public:
 	GameScene1();
 	~GameScene1();

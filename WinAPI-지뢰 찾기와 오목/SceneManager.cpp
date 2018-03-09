@@ -54,6 +54,7 @@ GameNode * SceneManager::AddScene(string sceneName, GameNode * scene)
 	// 동일한 이름 존재하는 경우
 	if (_mSceneList.count(sceneName) > 0) return NULL;
 
+	_currentSceneName = sceneName;
 	_mSceneList[sceneName] = scene;
 
 	return _mSceneList[sceneName];
@@ -70,6 +71,7 @@ HRESULT SceneManager::ChangeScene(string sceneName)
 		// 기존 씬이 존재 하면 기존 씬 릴리즈
 		if (_currentScene) _currentScene->Release();
 		_currentScene = _mSceneList[sceneName];
+		_currentSceneName = sceneName;
 
 		return S_OK;
 	}
