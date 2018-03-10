@@ -37,6 +37,7 @@ HRESULT GameScene2::Init()
 		}
 	}
 
+	// 흑돌부터 시작이라 현재 오목 상태 흑돌로 변경
 	currentGomoku = GOMOKU_BLACK;
 
 	isOver = false;
@@ -57,6 +58,7 @@ void GameScene2::Release()
 void GameScene2::Update()
 {
 	if (INPUT->GetKeyDown(VK_LBUTTON)) {
+		// 종료 버튼 클릭시 씬 끄기
 		if (PtInRect(&rcGomokuExit, g_ptMouse)) {
 			SCENE->ChangeScene("None");
 			return;
@@ -69,15 +71,18 @@ void GameScene2::Update()
 
 		for (int i = 0; i < 19; i++) {
 			for (int j = 0; j < 19; j++) {
+				// 오목의 빈 위치에 마우스 클릭시
 				if (PtInRect(&gomoku[i][j].rc, g_ptMouse) &&
 					gomoku[i][j].status == GOMOKU_EMPTY) {
+					// 현재 차례의 오목 클릭
 					gomoku[i][j].status = currentGomoku;
+					// 오목 두고 난후 현재 오목 상태 변경
 					if (currentGomoku == GOMOKU_BLACK)
 						currentGomoku = GOMOKU_WHITE;
 					else if (currentGomoku == GOMOKU_WHITE)
 						currentGomoku = GOMOKU_BLACK;
 
-					// check
+					//오목 두고 난후 승리 체크
 					CheckGomoku(i,j, gomoku[i][j].status);
 				}
 			}
@@ -97,6 +102,7 @@ void GameScene2::Render()
 
 	map->Render(GetMemDC(), WINSIZEX/2 - 50, 100);
 
+	// 상태에 따라 오목 그리기
 	for (int i = 0; i < 19; i++) {
 		for (int j = 0; j < 19; j++) {
 			switch (gomoku[i][j].status)
@@ -114,8 +120,8 @@ void GameScene2::Render()
 	}
 
 	// test
-	/*black->Render(GetMemDC());
-	white->Render(GetMemDC(),25, 0);*/
+	//black->Render(GetMemDC());
+	//white->Render(GetMemDC(),25, 0);
 
 	HFONT hFont = CreateFont(50, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
 		VARIABLE_PITCH | FF_ROMAN, TEXT("궁서"));
@@ -160,6 +166,7 @@ void GameScene2::Render()
 	//=================================================
 }
 
+// 오목 상태 체크
 void GameScene2::CheckGomoku(int row, int col, GomokuSTATUS current)
 {
 	// 시작점
@@ -175,8 +182,10 @@ void GameScene2::CheckGomoku(int row, int col, GomokuSTATUS current)
 	// 가로 시작 위치 찾기
 	while (gomoku[x - 1][y].status == current && x > 0) x--;
 
+	// 가로 시작 위치부터 해당 돌과 같은 오목 갯수 세기
 	while (gomoku[x++][y].status == current && x <= 18) count++;
 
+	// 오목이면 해당 차례의 돌의 승리로 게임 종료
 	if (count == 5)
 		GameOver(current);
 
@@ -188,6 +197,7 @@ void GameScene2::CheckGomoku(int row, int col, GomokuSTATUS current)
 	// 세로 시작 위치 찾기
 	while (gomoku[x][y - 1].status == current && y > 0) y--;
 
+	// 세로 시작 위치부터 해당 돌과 같은 오목 갯수 세기
 	while (gomoku[x][y++].status == current && y <= 18) count++;
 
 	if (count == 5)
@@ -205,7 +215,8 @@ void GameScene2::CheckGomoku(int row, int col, GomokuSTATUS current)
 		y--;
 	}
 
-	while (gomoku[x++][y++].status == current 
+	// 대각선 시작 위치부터 해당 돌과 같은 오목 갯수 세기
+	while (gomoku[x++][y++].status == current
 		&& x <= 18 && y <= 18) count++;
 
 	if (count == 5)
@@ -223,6 +234,7 @@ void GameScene2::CheckGomoku(int row, int col, GomokuSTATUS current)
 		y++;
 	}
 
+	// 역대각선 시작 위치부터 해당 돌과 같은 오목 갯수 세기
 	while (gomoku[x++][y--].status == current
 		&& x <= 18 && y >= 0) count++;
 

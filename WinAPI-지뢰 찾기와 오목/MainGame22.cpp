@@ -22,6 +22,7 @@ HRESULT MainGame22::Init()
 	SCENE->AddScene("Gomoku", new GameScene2);
 	SCENE->AddScene("None", new NoneScene);
 
+	// ¾À Áö¿ì±â À§ÇØ ¸¸µç ºó ¾À
 	SCENE->ChangeScene("None");
 	//SCENE->ChangeScene("Gomoku");
 
@@ -56,6 +57,7 @@ void MainGame22::Update()
 	SCENE->Update();
 
 	if (INPUT->GetKeyDown(VK_LBUTTON)) {
+		// ÇØ´ç ¾ÆÀÌÄÜ Å¬¸¯¾¾ ¾À º¯È­
 		if (PtInRect(&rcMineStart, g_ptMouse)) {
 			SCENE->ChangeScene("Minesweeper");
 		}

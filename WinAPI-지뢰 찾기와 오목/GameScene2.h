@@ -24,7 +24,9 @@ private:
 	Image* black;
 	Image* white;
 
+	// 현재 오목을 둘 플레이어 선택을 위한 변수
 	GomokuSTATUS currentGomoku;
+	// 오목 승자 선택을 위한 변수
 	GomokuSTATUS winner;
 
 	tagGomokuInfo gomoku[19][19];

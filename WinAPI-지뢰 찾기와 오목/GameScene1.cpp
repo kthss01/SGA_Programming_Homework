@@ -23,7 +23,9 @@ HRESULT GameScene1::Init()
 		number[i]->Init("images/minesweeper/number.bmp", 350, 55, 10, 1, true);
 	}
 
+	// 전광판에 숫자를 넣기 위한 함수
 	ChangeNumber(true, MINECOUNT);
+	// 깃발 갯수를 샐 수 있는 변수
 	flagCount = 0;
 	ChangeNumber(false, MINECOUNT - flagCount);
 
@@ -152,21 +154,25 @@ void GameScene1::Update()
 {
 	// 마우스 클릭 시
 	if (INPUT->GetKeyDown(VK_LBUTTON)) {
+		// 종료 창 누르면 씬 끄기
 		if (PtInRect(&rcMineExit, g_ptMouse)) {
 			SCENE->ChangeScene("None");
 			return;
 		}
 
+		// 재시작 버튼 누를시 새로 시작
 		if (PtInRect(&rcMineRestart, g_ptMouse)) {
 			this->Init();
 			return;
 		}
 
+		// 지뢰 찾기
 		for (int i = 0; i < ROW; i++)
 		{
 			for (int j = 0; j < COL; j++) {
 				if (PtInRect(&mineInfo[i][j].rc, g_ptMouse)
 					&& mineInfo[i][j].isFlag == false) {
+					// 지뢰 찾을 때마다 결과 애니메이션 변화
 					result->SetFrameX(1);
 					if (mineInfo[i][j].isMine) {
 						mineInfo[i][j].status = STATUS_BOOM;
@@ -181,14 +187,17 @@ void GameScene1::Update()
 
 	if (isOver || isClear) return;
 
+	// 마우스 때면 원상태로 애니메이션 변화
 	if (INPUT->GetKeyUp(VK_LBUTTON)) {
 		result->SetFrameX(0);
 	}
 
+	// 깃발 꼽기
 	if (INPUT->GetKeyDown(VK_RBUTTON)) {
 		for (int i = 0; i < ROW; i++) {
 			for (int j = 0; j < COL; j++) {
 				if (PtInRect(&mineInfo[i][j].rc, g_ptMouse)) {
+					// 클릭되지 않은 상태고 깃발 갯수 초과되지 않으면 깃발꼽기
 					if (mineInfo[i][j].status == STATUS_NCB
 						&& flagCount < MINECOUNT) {
 						mineInfo[i][j].isFlag = true;
@@ -207,6 +216,8 @@ void GameScene1::Update()
 		}
 	}
 
+	// 게임 클리어를 위한 체크
+	// 클릭되지 않은 타일이 없으면 클리어
 	isClear = true;
 	for (int i = 0; i < ROW; i++) {
 		for (int j = 0; j < COL; j++) {
@@ -279,10 +290,13 @@ void GameScene1::Render()
 	}
 
 	// 지뢰 그리기
+
+	// test
 	//for (int i = 0; i < 9; i++) {
 	//	mine[i]->Render(GetMemDC(), 200, 200 + 50*i);
 	//}
 
+	// 상태에 따라 지뢰 그리기
 	for (int i = 0; i < ROW; i++) {
 		for (int j = 0; j < COL; j++) {
 			mine[mineInfo[i][j].status]->Render(GetMemDC(),
@@ -315,8 +329,11 @@ void GameScene1::Render()
 void GameScene1::ChangeNumber(bool mine, int number)
 {
 	if (mine) {
+		// 백의 자리
 		this->number[0]->SetFrameX(number / 100);
+		// 십의 자리
 		this->number[1]->SetFrameX(number / 10 % 10);
+		// 일의 자리
 		this->number[2]->SetFrameX(number % 10);
 	}
 	else {
@@ -342,6 +359,7 @@ void GameScene1::MineCheck()
 {
 	for (int i = 0; i < ROW; i++) {
 		for (int j = 0; j < COL; j++) {
+			// 해당 타일이 지뢰면 무시
 			if (mineInfo[i][j].isMine) continue;
 			// 주변의 위치에 마인 있으면 주변 마인 갯수 1 증가
 			// 위
@@ -364,6 +382,7 @@ void GameScene1::GameOver()
 {
 	result->SetFrameX(2);
 
+	// 클릭되지 않은 지뢰 다 보여주기
 	for (int i = 0; i < ROW; i++) {
 		for (int j = 0; j < COL; j++) {
 			if (mineInfo[i][j].isMine && mineInfo[i][j].status == STATUS_NCB)
@@ -383,13 +402,16 @@ void GameScene1::GameClear()
 	isClear = true;
 }
 
+// 재귀함수로 지뢰 찾기
 void GameScene1::FindMine(int row, int col)
 {
+	// 해당 위치가 지뢰이거나 클릭되지 않은 타일이 아니면 리턴(반환)
 	if (mineInfo[row][col].isMine ||
 		mineInfo[row][col].status != STATUS_NCB) {
 		return;
 	}
 	else {
+		// 주변 지뢰 갯수에 따라 타일 변경 (타일의 상태 변경)
 		switch (mineInfo[row][col].nearMineCount)
 		{
 		case 0:
@@ -410,9 +432,13 @@ void GameScene1::FindMine(int row, int col)
 		}
 	}
 
+	// 왼쪽으로 재귀 호출
 	if (row > 0) FindMine(row - 1, col);
+	// 오른쪽으로 재귀 호출
 	if (row < ROW - 1) FindMine(row + 1, col);
+	// 위쪽으로 재귀 호출
 	if (col > 0) FindMine(row, col - 1);
+	// 아래쪽으로 재귀 호출
 	if (col < COL - 1) FindMine(row, col + 1);
 }
 
