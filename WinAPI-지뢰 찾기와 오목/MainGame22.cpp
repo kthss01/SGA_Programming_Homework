@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MainGame22.h"
 #include "GameScene1.h"
+#include "GameScene2.h"
 #include "NoneScene.h"
 
 MainGame22::MainGame22()
@@ -18,9 +19,11 @@ HRESULT MainGame22::Init()
 	isDebug = false;
 
 	SCENE->AddScene("Minesweeper", new GameScene1);
+	SCENE->AddScene("Gomoku", new GameScene2);
 	SCENE->AddScene("None", new NoneScene);
 
 	SCENE->ChangeScene("None");
+	//SCENE->ChangeScene("Gomoku");
 
 	bg = new Image;
 	bg->Init("images/bg.bmp", WINSIZEX, WINSIZEY);
@@ -28,9 +31,11 @@ HRESULT MainGame22::Init()
 	icon1 = new Image;
 	icon1->Init("images/icon1.bmp", 70, 65, true, RGB(0, 128, 128));
 
-	rcMineStart = RectMake(143, 120, 73, 65 + 20);
+	icon2 = new Image;
+	icon2->Init("images/icon2.bmp", 70, 65, true, RGB(0, 128, 128));
 
-	isGame = NULL;
+	rcMineStart = RectMake(143, 120, 73, 65 + 20);
+	rcGomokuStart = RectMake(140, 240, 70, 65 + 30);
 
 	return S_OK;
 }
@@ -40,6 +45,8 @@ void MainGame22::Release()
 	GameNode::Release();
 	SCENE->Release();
 	SAFE_DELETE(bg);
+	SAFE_DELETE(icon1);
+	SAFE_DELETE(icon2);
 }
 
 void MainGame22::Update()
@@ -49,14 +56,14 @@ void MainGame22::Update()
 	SCENE->Update();
 
 	if (INPUT->GetKeyDown(VK_LBUTTON)) {
-		if (PtInRect(&rcMineStart, g_ptMouse) && isGame == false) {
+		if (PtInRect(&rcMineStart, g_ptMouse)) {
 			SCENE->ChangeScene("Minesweeper");
-			isGame = true;
+		}
+
+		if (PtInRect(&rcGomokuStart, g_ptMouse)) {
+			SCENE->ChangeScene("Gomoku");
 		}
 	}
-
-	if (SCENE->GetCurrentSceneName() == "None")
-		isGame = false;
 
 	//====================== Debug =====================//
 	if (INPUT->GetKeyDown(VK_F11)) {
@@ -73,6 +80,7 @@ void MainGame22::Render()
 		bg->Render(GetMemDC());
 
 		icon1->Render(GetMemDC(), 145, 120);
+		icon2->Render(GetMemDC(), 140, 240);
 
 		// 투명한 배경색상 문자 출력후에도 배경 안바뀜
 		SetBkMode(GetMemDC(), TRANSPARENT);
@@ -86,11 +94,13 @@ void MainGame22::Render()
 		sprintf_s(str, "지뢰찾기");
 		TextOut(GetMemDC(), 143, 120 + icon1->GetHeight(), str, strlen(str));
 
+		sprintf_s(str, "오목");
+		TextOut(GetMemDC(), 158, 249 + icon2->GetHeight(), str, strlen(str));
+
 		SelectObject(GetMemDC(), OldFont);
 		DeleteObject(hFont);
 
-		if(isGame)
-			SCENE->Render();
+		SCENE->Render();
 	}
 	//==================   Debug   ====================
 	if (isDebug)
@@ -99,6 +109,7 @@ void MainGame22::Render()
 		TextOut(GetMemDC(), 10, 10, str, strlen(str));
 
 		RectangleMake(GetMemDC(), rcMineStart);
+		RectangleMake(GetMemDC(), rcGomokuStart);
 		
 	}
 	//=================================================

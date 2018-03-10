@@ -17,7 +17,6 @@ private:
 private:
 	static GameNode* _currentScene; // ÇöÀç ÇÃ·¹ÀÌ ¾À
 	mSceneList _mSceneList; // ¾À ¸ñ·Ï
-	string _currentSceneName;
 public:
 	SceneManager();
 	~SceneManager();
@@ -29,8 +28,6 @@ public:
 
 	GameNode* AddScene(string sceneName, GameNode* scene);
 	HRESULT ChangeScene(string sceneName);
-
-	string GetCurrentSceneName() { return  _currentSceneName; }
 };
 
 #define SCENE SceneManager::GetSingleton()

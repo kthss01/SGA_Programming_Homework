@@ -7,10 +7,10 @@ class MainGame22 : public GameNode
 private:
 	Image * bg;
 	Image * icon1;
+	Image * icon2;
 
 	RECT rcMineStart;
-	
-	bool isGame;
+	RECT rcGomokuStart;
 
 	bool isDebug;
 	char str[128];

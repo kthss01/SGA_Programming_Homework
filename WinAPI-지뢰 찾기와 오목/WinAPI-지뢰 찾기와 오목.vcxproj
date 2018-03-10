@@ -150,6 +150,7 @@
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="GameScene1.h" />
+    <ClInclude Include="GameScene2.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainGame22.h" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GameScene1.cpp" />
+    <ClCompile Include="GameScene2.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="MainGame22.cpp" />

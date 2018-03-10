@@ -78,6 +78,9 @@
     <ClInclude Include="NoneScene.h">
       <Filter>GameMain</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene2.h">
+      <Filter>GameMain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -108,6 +111,9 @@
       <Filter>GameMain</Filter>
     </ClCompile>
     <ClCompile Include="NoneScene.cpp">
+      <Filter>GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene2.cpp">
       <Filter>GameMain</Filter>
     </ClCompile>
   </ItemGroup>
