@@ -41,28 +41,27 @@ HRESULT GameScene1::Init()
 	result->Init("images/minesweeper/result.bmp", 200, 68, 4, 1, true);
 
 	// 마인 이미지 읽기
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 13; i++) {
 		mine[i] = new Image;
 		// 숫자
-		if (i < 4) {
+		if (i < 8) {
 			sprintf_s(str, "images/minesweeper/%d.bmp", i + 1);
 		}
 		else {
 			switch (i) {
-			// boom
-			case 4:
+			case 8:
 				sprintf_s(str, "images/minesweeper/boom.bmp");
 				break;
-			case 5:
+			case 9:
 				sprintf_s(str, "images/minesweeper/empty.bmp");
 				break;
-			case 6:
+			case 10:
 				sprintf_s(str, "images/minesweeper/flag.bmp");
 				break;
-			case 7:
+			case 11:
 				sprintf_s(str, "images/minesweeper/mine.bmp");
 				break;
-			case 8:
+			case 12:
 				sprintf_s(str, "images/minesweeper/ncb.bmp");
 				break;
 			}
@@ -144,7 +143,7 @@ void GameScene1::Release()
 	SAFE_DELETE(board);
 	for (int i = 0; i < 6; i++)
 		SAFE_DELETE(number[i]);
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 13; i++)
 		SAFE_DELETE(mine[i]);
 	SAFE_DELETE(result);
 	SAFE_DELETE(menu);
@@ -322,6 +321,10 @@ void GameScene1::Render()
 
 		RectangleMake(GetMemDC(), rcMineExit);
 		RectangleMake(GetMemDC(), rcMineRestart);
+
+		// test
+		/*for (int i = 0; i < 13; i++)
+			mine[i]->Render(GetMemDC(), i*sizeX, 0);*/
 	}
 	//=================================================
 }
@@ -373,6 +376,18 @@ void GameScene1::MineCheck()
 				mineInfo[i][j].nearMineCount++;
 			// 오른
 			if (j < COL - 1 && mineInfo[i][j + 1].isMine) 
+				mineInfo[i][j].nearMineCount++;
+			// 왼 위
+			if (j > 0 && i > 0 && mineInfo[i - 1][j - 1].isMine)
+				mineInfo[i][j].nearMineCount++;
+			// 왼 아래
+			if (j > 0 && i < ROW - 1 && mineInfo[i + 1][j - 1].isMine)
+				mineInfo[i][j].nearMineCount++;
+			// 오른 위
+			if (i > 0 && j < COL - 1 && mineInfo[i - 1][j + 1].isMine)
+				mineInfo[i][j].nearMineCount++;
+			// 오른 아래
+			if (i < ROW - 1 && j < COL - 1 && mineInfo[i + 1][j + 1].isMine)
 				mineInfo[i][j].nearMineCount++;
 		}
 	}
@@ -429,16 +444,36 @@ void GameScene1::FindMine(int row, int col)
 		case 4:
 			mineInfo[row][col].status = STATUS_FOUR;
 			break;
+		case 5:
+			mineInfo[row][col].status = STATUS_FIVE;
+			break;
+		case 6:
+			mineInfo[row][col].status = STATUS_SIX;
+			break;
+		case 7:
+			mineInfo[row][col].status = STATUS_SEVEN;
+			break;
+		case 8:
+			mineInfo[row][col].status = STATUS_EIGHT;
+			break;
 		}
 	}
 
 	// 왼쪽으로 재귀 호출
-	if (row > 0) FindMine(row - 1, col);
-	// 오른쪽으로 재귀 호출
-	if (row < ROW - 1) FindMine(row + 1, col);
-	// 위쪽으로 재귀 호출
 	if (col > 0) FindMine(row, col - 1);
-	// 아래쪽으로 재귀 호출
+	// 오른쪽으로 재귀 호출
 	if (col < COL - 1) FindMine(row, col + 1);
+	// 위쪽으로 재귀 호출
+	if (row > 0) FindMine(row - 1, col);
+	// 아래쪽으로 재귀 호출
+	if (row < ROW - 1) FindMine(row + 1, col);
+	// 왼 위쪽으로 재귀 호출
+	if (row > 0 && col > 0) FindMine(row - 1, col - 1);
+	// 왼 아래쪽으로 재귀 호출
+	if (row < ROW - 1 && col > 0) FindMine(row + 1, col - 1);
+	// 오른 위쪽으로 재귀 호출
+	if (row > 0 && col < COL -1) FindMine(row - 1, col + 1);
+	// 오른 아래쪽으로 재귀 호출
+	if (row < ROW -1 && col < COL - 1) FindMine(row + 1, col + 1);
 }
 

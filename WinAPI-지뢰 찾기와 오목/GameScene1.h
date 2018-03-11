@@ -7,6 +7,10 @@ enum MineStatus {
 	STATUS_TWO,
 	STATUS_THREE,
 	STATUS_FOUR,
+	STATUS_FIVE,
+	STATUS_SIX,
+	STATUS_SEVEN,
+	STATUS_EIGHT,
 	STATUS_BOOM,
 	STATUS_EMPTY,
 	STATUS_FLAG,
@@ -46,7 +50,7 @@ private:
 	Image * board;
 	Image * number[6];
 
-	Image * mine[9];
+	Image * mine[13];
 	Image * result;
 
 	Image* menu;
