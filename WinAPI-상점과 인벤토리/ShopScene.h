@@ -45,17 +45,24 @@ private:
 	Image * menu;
 	Image * inventory;
 
-	Shop3 shop;
+	RECT shopRc;
+	RECT invenRc;
 	RECT shopperBox;
+	
+	Shop3 shop;
 	tagShopInfo shopInfo[ITEMCOUNT];
 	Inventory2 inven;
 	tagInvenInfo invenInfo[ITEMCOUNT];
 
 	tagPlayer playerInfo;
+	tagItemInfo currentItem;
 
 	char str[128];
 	RECT temp;
 	float moveFrame;
+
+	bool isDrag;
+	bool isBuy;
 
 	bool isDebug;
 	bool showInven;

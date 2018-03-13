@@ -16,6 +16,8 @@ HRESULT ShopScene::Init()
 	isDebug = false;
 	showInven = false;
 	showShop = false;
+	isDrag = false;
+	isBuy = false;
 
 	bg = new Image;
 	bg->Init("images/shop.bmp", WINSIZEX, WINSIZEY);
@@ -69,6 +71,9 @@ HRESULT ShopScene::Init()
 	playerInfo.y = 258;
 	playerInfo.gold = 10000;
 
+	shopRc = RectMake(50, 100, 400, 500);
+	invenRc = RectMake(
+		WINSIZEX - inventory->GetWidth() - 50, 100, 400, 500);
 	shopperBox = RectMake(480, 265, 50, 50);
 
 	return S_OK;
@@ -114,7 +119,38 @@ void ShopScene::Update()
 		showShop = true;
 	}
 
-	if (INPUT->GetKeyDown(VK_LBUTTON) && showShop == true) {
+	// 마우스 버튼 클릭으로 판매 구매
+	//if (INPUT->GetKeyDown(VK_LBUTTON) && showShop == true) {
+	//	for (int i = 0; i < ITEMCOUNT; i++) {
+	//		if (i == ITEMCOUNT - 1 &&
+	//			PtInRect(&shopInfo[i].shopBox, g_ptMouse)) {
+	//			showInven = false;
+	//			showShop = false;
+	//		}
+	//		else if (PtInRect(&shopInfo[i].shopBox, g_ptMouse)) {
+	//			if (shopInfo[i].item.itemKind == ITEM_EMPTY) continue;
+	//			if(shopInfo[i].item.count > 0 && 
+	//				shopInfo[i].item.price <= playerInfo.gold)
+	//				inven.AddItem(shop.BuyItem(i, playerInfo.gold));
+	//			UpdateItem();
+	//		}
+	//	}
+	//}
+
+	//if (INPUT->GetKeyDown(VK_RBUTTON) 
+	//	&& showInven == true && showShop == true) {
+	//	for (int i = 0; i < ITEMCOUNT; i++) {
+	//		if (PtInRect(&invenInfo[i].invenBox, g_ptMouse)) {
+	//			if (invenInfo[i].item.itemKind == ITEM_EMPTY) continue;
+	//			shop.AddItem(inven.SellItem(i, playerInfo.gold));
+	//			UpdateItem();
+	//		}
+	//	}
+	//}
+
+	// 마우스 드래그로 구매 및 판매
+	if (INPUT->GetKeyDown(VK_LBUTTON) && showShop) {
+		// 구매 스타트
 		for (int i = 0; i < ITEMCOUNT; i++) {
 			if (i == ITEMCOUNT - 1 &&
 				PtInRect(&shopInfo[i].shopBox, g_ptMouse)) {
@@ -123,24 +159,50 @@ void ShopScene::Update()
 			}
 			else if (PtInRect(&shopInfo[i].shopBox, g_ptMouse)) {
 				if (shopInfo[i].item.itemKind == ITEM_EMPTY) continue;
-				if(shopInfo[i].item.count > 0 && 
-					shopInfo[i].item.price <= playerInfo.gold)
-					inven.AddItem(shop.BuyItem(i, playerInfo.gold));
-				UpdateItem();
+				isDrag = true;
+				isBuy = true;
+				currentItem = shopInfo[i].item;
+				currentItem.count = 1;
 			}
-
 		}
-	}
 
-	if (INPUT->GetKeyDown(VK_RBUTTON) 
-		&& showInven == true && showShop == true) {
+		// 판매 스타트
 		for (int i = 0; i < ITEMCOUNT; i++) {
 			if (PtInRect(&invenInfo[i].invenBox, g_ptMouse)) {
 				if (invenInfo[i].item.itemKind == ITEM_EMPTY) continue;
-				inven.SellItem(i, playerInfo.gold);
+				isDrag = true;
+				isBuy = false;
+				currentItem = invenInfo[i].item;
+			}
+		}
+	}
+	
+	if (INPUT->GetKeyUp(VK_LBUTTON) && showShop) {
+		// 구매 끝
+		if (isBuy && PtInRect(&invenRc, g_ptMouse)) {
+			if (currentItem.count > 0
+				&& playerInfo.gold >= currentItem.price) {
+				inven.AddItem(currentItem);
+				for (int i = 0; i < ITEMCOUNT; i++) {
+					if (currentItem.name.compare(shopInfo[i].item.name) == 0) {
+						shop.BuyItem(i, playerInfo.gold);
+						break;
+					}
+				}
 				UpdateItem();
 			}
 		}
+		// 판매 끝
+		else if (!isBuy && PtInRect(&shopRc, g_ptMouse)) {
+			for (int i = 0; i < ITEMCOUNT; i++) {
+				if (currentItem.name.compare(invenInfo[i].item.name) == 0) {
+					shop.AddItem(inven.SellItem(i, playerInfo.gold));
+					break;
+				}
+			}
+			UpdateItem();
+		}
+		isDrag = false;
 	}
 
 	if (INPUT->GetKeyDown(VK_TAB)) {
@@ -173,8 +235,8 @@ void ShopScene::Render()
 		menu->AlphaRender(GetMemDC(), 50, 100, 225);
 		sprintf_s(str, "상점");
 		TextOut(GetMemDC(), 120, 110, str, strlen(str));
-		sprintf_s(str, "구매/판매 마우스 L/R버튼");
-		TextOut(GetMemDC(), 200, 110, str, strlen(str));
+		/*sprintf_s(str, "구매/판매 마우스 L/R버튼");
+		TextOut(GetMemDC(), 200, 110, str, strlen(str));*/
 		for (int i = 0; i < ITEMCOUNT; i++) {
 			if (shopInfo[i].item.itemKind == ITEM_EMPTY) continue;
 			switch (shopInfo[i].item.itemKind)
@@ -251,12 +313,36 @@ void ShopScene::Render()
 		}
 	}
 
+	if (isDrag) {
+		switch (currentItem.itemKind)
+		{
+		case ITEM_MONSTERBALL:
+			ball->FrameRender(GetMemDC(), g_ptMouse.x, g_ptMouse.y);
+			break;
+		case ITEM_POTION:
+			potion->FrameRender(GetMemDC(), g_ptMouse.x, g_ptMouse.y);
+			break;
+		case ITEM_ANTIDOTE:
+		case ITEM_PARLYZEHEAL:
+		case ITEM_BURNHEAL:
+		case ITEM_ICEHEAL:
+		case ITEM_AWAKENING:
+		case ITEM_FULLHEAL:
+			potion2->FrameRender(GetMemDC(), g_ptMouse.x, g_ptMouse.y,
+				currentItem.itemKind - 3, 0);
+			break;
+		}
+	}
+
 	if (isDebug) {
 		for (int i = 0; i < ITEMCOUNT; i++) {
 			RectangleMake(GetMemDC(), shopInfo[i].shopBox);
 			RectangleMake(GetMemDC(), invenInfo[i].invenBox);
 		}
 		RectangleMake(GetMemDC(), shopperBox);
+
+		RectangleMake(GetMemDC(), shopRc);
+		RectangleMake(GetMemDC(), invenRc);
 	}
 }
 
