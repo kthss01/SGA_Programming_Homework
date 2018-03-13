@@ -76,6 +76,9 @@ HRESULT ShopScene::Init()
 		WINSIZEX - inventory->GetWidth() - 50, 100, 400, 500);
 	shopperBox = RectMake(480, 265, 50, 50);
 
+	width = 10;
+	height = 10;
+
 	return S_OK;
 }
 
@@ -213,6 +216,7 @@ void ShopScene::Update()
 void ShopScene::Render()
 {
 	bg->Render(GetMemDC());
+	//bg->Render(GetMemDC(), 0, 0, 0, 0, width, height);
 	//bgPixel->Render(GetMemDC());
 	//player->Render(GetMemDC());
 	player->FrameRender(GetMemDC(), playerInfo.x, playerInfo.y);

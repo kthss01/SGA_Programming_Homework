@@ -1,8 +1,9 @@
 #pragma once
 
 #include "GameNode.h"
-#include "Shop3.h"
-#include "Inventory2.h"
+#include "Shop4.h"
+#include "Inventory3.h"
+#include "Player3.h"
 #include "Item.h"
 
 #define ITEMCOUNT 10
@@ -31,27 +32,31 @@ struct tagInvenInfo {
 	float x, y;
 };
 
-class ShopScene : public GameNode
+class ShopScene2 : public GameNode
 {
 private:
 	Image * bg;
 	Image * bgPixel;
-	Image * player;
-	
+	Image * character;
+
 	Image * ball;
 	Image * potion;
 	Image * potion2;
+	Image * booster;
 
 	Image * menu;
 	Image * inventory;
+	Image * status;
 
 	RECT shopRc;
 	RECT invenRc;
 	RECT shopperBox;
-	
-	Shop3 shop;
+	RECT statusBox;
+
+	Shop4 shop;
 	tagShopInfo shopInfo[ITEMCOUNT];
-	Inventory2 inven;
+	//Inventory3 inven;
+	Player3 player;
 	tagInvenInfo invenInfo[ITEMCOUNT];
 
 	tagPlayer playerInfo;
@@ -67,12 +72,16 @@ private:
 	bool isDebug;
 	bool showInven;
 	bool showShop;
+	bool showStatus;
 
 	int width;
 	int height;
+
+	HFONT hFont;
+	HFONT oldFont;
 public:
-	ShopScene();
-	~ShopScene();
+	ShopScene2();
+	~ShopScene2();
 
 	virtual HRESULT Init() override;
 	virtual void Release() override;

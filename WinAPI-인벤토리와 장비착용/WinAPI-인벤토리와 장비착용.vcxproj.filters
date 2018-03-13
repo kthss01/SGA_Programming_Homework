@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{75e980a6-20b4-4907-b8ca-400c8c718db8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork">
+      <UniqueIdentifier>{da107d9e-46d5-4c53-8271-0258a376cb8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameMain">
+      <UniqueIdentifier>{69e7d065-fcc4-4aa3-8253-122cd3f1e1bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Util">
+      <UniqueIdentifier>{402b1198-3b84-4fc3-b917-003e86ba20aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Image">
+      <UniqueIdentifier>{f9f735e9-f4cf-4191-9407-e3a9366511f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Manager">
+      <UniqueIdentifier>{7cbcd193-6d0e-4c03-868d-f150bdc1acde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShopScene">
+      <UniqueIdentifier>{106d229c-43f8-4684-ace4-83d71fdb8e62}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI-인벤토리와 장비착용.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMacroFunction.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomFunction.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="SingletonBase.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>GameFrameWork\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
+      <Filter>GameFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame24.h">
+      <Filter>GameMain</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>ShopScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Shop4.h">
+      <Filter>ShopScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory3.h">
+      <Filter>ShopScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>ShopScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player3.h">
+      <Filter>ShopScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopScene2.h">
+      <Filter>GameMain</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI-인벤토리와 장비착용.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>GameFrameWork\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameNode.cpp">
+      <Filter>GameFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame24.cpp">
+      <Filter>GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop4.cpp">
+      <Filter>ShopScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory3.cpp">
+      <Filter>ShopScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player3.cpp">
+      <Filter>ShopScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopScene2.cpp">
+      <Filter>GameMain</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinAPI-인벤토리와 장비착용.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="WinAPI-인벤토리와 장비착용.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
