@@ -83,6 +83,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-계단 오르기(픽
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-지뢰 찾기와 오목", "WinAPI-지뢰 찾기와 오목\WinAPI-지뢰 찾기와 오목.vcxproj", "{747BC022-E4FF-4199-BE0C-2A62A43505DD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-상점과 인벤토리", "WinAPI-상점과 인벤토리\WinAPI-상점과 인벤토리.vcxproj", "{CF770EF4-1D4C-45FB-A365-D816B85CE01C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -411,6 +413,14 @@ Global
 		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Release|x64.Build.0 = Release|x64
 		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Release|x86.ActiveCfg = Release|Win32
 		{747BC022-E4FF-4199-BE0C-2A62A43505DD}.Release|x86.Build.0 = Release|Win32
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Debug|x64.ActiveCfg = Debug|x64
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Debug|x64.Build.0 = Debug|x64
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Debug|x86.ActiveCfg = Debug|Win32
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Debug|x86.Build.0 = Debug|Win32
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Release|x64.ActiveCfg = Release|x64
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Release|x64.Build.0 = Release|x64
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Release|x86.ActiveCfg = Release|Win32
+		{CF770EF4-1D4C-45FB-A365-D816B85CE01C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
