@@ -331,7 +331,13 @@ void ShopScene::UpdateItem()
 		shopInfo[i].item = shop.GetItem(i);
 	}
 
-	for (int i = 0; i < inven.GetItemCount(); i++) {
-		invenInfo[i].item = inven.GetItem(i);
+	for (int i = 0; i < ITEMCOUNT; i++) {
+		if (i < inven.GetItemCount()) {
+			invenInfo[i].item = inven.GetItem(i);
+		}
+		else {
+			invenInfo[i].item.itemKind = ITEM_EMPTY;
+		}
 	}
+	
 }
