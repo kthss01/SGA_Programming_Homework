@@ -7,6 +7,8 @@ class MainGame : public GameNode
 private:
 	bool isDebug;
 
+	bool isStart;
+
 	float offsetY;
 public:
 	MainGame();
