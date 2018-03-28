@@ -33,10 +33,26 @@ void EnemyManager::Release()
 
 void EnemyManager::Update()
 {
-	for (int i = 0; i < _vAlien.size(); i++) {
-		_vAlien[i]->Update();
+	//for (int i = 0; i < _vAlien.size(); i++) {
+	//	_vAlien[i]->Update();
+	//}
+
+	for (_viAlien = _vAlien.begin(); _viAlien != _vAlien.end();) {
+		(*_viAlien)->Update();
+
+		if (_rocket->GetMissile()->CheckCollision((*_viAlien)->GetRect())) {
+			_viAlien = _vAlien.erase(_viAlien);
+		}
+		else
+			++_viAlien;
 	}
+
 	_bullet->Update();
+	if (_bullet->CheckCollision(_rocket->GetRect())) {
+		_rocket->SetHp(_rocket->GetHp() - 1);
+		if (_rocket->GetHp() <= 0)
+			_rocket->SetHp(0);
+	}
 	this->AlienBulletFire();
 	this->AlienMove();
 

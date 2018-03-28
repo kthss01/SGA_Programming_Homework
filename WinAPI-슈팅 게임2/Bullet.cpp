@@ -90,6 +90,28 @@ void Bullet::Animation()
 	}
 }
 
+bool Bullet::CheckCollision(RECT rc)
+{
+	RECT temp;
+
+	//for (int i = 0; i < _vBullet.size(); i++) {
+	//	if (IntersectRect(&temp, &_vBullet[i].rc, &rc)) {
+	//		return true;
+	//	}
+	//}
+
+	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end();) {
+		if (IntersectRect(&temp, &(*_viBullet).rc, &rc)) {
+			_viBullet = _vBullet.erase(_viBullet);
+			return true;
+		}
+		else
+			++_viBullet;
+	}
+
+	return false;
+}
+
 /******************************************************/
 
 HRESULT Missile::Init(int bulletMax, float range)
@@ -180,4 +202,20 @@ void Missile::Bomb()
 
 		_viBullet->fire = false;
 	}
+}
+
+bool Missile::CheckCollision(RECT rc)
+{
+	RECT temp;
+
+	for (int i = 0; i < _vBullet.size(); i++) {
+		if (!_vBullet[i].fire) continue;
+
+		if (IntersectRect(&temp, &_vBullet[i].rc, &rc)) {
+			_vBullet[i].fire = false;
+			return true;
+		}
+	}
+
+	return false;
 }

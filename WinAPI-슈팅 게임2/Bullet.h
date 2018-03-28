@@ -36,6 +36,8 @@ public:
 	void Fire(float x, float  y, float angle, float speed);
 	void Move();
 	void Animation();
+
+	bool CheckCollision(RECT rc);
 };
 
 class Missile : public GameNode
@@ -56,4 +58,6 @@ public:
 	void Fire(float x, float  y);
 	void Move();
 	void Bomb();
+
+	bool CheckCollision(RECT rc);
 };

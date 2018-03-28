@@ -26,6 +26,9 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage(
 		"rocket", "images/rocket.bmp", WINSIZEX / 2, WINSIZEY - 200,
 		52, 64, true, RGB(255, 0, 255));
+	IMAGE->AddImage(
+		"shadow", "images/shadow.bmp", WINSIZEX / 2, WINSIZEY - 200,
+		52, 64, true, RGB(255, 0, 255));
 
 	IMAGE->AddImage("bullet", "images/bullet_blue_10x1.bmp", 0, 0,
 		25 * 10, 25, 10, 1, true, RGB(255, 0, 255));
@@ -65,10 +68,11 @@ void MainGame::Update()
 {
 	GameNode::Update();
 
-	SCENE->Update();
-
 	if(isStart)
 		_em->Update();
+
+	SCENE->Update();
+
 
 	if (INPUT->GetKeyDown(VK_RETURN) && !isStart) {
 		isStart = true;
