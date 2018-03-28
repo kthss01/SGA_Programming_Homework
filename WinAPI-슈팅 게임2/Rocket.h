@@ -38,7 +38,7 @@ public:
 	RECT GetRect() {
 		return RectMake(
 			m_player->GetX(), m_player->GetY(),
-			m_player->GetWidth(), m_player->GetY());
+			m_player->GetWidth(), m_player->GetHeight());
 	}
 
 	float GetHp() { return m_hp; }
