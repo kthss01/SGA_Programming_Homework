@@ -14,15 +14,21 @@ Enemy::~Enemy()
 
 HRESULT Enemy::Init(int enemyMax)
 {
+	_enemyImage = new Image;
+	_enemyImage->Init("images/alien_idle_16x1.bmp",
+		50 * 16, 50, 16, 1, true, RGB(255, 0, 255));
+
 	for (int i = 0; i < enemyMax; i++) {
 		tagEnemy enemy;
 		ZeroMemory(&enemy, sizeof(tagEnemy));
-		enemy.enemyImage = new Image;
-		enemy.enemyImage
-			->Init("images/alien_idle_16x1.bmp",
-				50 * 16, 50, 16, 1, true, RGB(255, 0, 255));
-		enemy.width = enemy.enemyImage->GetFrameWidth();
-		enemy.height = enemy.enemyImage->GetFrameHeight();
+		//enemy.enemyImage = new Image;
+		//enemy.enemyImage
+		//	->Init("images/alien_idle_16x1.bmp",
+		//		50 * 16, 50, 16, 1, true, RGB(255, 0, 255));
+		//enemy.width = enemy.enemyImage->GetFrameWidth();
+		//enemy.height = enemy.enemyImage->GetFrameHeight();
+		enemy.width = _enemyImage->GetFrameWidth();
+		enemy.height = _enemyImage->GetFrameHeight();
 		enemy.speed = 2.5f;
 		//enemy.moveFrame = 0;
 		enemy.moveFrame = RND->GetFromInto(0,16);
@@ -46,9 +52,10 @@ HRESULT Enemy::Init(int enemyMax)
 
 void Enemy::Release()
 {
-	for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy) {
-		SAFE_DELETE(_viEnemy->enemyImage);
-	}
+	//for (_viEnemy = _vEnemy.begin(); _viEnemy != _vEnemy.end(); ++_viEnemy) {
+	//	SAFE_DELETE(_viEnemy->enemyImage);
+	//}
+	SAFE_DELETE(_enemyImage);
 	SAFE_DELETE(_bullet);
 }
 
@@ -67,7 +74,7 @@ void Enemy::Render()
 {
 	_bullet->Render();
 	for (tagEnemy enemy : _vEnemy) {
-		enemy.enemyImage->FrameRender(GetMemDC(), enemy.rc.left, enemy.rc.top,
+		_enemyImage->FrameRender(GetMemDC(), enemy.rc.left, enemy.rc.top,
 			(int)enemy.moveFrame, 0);
 	}
 }

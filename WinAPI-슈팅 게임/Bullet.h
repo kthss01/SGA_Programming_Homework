@@ -3,7 +3,6 @@
 #include "GameNode.h"
 
 struct tagBullet {
-	Image* bulletImage;
 	RECT rc;
 	float x, y;
 	float fireX, fireY;
@@ -20,6 +19,8 @@ class Bullet : public GameNode
 private:
 	vector<tagBullet> _vBullet;
 	vector<tagBullet>::iterator _viBullet;
+
+	Image* bulletImage;
 public:
 	Bullet();
 	~Bullet();
@@ -38,6 +39,8 @@ class Missile : public GameNode
 private:
 	vector<tagBullet> _vBullet;
 	vector<tagBullet>::iterator _viBullet;
+
+	Image* _bulletImage;
 
 	float _range;
 public:

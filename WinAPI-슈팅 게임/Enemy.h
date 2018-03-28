@@ -4,7 +4,6 @@
 #include "Bullet.h"
 
 struct tagEnemy {
-	Image * enemyImage;
 	RECT rc;
 	float x, y;
 	float width, height;
@@ -18,6 +17,8 @@ class Enemy : public GameNode
 private:
 	vector<tagEnemy> _vEnemy;
 	vector<tagEnemy>::iterator _viEnemy;
+
+	Image * _enemyImage;
 
 	Bullet * _bullet;
 

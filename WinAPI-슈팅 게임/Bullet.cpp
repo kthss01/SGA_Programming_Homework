@@ -13,14 +13,19 @@ Bullet::~Bullet()
 
 HRESULT Bullet::Init(int bulletMax)
 {
+	bulletImage = new Image;
+	bulletImage
+		->Init("images/bullet_blue_10x1.bmp", 25 * 10, 
+			25, 10, 1, true, RGB(255, 0, 255));
+
 	for (int i = 0; i < bulletMax; i++) {
 		tagBullet bullet;
 
 		ZeroMemory(&bullet, sizeof(tagBullet));
-		bullet.bulletImage = new Image;
-		bullet.bulletImage
-			->Init("images/bullet_blue_10x1.bmp", 25 * 10, 
-				25, 10, 1, true, RGB(255, 0, 255));
+		//bullet.bulletImage = new Image;
+		//bullet.bulletImage
+		//	->Init("images/bullet_blue_10x1.bmp", 25 * 10, 
+		//		25, 10, 1, true, RGB(255, 0, 255));
 		bullet.speed = 2.5f;
 		bullet.fire = false;
 
@@ -32,10 +37,11 @@ HRESULT Bullet::Init(int bulletMax)
 
 void Bullet::Release()
 {
-	for (_viBullet = _vBullet.begin();
-		_viBullet != _vBullet.end(); ++_viBullet) {
-		SAFE_DELETE(_viBullet->bulletImage);
-	}
+	//for (_viBullet = _vBullet.begin();
+	//	_viBullet != _vBullet.end(); ++_viBullet) {
+	//	SAFE_DELETE(_viBullet->bulletImage);
+	//}
+	SAFE_DELETE(bulletImage);
 }
 
 void Bullet::Update()
@@ -55,7 +61,7 @@ void Bullet::Render()
 	for (tagBullet iter : _vBullet) {
 		if (!iter.fire) continue;
 
-		iter.bulletImage->FrameRender(GetMemDC(), iter.rc.left, iter.rc.top,
+		bulletImage->FrameRender(GetMemDC(), iter.rc.left, iter.rc.top,
 			(int)iter.moveFrame, 0);
 	}
 }
@@ -75,8 +81,8 @@ void Bullet::Fire(float x, float y, float destX, float destY)
 		_viBullet->rc = RectMakeCenter(
 			_viBullet->x,
 			_viBullet->y,
-			_viBullet->bulletImage->GetFrameWidth(),
-			_viBullet->bulletImage->GetFrameHeight());
+			bulletImage->GetFrameWidth(),
+			bulletImage->GetFrameHeight());
 		break;
 	}
 }
@@ -94,8 +100,8 @@ void Bullet::Move()
 		_viBullet->rc = RectMakeCenter(
 			_viBullet->x,
 			_viBullet->y,
-			_viBullet->bulletImage->GetFrameWidth(),
-			_viBullet->bulletImage->GetFrameHeight());
+			bulletImage->GetFrameWidth(),
+			bulletImage->GetFrameHeight());
 
 		if (_viBullet->rc.top >= WINSIZEY)
 			_viBullet->fire = false;
@@ -108,14 +114,16 @@ HRESULT Missile::Init(int bulletMax, float range)
 {
 	_range = range;
 
+	_bulletImage = new Image;
+	_bulletImage
+		->Init("images/missile.bmp", 26, 124,
+			true, RGB(255, 0, 255));
+
 	for (int i = 0; i < bulletMax; i++) {
 		tagBullet bullet;
 
 		ZeroMemory(&bullet, sizeof(tagBullet));
-		bullet.bulletImage = new Image;
-		bullet.bulletImage
-			->Init("images/missile.bmp", 26, 124,
-				true, RGB(255, 0, 255));
+
 		bullet.speed = 2.5f;
 		bullet.fire = false;
 		bullet.moveFrame = 0;
@@ -128,10 +136,11 @@ HRESULT Missile::Init(int bulletMax, float range)
 
 void Missile::Release()
 {
-	for (_viBullet = _vBullet.begin();
-		_viBullet != _vBullet.end(); ++_viBullet) {
-		SAFE_DELETE(_viBullet->bulletImage);
-	}
+	//for (_viBullet = _vBullet.begin();
+	//	_viBullet != _vBullet.end(); ++_viBullet) {
+	//	SAFE_DELETE(_viBullet->bulletImage);
+	//}
+	SAFE_DELETE(_bulletImage);
 }
 
 void Missile::Update()
@@ -144,7 +153,7 @@ void Missile::Render()
 	for (tagBullet iter : _vBullet) {
 		if (!iter.fire) continue;
 
-		iter.bulletImage->Render(GetMemDC(), iter.rc.left, iter.rc.top);
+		_bulletImage->Render(GetMemDC(), iter.rc.left, iter.rc.top);
 	}
 }
 
@@ -161,8 +170,8 @@ void Missile::Fire(float x, float y)
 		_viBullet->rc = RectMakeCenter(
 			_viBullet->x,
 			_viBullet->y,
-			_viBullet->bulletImage->GetWidth(),
-			_viBullet->bulletImage->GetHeight());
+			_bulletImage->GetWidth(),
+			_bulletImage->GetHeight());
 		break;
 	}
 }
@@ -179,8 +188,8 @@ void Missile::Move()
 		_viBullet->rc = RectMakeCenter(
 			_viBullet->x,
 			_viBullet->y,
-			_viBullet->bulletImage->GetWidth(),
-			_viBullet->bulletImage->GetHeight());
+			_bulletImage->GetWidth(),
+			_bulletImage->GetHeight());
 
 		if (_range < GetDistance(
 			_viBullet->fireX, _viBullet->fireY,
