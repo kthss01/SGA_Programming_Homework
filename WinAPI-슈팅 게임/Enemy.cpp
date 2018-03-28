@@ -33,8 +33,8 @@ HRESULT Enemy::Init(int enemyMax)
 		//enemy.moveFrame = 0;
 		enemy.moveFrame = RND->GetFromInto(0,16);
 
-		enemy.x = 50 * (i % 8) + 350;
-		enemy.y = 50 * (i / 8) + 150;
+		enemy.x = 60 * (i % 8) + 350;
+		enemy.y = 60 * (i / 8) + 150;
 		enemy.rc = RectMakeCenter(enemy.x, enemy.y, enemy.width, enemy.height);
 
 		_vEnemy.push_back(enemy);
