@@ -6,7 +6,7 @@
 
 #include "ProgressBar.h"
 
-#define LOADMAX 500
+#define LOADMAX 100
 
 class MainGame : public GameNode
 {

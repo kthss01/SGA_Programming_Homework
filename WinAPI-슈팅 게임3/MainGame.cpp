@@ -33,8 +33,11 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage("bullet", "images/bullet_blue_10x1.bmp", 0, 0,
 		25 * 10, 25, 10, 1, true, RGB(255, 0, 255));
 
-	IMAGE->AddImage("alien", "images/alien_idle_16x1.bmp", 0, 0,
+	IMAGE->AddImage("alien_idle", "images/alien_idle_16x1.bmp", 0, 0,
 		50 * 16, 50, 16, 1, true, RGB(255, 0, 255));
+
+	IMAGE->AddImage("alien_died", "images/alien_died_21x1.bmp", 0, 0,
+		50 * 21, 50, 21, 1, true, RGB(255, 0, 255));
 
 	IMAGE->AddImage("missile", "images/missile.bmp",
 		0, 0, 416, 64, 13, 1, true, RGB(255, 0, 255));

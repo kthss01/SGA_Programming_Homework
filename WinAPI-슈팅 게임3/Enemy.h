@@ -31,7 +31,9 @@ private:
 	int _rndFireCount;
 
 	POINT _initPos;
-	bool _isLive;
+protected:
+	bool _isLived;
+	bool _isDied;
 public:
 	Enemy();
 	~Enemy();
@@ -53,4 +55,13 @@ public:
 	void SetPosition(POINT pos);
 
 	RECT GetRect() { return _rc; }
+	POINT GetPos() { return _pos; }
+
+	void SetInitPos(POINT pos) { _initPos = pos; }
+	POINT GetInitPos() { return _initPos; }
+
+	void SetLived(bool isLived) { _isLived = isLived; }
+	bool GetLived() { return _isLived; }
+
+	bool GetDied() { return _isDied; }
 };

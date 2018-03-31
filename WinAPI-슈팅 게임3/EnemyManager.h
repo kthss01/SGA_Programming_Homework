@@ -26,8 +26,11 @@ private:
 	bool _isLeft;
 	bool _isDown;
 	bool _isInit;
+	bool _isFirst;
 
 	int _delay;
+
+	bool _cheat;
 public:
 	EnemyManager();
 	~EnemyManager();

@@ -28,7 +28,7 @@ HRESULT Boss::Init(const char * imageName, POINT position)
 	_images[BOSS_DEPLOY] = IMAGE->FindImage("boss_deploy");
 	_images[BOSS_FIRE] = IMAGE->FindImage("boss_fire");
 
-	_isHatch = true;
+	_isHatch = false;
 	_isHatchClose = false;
 	_isDeploy = false;
 	_isFire = false;
@@ -42,6 +42,7 @@ HRESULT Boss::Init(const char * imageName, POINT position)
 
 void Boss::Release()
 {
+	Enemy::Release();
 }
 
 void Boss::Update()

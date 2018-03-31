@@ -35,9 +35,11 @@ HRESULT Enemy::Init(const char * imageName, POINT position)
 	_currentFrameY = 0;
 
 	_initPos = position;
-	_isLive = true;
 
-	_speed = 2.5f;
+	_speed = 1.5f;
+
+	_isLived = true;
+	_isDied = false;
 
 	return S_OK;
 }
