@@ -105,6 +105,9 @@
     <ClInclude Include="Alien.h">
       <Filter>GameMain\ShootingGame\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>GameMain\ShootingGame\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -150,6 +153,9 @@
       <Filter>GameMain\ShootingGame\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Alien.cpp">
+      <Filter>GameMain\ShootingGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
       <Filter>GameMain\ShootingGame\Enemy</Filter>
     </ClCompile>
   </ItemGroup>

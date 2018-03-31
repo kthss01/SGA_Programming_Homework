@@ -15,7 +15,8 @@ HRESULT EnemyManager::Init()
 	_bullet = new Bullet;
 	_bullet->Init((char*)"bullet", 100, 1000);
 
-	this->SetAlien();
+	//this->SetAlien();
+	this->SetBoss();
 
 	_isLeft = true;
 	_isDown = false;
@@ -28,6 +29,10 @@ void EnemyManager::Release()
 {
 	for (int i = 0; i < _vAlien.size(); i++) {
 		SAFE_DELETE(_vAlien[i]);
+	}
+
+	for (int i = 0; i < _vBoss.size(); i++) {
+		SAFE_DELETE(_vBoss[i]);
 	}
 }
 
@@ -47,7 +52,18 @@ void EnemyManager::Update()
 			++_viAlien;
 	}
 
+	for (_viBoss = _vBoss.begin(); _viBoss != _vBoss.end();) {
+		(*_viBoss)->Update();
+
+		if (_rocket->GetMissile()->CheckCollision((*_viBoss)->GetRect())) {
+			_viBoss = _vBoss.erase(_viBoss);
+		}
+		else
+			++_viBoss;
+	}
+
 	_bullet->Update();
+	// 플레이어 총알 피격
 	if (_bullet->CheckCollision(_rocket->GetRect())) {
 		_rocket->SetHp(_rocket->GetHp() - 1);
 		if (_rocket->GetHp() <= 0)
@@ -63,6 +79,11 @@ void EnemyManager::Render()
 	for (int i = 0; i < _vAlien.size(); i++) {
 		_vAlien[i]->Render();
 	}
+
+	for (int i = 0; i < _vBoss.size(); i++) {
+		_vBoss[i]->Render();
+	}
+
 	_bullet->Render();
 }
 
@@ -165,4 +186,22 @@ void EnemyManager::AlienMove()
 				PointMake(100 + (i % 8) * 60, 100 + (i / 8) * 60));
 		}
 	}
+}
+
+void EnemyManager::SetBoss()
+{
+	Enemy* boss;
+	boss = new Boss;
+	boss->Init("boss_idle", PointMake(
+		WINSIZEX / 2, WINSIZEY / 2 - 200));
+	_vBoss.push_back(boss);
+
+}
+
+void EnemyManager::BossBulletFire()
+{
+}
+
+void EnemyManager::BossMove()
+{
 }

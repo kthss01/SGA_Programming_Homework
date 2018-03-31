@@ -4,6 +4,7 @@
 #include "Bullet.h"
 
 #include "Alien.h"
+#include "Boss.h"
 #include "Rocket.h"
 
 class EnemyManager : public GameNode
@@ -15,6 +16,10 @@ private:
 	vEnemy _vAlien;
 	viEnemy _viAlien;
 	Bullet* _bullet;
+
+	vEnemy _vBoss;
+	viEnemy _viBoss;
+	Bullet* _bossBullet;
 
 	Rocket* _rocket;
 
@@ -36,6 +41,10 @@ public:
 	void SetAlien();
 	void AlienBulletFire();
 	void AlienMove();
+
+	void SetBoss();
+	void BossBulletFire();
+	void BossMove();
 
 	void SetRocket(Rocket* rocket) { _rocket = rocket; }
 };

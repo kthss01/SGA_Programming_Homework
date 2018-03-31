@@ -39,6 +39,27 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage("missile", "images/missile.bmp",
 		0, 0, 416, 64, 13, 1, true, RGB(255, 0, 255));
 
+	int temp = 100;
+
+	// boss
+	IMAGE->AddImage("boss_deploy", "images/boss/boss_deploy_15x1.bmp", 0, 0,
+		temp / 4 * 15, 50, 15, 1, true, RGB(255, 0, 255));
+
+	IMAGE->AddImage("boss_fire", "images/boss/boss_fire_18x1.bmp", 0, 0,
+		temp * 2.5 * 18, 100, 18, 1, true, RGB(255, 0, 255));
+
+	IMAGE->AddImage("boss_enemy", "images/boss/boss_enemy_9x1.bmp", 0, 0,
+		60 * 9, 50, 9, 1, true, RGB(255, 0, 255));
+	
+	IMAGE->AddImage("boss_hatch", "images/boss/boss_hatch_18x1.bmp", 0, 0,
+		temp * 18, 25, 18, 1, true, RGB(255, 0, 255));
+
+	IMAGE->AddImage("boss_idle", "images/boss/boss_idle_24x1.bmp", 0, 0,
+	300 * 24, 250, 24, 1, true, RGB(255, 0, 255));
+
+	IMAGE->AddImage("gameover", "images/gameover.bmp", 0, 0,
+		WINSIZEX, WINSIZEY, false, RGB(255, 0, 255));
+
 	_em = new EnemyManager;
 	_em->Init();
 
