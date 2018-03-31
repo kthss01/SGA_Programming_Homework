@@ -43,6 +43,9 @@
     <Filter Include="GameMain\ShootingGame\Enemy">
       <UniqueIdentifier>{f4a62a5f-d885-43a6-83c5-d2dc6835ad74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameMain\Bar">
+      <UniqueIdentifier>{f0fe4fea-4040-44c1-8460-399ebbf83dd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -108,6 +111,9 @@
     <ClInclude Include="Boss.h">
       <Filter>GameMain\ShootingGame\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="ProgressBar.h">
+      <Filter>GameMain\Bar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -157,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>GameMain\ShootingGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBar.cpp">
+      <Filter>GameMain\Bar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

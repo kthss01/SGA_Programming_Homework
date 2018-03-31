@@ -65,6 +65,12 @@ HRESULT MainGame::Init()
 
 	_em->SetRocket((Rocket*)SCENE->AddScene("Rocket", new Rocket));
 
+	_loading = new ProgressBar;
+	_loading->Init((char*)"images/bar_front.bmp", (char*)"images/bar_back.bmp", 
+		WINSIZEX / 2 - 350, WINSIZEY - 100, 700, 50);
+
+	loadCount = 0;
+
 	//SCENE->ChangeScene("Rocket");
 
 	//SCENE->AddScene("Test", new TestScene);
@@ -74,6 +80,7 @@ HRESULT MainGame::Init()
 	offsetY = 0;
 
 	isStart = false;
+	isLoad = false;
 
 	return S_OK;
 }
@@ -96,9 +103,24 @@ void MainGame::Update()
 
 
 	if (INPUT->GetKeyDown(VK_RETURN) && !isStart) {
-		isStart = true;
-		SCENE->ChangeScene("Rocket");
+		//isStart = true;
+		//SCENE->ChangeScene("Rocket");
+		isLoad = true;
 	}
+
+	if (isLoad) {
+		loadCount++;
+
+		_loading->SetGauge(loadCount, LOADMAX);
+		_loading->Update();
+
+		if (loadCount == LOADMAX) {
+			isLoad = false;
+			isStart = true;
+			SCENE->ChangeScene("Rocket");
+		}
+	}
+
 
 	if (isStart) {
 		offsetY--;
@@ -122,6 +144,10 @@ void MainGame::Render()
 		}
 		else
 			IMAGE->FindImage("intro")->Render(GetMemDC());
+
+		if (isLoad) {
+			_loading->Render();
+		}
 
 		SCENE->Render();
 

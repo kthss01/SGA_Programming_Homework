@@ -4,14 +4,23 @@
 #include "Rocket.h"
 #include "EnemyManager.h"
 
+#include "ProgressBar.h"
+
+#define LOADMAX 500
+
 class MainGame : public GameNode
 {
 private:
 	bool isDebug;
 	bool isStart;
+	bool isLoad;
 
 	EnemyManager * _em;
 	Rocket * _rocket;
+
+	ProgressBar * _loading;
+
+	int loadCount;
 
 	float offsetY;
 public:
