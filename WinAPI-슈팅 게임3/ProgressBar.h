@@ -20,6 +20,8 @@ public:
 
 	HRESULT Init(char* frontImage, char* backImage,
 		float x, float y, float width, float height);
+	HRESULT Init(Image* front, Image* back,
+		float x, float y, float width, float height);
 	void Release();
 	void Update();
 	void Render();

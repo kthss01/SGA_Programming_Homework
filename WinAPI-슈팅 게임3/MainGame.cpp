@@ -66,7 +66,14 @@ HRESULT MainGame::Init()
 	_em->SetRocket((Rocket*)SCENE->AddScene("Rocket", new Rocket));
 
 	_loading = new ProgressBar;
-	_loading->Init((char*)"images/bar_front.bmp", (char*)"images/bar_back.bmp", 
+	//_loading->Init((char*)"images/bar_front.bmp", (char*)"images/bar_back.bmp", 
+	//	WINSIZEX / 2 - 350, WINSIZEY - 100, 700, 50);
+
+	_loading->Init(
+		IMAGE->AddImage(
+			"loading_front", "images/bar_front.bmp", 0, 0, 700, 50, true, RGB(255,0,255)),
+		IMAGE->AddImage(
+			"loading_back", "images/bar_back.bmp", 0, 0, 700, 50, true, RGB(255,0,255)),
 		WINSIZEX / 2 - 350, WINSIZEY - 100, 700, 50);
 
 	loadCount = 0;

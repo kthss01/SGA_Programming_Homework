@@ -31,10 +31,26 @@ HRESULT ProgressBar::Init(char * frontImage, char * backImage, float x, float y,
 	return S_OK;
 }
 
+HRESULT ProgressBar::Init(Image * front, Image * back, float x, float y, float width, float height)
+{
+	_x = x;
+	_y = y;
+
+	_rcProgressBar = RectMake(x, y, width, height);
+
+	_progressbarFront = front;
+
+	_progressbarBack = back;
+
+	_width = _progressbarFront->GetWidth();
+
+	return S_OK;
+}
+
 void ProgressBar::Release()
 {
-	SAFE_DELETE(_progressbarFront);
-	SAFE_DELETE(_progressbarBack);
+	//SAFE_DELETE(_progressbarFront);
+	//SAFE_DELETE(_progressbarBack);
 }
 
 void ProgressBar::Update()
