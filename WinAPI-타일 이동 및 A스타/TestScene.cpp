@@ -63,14 +63,9 @@ void TestScene::Update()
 			if (PtInRect(&m_tile[i].rc, g_ptMouse)) {
 				m_tile[i].dest = true;
 				m_player.isMove = true;
-				//m_player.destX = m_tile[i].x;
-				//m_player.destY = m_tile[i].y;
-				//m_player.angle = GetAngle(
-				//	m_player.x, m_player.y, m_player.destX, m_player.destY);
-				AStarPathFinding(m_tile[i]);
-				
-				//tagTile temp = pathQueue.front();
-				//pathQueue.pop();
+			
+				AStarPathFinding(m_tile[i]);	
+	
 				tagTile temp = pathStack.top();
 				pathStack.pop();
 
@@ -130,12 +125,28 @@ void TestScene::Render()
 		RectangleMake(GetMemDC(), m_player.rc);
 		DeleteObject(brush);
 
-		while (lineStack.size() > 1) {
-			tagTile t1 = lineStack.top();
+		// 길 그리기 (한 선으로 안그려짐)
+		//while (lineStack.size() > 1) {
+		//	tagTile t1 = lineStack.top();
+		//	lineStack.pop();
+		//	tagTile t2 = lineStack.top();
+		//	lineStack.pop();
+		//	LineMake(GetMemDC(), PointMake(t1.x, t1.y), PointMake(t2.x, t2.y));
+		//}
+
+		// 길 그리기 한 선으로
+		if (lineStack.size() > 1) {
+			tagTile start = lineStack.top();
 			lineStack.pop();
-			tagTile t2 = lineStack.top();
-			lineStack.pop();
-			LineMake(GetMemDC(), PointMake(t1.x, t1.y), PointMake(t2.x, t2.y));
+
+			MoveToEx(GetMemDC(), start.x, start.y, NULL);
+
+			while (!lineStack.empty()) {
+				tagTile temp = lineStack.top();
+				lineStack.pop();
+
+				LineTo(GetMemDC(), temp.x, temp.y);
+			}
 		}
 
 		sprintf_s(str, "<path>");
