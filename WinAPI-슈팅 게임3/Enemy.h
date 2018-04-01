@@ -4,7 +4,7 @@
 
 // 에너미 부모 클래스
 
-#define FIRECOUNT 1000
+#define FIRECOUNT 300
 
 enum Direction {
 	DIRECTION_LEFT,
@@ -48,7 +48,7 @@ public:
 	virtual void Draw();
 	virtual void Animation();
 
-	bool BulletCountFire();
+	virtual bool BulletCountFire();
 
 	bool CheckCollision(Direction dir);
 
@@ -65,4 +65,7 @@ public:
 
 	void SetDied(bool isDied) { _isDied = isDied; }
 	bool GetDied() { return _isDied; }
+
+	void SetSpeed(float speed) { _speed = speed; }
+	float GetSpeed() { return _speed; }
 };

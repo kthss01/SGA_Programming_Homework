@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Boss.h"
 
+#include "EnemyManager.h"
 
 Boss::Boss()
 {
@@ -35,16 +36,20 @@ HRESULT Boss::Init(const char * imageName, POINT position)
 	_isDeployClose = false;
 	_isEnemy = false;
 
+	//currentParts = BOSS_DEPLOY;
 	currentParts = BOSS_ENEMY;
 
 	_hpBar = new ProgressBar;
-	_hp = _maxHp = 500;
+	_hp = _maxHp = 1000;
 	_hpBar->Init(
 		IMAGE->AddImage(
 			"hp_front", "images/bar_front.bmp", 0, 0, 700, 50, true, RGB(255, 0, 255)),
 		IMAGE->AddImage(
 			"hp_back", "images/bar_back.bmp", 0, 0, 700, 50, true, RGB(255, 0, 255)),
-		WINSIZEX / 2 - 350, WINSIZEY - 100, 700, 50);
+		WINSIZEX / 2 - 350, 25, 700, 50);
+
+	_count = 0;
+	_fireCount = 0;
 
 	return S_OK;
 }
@@ -58,15 +63,17 @@ void Boss::Update()
 {
 	Animation();
 
-	if (INPUT->GetKeyDown('T'))
-		_isHatch = true;
+	//if (INPUT->GetKeyDown('T'))
+	//	_isHatch = true;
 
-	if (INPUT->GetKeyDown('C')) {
-		if (currentParts == BOSS_ENEMY)
-			currentParts = BOSS_DEPLOY;
-		else if (currentParts == BOSS_DEPLOY)
-			currentParts = BOSS_ENEMY;
-	}
+	//if (INPUT->GetKeyDown('C')) {
+	//	if (currentParts == BOSS_ENEMY)
+	//		currentParts = BOSS_DEPLOY;
+	//	else if (currentParts == BOSS_DEPLOY)
+	//		currentParts = BOSS_ENEMY;
+	//}
+
+	ChoicePattern();
 
 	CheckDamaged();
 
@@ -76,8 +83,8 @@ void Boss::Update()
 
 void Boss::Render()
 {
-	Draw();
 	_hpBar->Render();
+	Draw();
 }
 
 void Boss::Move(Direction dir)
@@ -203,6 +210,11 @@ void Boss::Animation()
 			_currentFrameXs[BOSS_HATCH] == 8) {
 			_isHatchClose = false;
 			_isHatch = false;
+
+			if (currentParts == BOSS_ENEMY)
+				currentParts = BOSS_DEPLOY;
+			else if (currentParts == BOSS_DEPLOY)
+				currentParts = BOSS_ENEMY;
 		}
 	}
 
@@ -250,6 +262,8 @@ void Boss::Animation()
 			_isEnemy = false;
 			_isHatchClose = true;
 			_currentFrameXs[BOSS_ENEMY] = 0;
+
+			_em->AddAlien();
 		}
 	}
 }
@@ -264,4 +278,25 @@ void Boss::CheckDamaged()
 			SetDied(true);
 		}
 	}
+}
+
+void Boss::ChoicePattern()
+{
+	_count++;
+
+	if (_count % 400 == 0) {
+		_isHatch = true;
+	}
+}
+
+bool Boss::BulletCountFire()
+{
+	_fireCount++;
+	if (_fireCount % 10 == 0 &&
+		_isFire) {
+		_fireCount = 0;
+		return true;
+	}
+
+	return false;
 }

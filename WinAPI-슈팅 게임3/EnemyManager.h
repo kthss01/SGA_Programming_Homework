@@ -30,6 +30,9 @@ private:
 	bool _isInit;
 	bool _isFirst;
 
+	bool _isBossFirst;
+	bool _isBossLeft;
+
 	int _delay;
 
 	bool _cheat;
@@ -46,6 +49,7 @@ public:
 
 	// 동적할당 후 
 	void SetAlien();
+	void AddAlien();
 	void AlienBulletFire();
 	void AlienMove();
 

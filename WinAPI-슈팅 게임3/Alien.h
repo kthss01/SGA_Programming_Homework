@@ -10,7 +10,6 @@ private:
 	int _frameCount;
 	int _currentFrameX2;
 
-
 public:
 	Alien();
 	~Alien();

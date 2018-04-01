@@ -11,6 +11,8 @@ enum BOSS_PARTS {
 	BOSS_END
 };
 
+class EnemyManager;
+
 class Boss : public Enemy
 {
 private:
@@ -28,9 +30,14 @@ private:
 
 	BOSS_PARTS currentParts;
 
+	int _count;
+	int _fireCount;
+
 	int _hp;
 	int _maxHp;
 	ProgressBar * _hpBar;
+
+	EnemyManager * _em;
 public:
 	Boss();
 	~Boss();
@@ -45,5 +52,10 @@ public:
 	void Animation() override;
 
 	void CheckDamaged();
+	void ChoicePattern();
+
+	bool BulletCountFire() override;
+
+	void SetEnemyManager(EnemyManager * em) { _em = em; }
 };
 

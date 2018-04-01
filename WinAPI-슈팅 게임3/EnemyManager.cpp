@@ -17,13 +17,19 @@ HRESULT EnemyManager::Init()
 	_bullet = new Bullet;
 	_bullet->Init((char*)"bullet", 100, 1000);
 
-	//this->SetAlien();
-	this->SetBoss();
+	_bossBullet = new Bullet;
+	_bossBullet->Init((char*)"bullet", 300, 1000);
+
+	this->SetAlien();
+	//this->SetBoss();
 
 	_isLeft = false;
 	_isDown = false;
 	_isInit = false;
 	_isFirst = true;
+
+	_isBossFirst = true;
+	_isBossLeft = false;
 
 	_cheat = true;
 
@@ -61,7 +67,7 @@ void EnemyManager::Update()
 
 		if ((*_viAlien)->GetDied()) {
 			_viAlien = _vAlien.erase(_viAlien);
-			if (_vAlien.size() == 0)
+			if (_vAlien.size() == 0 && _isBossFirst)
 				SetBoss();
 		}
 		else
@@ -96,6 +102,7 @@ void EnemyManager::Update()
 	}
 
 	_bullet->Update();
+	_bossBullet->Update();
 	// 플레이어 총알 피격
 	if (_bullet->CheckCollision(_rocket->GetRect())
 		&& !_cheat) {
@@ -103,9 +110,19 @@ void EnemyManager::Update()
 		if (_rocket->GetHp() <= 0)
 			_rocket->SetHp(0);
 	}
+	if (_bossBullet->CheckCollision(_rocket->GetRect())
+		&& !_cheat) {
+		_rocket->SetHp(_rocket->GetHp() - 1);
+		if (_rocket->GetHp() <= 0)
+			_rocket->SetHp(0);
+	}
 
-	if(!_isFirst)
+	if (!_isFirst) {
 		this->AlienBulletFire();
+	}
+	if (!_isBossFirst) {
+		BossBulletFire();
+	}
 	this->AlienMove();
 	this->BossMove();
 
@@ -113,15 +130,16 @@ void EnemyManager::Update()
 
 void EnemyManager::Render()
 {
-	for (int i = 0; i < _vAlien.size(); i++) {
-		_vAlien[i]->Render();
-	}
-
 	for (int i = 0; i < _vBoss.size(); i++) {
 		_vBoss[i]->Render();
 	}
 
+	for (int i = 0; i < _vAlien.size(); i++) {
+		_vAlien[i]->Render();
+	}
+
 	_bullet->Render();
+	_bossBullet->Render();
 
 	if (_cheat) {
 		SetBkMode(GetMemDC(), TRANSPARENT);
@@ -155,6 +173,33 @@ void EnemyManager::SetAlien()
 			100 + (i % 8) * 60, 100 + (i / 8) * 60));
 		_vAlien.push_back(alien);
 	}
+}
+
+void EnemyManager::AddAlien()
+{
+	//_viBoss = _vBoss.begin();
+	//for (; _viBoss != _vBoss.end(); ++_viBoss) {
+	//	Enemy* alien;
+	//	alien = new Alien;
+	//	alien->Init("alien_idle", 
+	//		PointMake((*_viBoss)->GetPos().x, (*_viBoss)->GetPos().y + 50));
+	//	alien->SetInitPos(
+	//		PointMake((*_viBoss)->GetPos().x, (*_viBoss)->GetPos().y + 50));
+	//	_vAlien.push_back(alien);
+	//}
+
+	Enemy* alien;
+	alien = new Alien;
+	alien->Init("alien_idle",
+		PointMake(
+		(*_viBoss)->GetPos().x + RND->GetFromInto(-150, 150), 
+			(*_viBoss)->GetPos().y + 150));
+	alien->SetSpeed(alien->GetSpeed() + RND->GetFromInto(-1, 2));
+	alien->SetInitPos(
+		PointMake(
+		(*_viBoss)->GetPos().x + RND->GetFromInto(-150, 150), 
+			(*_viBoss)->GetPos().y + 150));
+	_vAlien.push_back(alien);
 }
 
 void EnemyManager::AlienBulletFire()
@@ -256,28 +301,37 @@ void EnemyManager::AlienMove()
 		//	}
 		//}
 		for (int i = 0; i < _vAlien.size(); i++) {
-
-			_vAlien[i]->SetPosition(
-				PointMake(100 + (i % 8) * 60, 100 + (i / 8) * 60));
+			_vAlien[i]->SetPosition(_vAlien[i]->GetInitPos());
 		}
 	}
 }
 
 void EnemyManager::SetBoss()
 {
-	Enemy* boss;
+	Boss* boss;
 	boss = new Boss;
 	boss->Init("boss_idle", PointMake(
-		WINSIZEX / 2, WINSIZEY / 2 - 200 - 500));
+		WINSIZEX / 2, WINSIZEY / 2 - 150 - 500));
 	boss->SetInitPos(PointMake(
-		WINSIZEX / 2, WINSIZEY / 2 - 200));
+		WINSIZEX / 2, WINSIZEY / 2 - 150));
+	boss->SetEnemyManager(this);
 	_vBoss.push_back(boss);
-	_isFirst = true;
-
+	//_isFirst = true;
 }
 
 void EnemyManager::BossBulletFire()
 {
+	_viBoss = _vBoss.begin();
+	for (; _viBoss != _vBoss.end(); ++_viBoss) {
+		if ((*_viBoss)->BulletCountFire()) {
+			RECT rc = (*_viBoss)->GetRect();
+			for (int i = 0; i < 16; i++) {
+				_bossBullet->Fire(
+					rc.left + (rc.right - rc.left) / 2,
+					rc.bottom + 30, (-15 - (10 * i)) * PI/180, 2.0f);
+			}
+		}
+	}
 }
 
 void EnemyManager::BossMove()
@@ -285,7 +339,7 @@ void EnemyManager::BossMove()
 	if (_vBoss.size() == 0) return;
 
 	// 처음 위치까지는 계속 아래로 이동
-	if (_isFirst) {
+	if (_isBossFirst) {
 
 		for (int i = 0; i < _vBoss.size(); i++) {
 			//if ((_vBoss[i]->GetPos().x != _vInitPos[i].x) ||
@@ -300,27 +354,27 @@ void EnemyManager::BossMove()
 		// 가장 마지막에 내려오는 에너미가 처음 위치에 도착하면 처음 위치로 이동 끝
 		if (GetDistance(_vBoss[0]->GetPos().x, _vBoss[0]->GetPos().y,
 			_vBoss[0]->GetInitPos().x, _vBoss[0]->GetInitPos().y) <= 10) {
-			_isFirst = false;
-			_isLeft = false;
+			_isBossFirst = false;
+			_isBossLeft = false;
 		}
 	}
 
-	if (!_isFirst) {
-		if (_isLeft && !_isDown) {
+	if (!_isBossFirst) {
+		if (_isBossLeft) {
 			for (int i = 0; i < _vBoss.size(); i++) {
 				_vBoss[i]->Move(DIRECTION_LEFT);
 
 				if (_vBoss[i]->CheckCollision(DIRECTION_LEFT)) {
-					_isLeft = false;
+					_isBossLeft = false;
 				}
 			}
 		}
-		else if (!_isLeft) {
+		else if (!_isBossLeft) {
 			for (int i = 0; i < _vBoss.size(); i++) {
 				_vBoss[i]->Move(DIRECTION_RIGHT);
 
 				if (_vBoss[i]->CheckCollision(DIRECTION_RIGHT)) {
-					_isLeft = true;
+					_isBossLeft = true;
 				}
 			}
 		}
