@@ -7,6 +7,8 @@
 #include "Boss.h"
 #include "Rocket.h"
 
+class ResultScene;
+
 class EnemyManager : public GameNode
 {
 private:
@@ -31,6 +33,8 @@ private:
 	int _delay;
 
 	bool _cheat;
+
+	ResultScene * _resultScene;
 public:
 	EnemyManager();
 	~EnemyManager();
@@ -50,4 +54,5 @@ public:
 	void BossMove();
 
 	void SetRocket(Rocket* rocket) { _rocket = rocket; }
+	void SetResultScene(ResultScene * resultScene) { _resultScene = resultScene; }
 };

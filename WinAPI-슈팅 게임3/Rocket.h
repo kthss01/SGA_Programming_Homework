@@ -6,6 +6,8 @@
 #define SHADOWX -25
 #define SHADOWY -35
 
+class EnemyManager;
+
 class Rocket : public GameNode
 {
 private:
@@ -23,6 +25,8 @@ private:
 
 	HBRUSH brush;
 	HFONT hFont;
+
+	EnemyManager * m_em;
 public:
 	Rocket();
 	~Rocket();
@@ -43,4 +47,6 @@ public:
 
 	float GetHp() { return m_hp; }
 	void SetHp(float hp) { m_hp = hp; }
+
+	void SetEnemyManager(EnemyManager * em) { m_em = em; }
 };

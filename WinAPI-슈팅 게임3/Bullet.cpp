@@ -9,6 +9,7 @@ Bullet::Bullet()
 
 Bullet::~Bullet()
 {
+	Release();
 }
 
 HRESULT Bullet::Init(char* imageName, int bulletMax, float range)

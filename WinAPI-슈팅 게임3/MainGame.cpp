@@ -2,6 +2,7 @@
 #include "MainGame.h"
 
 #include "TestScene.h"
+#include "ResultScene.h"
 
 MainGame::MainGame()
 {
@@ -22,6 +23,12 @@ HRESULT MainGame::Init()
 
 	IMAGE->AddImage("bg", "images/background.bmp", 0, -WINSIZEY,
 		WINSIZEX, WINSIZEY * 2, false, RGB(255, 0, 255));
+
+	IMAGE->AddImage("gameover", "images/gameover.bmp", 0, 0,
+		WINSIZEX, WINSIZEY, false, RGB(255, 0, 255));
+
+	IMAGE->AddImage("ending", "images/ending.bmp", 0, 0,
+		WINSIZEX, WINSIZEY, false, RGB(255, 0, 255));
 
 	IMAGE->AddImage(
 		"rocket", "images/rocket.bmp", WINSIZEX / 2, WINSIZEY - 200,
@@ -60,13 +67,13 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage("boss_idle", "images/boss/boss_idle_24x1.bmp", 0, 0,
 	300 * 24, 250, 24, 1, true, RGB(255, 0, 255));
 
-	IMAGE->AddImage("gameover", "images/gameover.bmp", 0, 0,
-		WINSIZEX, WINSIZEY, false, RGB(255, 0, 255));
-
 	_em = new EnemyManager;
 	_em->Init();
 
-	_em->SetRocket((Rocket*)SCENE->AddScene("Rocket", new Rocket));
+	Rocket* rocket = (Rocket*)SCENE->AddScene("Rocket", new Rocket);
+	rocket->SetEnemyManager(_em);
+
+	_em->SetRocket(rocket);
 
 	_loading = new ProgressBar;
 	//_loading->Init((char*)"images/bar_front.bmp", (char*)"images/bar_back.bmp", 
@@ -86,6 +93,13 @@ HRESULT MainGame::Init()
 	//SCENE->AddScene("Test", new TestScene);
 
 	//SCENE->ChangeScene("Test");
+
+	ResultScene* scene = (ResultScene*)SCENE->AddScene("Result", new ResultScene);
+	scene->SetImage(IMAGE->FindImage("gameover"));
+	scene->SetEnemyManager(_em);
+	scene->SetMainGame(this);
+
+	_em->SetResultScene(scene);
 
 	offsetY = 0;
 
@@ -171,4 +185,15 @@ void MainGame::Render()
 	}
 	//=================================================
 	this->SetBackBuffer()->Render(GetHDC());
+}
+
+void MainGame::ReStart()
+{
+	offsetY = 0;
+	_em->Init();
+
+	isStart = false;
+	isLoad = true;
+
+	loadCount = 0;
 }

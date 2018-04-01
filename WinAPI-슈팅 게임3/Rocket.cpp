@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Rocket.h"
 
+#include "EnemyManager.h"
 
 Rocket::Rocket()
 {
@@ -76,6 +77,11 @@ void Rocket::Update()
 	}
 
 	m_missile->Update();
+
+	if (m_hp == 0) {
+		m_em->Release();
+		SCENE->ChangeScene("Result");
+	}
 }
 
 void Rocket::Render()
@@ -89,15 +95,15 @@ void Rocket::Render()
 	RectangleMake(GetMemDC(), m_hpBar);
 	DeleteObject(brush);
 
-	if (m_hp == 0) {
-		SetTextAlign(GetMemDC(), TA_CENTER);
-		SetBkMode(GetMemDC(), TRANSPARENT);
+	//if (m_hp == 0) {
+	//	SetTextAlign(GetMemDC(), TA_CENTER);
+	//	SetBkMode(GetMemDC(), TRANSPARENT);
 
-		BeginCreateFont(GetMemDC(), &hFont, 50);
-		TextOut(GetMemDC(), WINSIZEX / 2, WINSIZEY / 2, 
-			"Game Over", strlen("Game Over"));
-		DeleteObject(hFont);
+	//	BeginCreateFont(GetMemDC(), &hFont, 50);
+	//	TextOut(GetMemDC(), WINSIZEX / 2, WINSIZEY / 2, 
+	//		"Game Over", strlen("Game Over"));
+	//	DeleteObject(hFont);
 
-		KillTimer(g_hWnd, 1);
-	}
+	//	KillTimer(g_hWnd, 1);
+	//}
 }

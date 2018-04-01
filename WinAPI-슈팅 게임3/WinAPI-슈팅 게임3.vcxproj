@@ -161,6 +161,7 @@
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SIngletonBase.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="stdafx.cpp">

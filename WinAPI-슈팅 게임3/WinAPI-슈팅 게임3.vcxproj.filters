@@ -114,6 +114,9 @@
     <ClInclude Include="ProgressBar.h">
       <Filter>GameMain\Bar</Filter>
     </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>GameFrameWork\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -166,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="ProgressBar.cpp">
       <Filter>GameMain\Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>GameFrameWork\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

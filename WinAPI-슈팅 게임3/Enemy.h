@@ -63,5 +63,6 @@ public:
 	void SetLived(bool isLived) { _isLived = isLived; }
 	bool GetLived() { return _isLived; }
 
+	void SetDied(bool isDied) { _isDied = isDied; }
 	bool GetDied() { return _isDied; }
 };

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EnemyManager.h"
 
+#include "ResultScene.h"
+
 EnemyManager::EnemyManager()
 {
 }
@@ -33,10 +35,13 @@ void EnemyManager::Release()
 	for (int i = 0; i < _vAlien.size(); i++) {
 		SAFE_DELETE(_vAlien[i]);
 	}
+	_vAlien.clear();
 
 	for (int i = 0; i < _vBoss.size(); i++) {
 		SAFE_DELETE(_vBoss[i]);
 	}
+	_vBoss.clear();
+	//SAFE_DELETE(_bullet);
 }
 
 void EnemyManager::Update()
@@ -66,12 +71,25 @@ void EnemyManager::Update()
 	for (_viBoss = _vBoss.begin(); _viBoss != _vBoss.end();) {
 		(*_viBoss)->Update();
 
-		if (_rocket->GetMissile()->CheckCollision((*_viBoss)->GetRect())) {
+		if ((*_viBoss)->GetLived() &&
+			_rocket->GetMissile()->CheckCollision((*_viBoss)->GetRect())) {
+			(*_viBoss)->SetLived(false);
+			(*_viBoss)->SetDied(true);
+		}
+
+		if ((*_viBoss)->GetDied()) {
 			_viBoss = _vBoss.erase(_viBoss);
+			if (_vBoss.size() == 0) {
+				_resultScene->SetImage(IMAGE->FindImage("ending"));
+				SCENE->ChangeScene("Result");
+			}
 		}
 		else
 			++_viBoss;
 	}
+
+	if (_vBoss.size() == 0)
+		this->Release();
 
 	if (INPUT->GetKeyDown(VK_TAB)) {
 		_cheat = !_cheat;
