@@ -16,6 +16,7 @@ ResultScene::~ResultScene()
 HRESULT ResultScene::Init()
 {
 	isShow = true;
+	//em->Release();
 
 	return S_OK;
 }

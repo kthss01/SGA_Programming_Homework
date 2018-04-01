@@ -44,7 +44,7 @@ void Alien::Draw()
 		Enemy::Draw();
 	else
 		_died->FrameRender(GetMemDC(),
-			GetRect().left, GetRect().top, _currentFrameX2, 0);
+			GetRect().left - 25, GetRect().top - 25, _currentFrameX2, 0);
 }
 
 void Alien::Animation()

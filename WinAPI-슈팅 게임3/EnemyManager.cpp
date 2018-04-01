@@ -17,8 +17,8 @@ HRESULT EnemyManager::Init()
 	_bullet = new Bullet;
 	_bullet->Init((char*)"bullet", 100, 1000);
 
-	//this->SetAlien();
-	this->SetBoss();
+	this->SetAlien();
+	//this->SetBoss();
 
 	_isLeft = false;
 	_isDown = false;
@@ -88,7 +88,7 @@ void EnemyManager::Update()
 			++_viBoss;
 	}
 
-	if (_vBoss.size() == 0)
+	if (_vBoss.size() == 0 && _vAlien.size() == 0)
 		this->Release();
 
 	if (INPUT->GetKeyDown(VK_TAB)) {

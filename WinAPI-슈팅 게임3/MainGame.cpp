@@ -44,7 +44,7 @@ HRESULT MainGame::Init()
 		50 * 16, 50, 16, 1, true, RGB(255, 0, 255));
 
 	IMAGE->AddImage("alien_died", "images/alien_died_21x1.bmp", 0, 0,
-		50 * 21, 50, 21, 1, true, RGB(255, 0, 255));
+		75 * 21, 75, 21, 1, true, RGB(255, 0, 255));
 
 	IMAGE->AddImage("missile", "images/missile.bmp",
 		0, 0, 416, 64, 13, 1, true, RGB(255, 0, 255));
@@ -196,4 +196,8 @@ void MainGame::ReStart()
 	isLoad = true;
 
 	loadCount = 0;
+
+	IMAGE->FindImage("rocket")->SetX(WINSIZEX / 2);
+	IMAGE->FindImage("rocket")->SetY(WINSIZEY - 200);
+
 }
