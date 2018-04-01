@@ -21,6 +21,7 @@ private:
 	int _frameCount;
 	int _currentFrameXs[BOSS_END];
 
+	// 애니메이션 상태 확인을 위한 변수
 	bool _isHatch;
 	bool _isHatchClose;
 	bool _isDeploy;
@@ -28,6 +29,8 @@ private:
 	bool _isFire;
 	bool _isEnemy;
 
+	// 현재 보스 패턴이 어떤 패턴인지 확인하기 위한 변수
+	// 애니메이션 상태를 저장
 	BOSS_PARTS currentParts;
 
 	int _count;
@@ -51,7 +54,9 @@ public:
 	void Draw() override;
 	void Animation() override;
 
+	// 보스가 데미지를 입었는지 확인하는 함수
 	void CheckDamaged();
+	// 보스 패턴 선택을 위한 함수
 	void ChoicePattern();
 
 	bool BulletCountFire() override;

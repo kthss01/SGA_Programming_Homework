@@ -3,9 +3,11 @@
 #include "GameNode.h"
 #include "Bullet.h"
 
+// 그림자 위치 조정 쉽게 하기 위해서
 #define SHADOWX -25
 #define SHADOWY -35
 
+// 에너미 매니저 전방선언
 class EnemyManager;
 
 class Rocket : public GameNode
@@ -17,7 +19,6 @@ private:
 	Missile* m_missile;
 
 	float m_speed;
-	int m_delay;
 
 	float m_maxHp;
 	float m_hp;

@@ -32,6 +32,7 @@ private:
 
 	POINT _initPos;
 protected:
+	// 살아있는지와 죽어있는지 여부는 상속에서 쓰게 되서 protected로
 	bool _isLived;
 	bool _isDied;
 public:
@@ -44,14 +45,20 @@ public:
 	virtual void Update();
 	virtual void Render();
 
+	// 상속을 해서 Alien과 Boss에서 오버라이딩 해야함
+	// EnemyManager에서 Enemy Vector로 관리하고 있기 때문 (부모 클래스로)
+	
+	// 에너미 이동
 	virtual void Move(Direction dir);
+	// 에너미 그리기
 	virtual void Draw();
+	// 에너미 애니메이션
 	virtual void Animation();
-
+	// 에너미 총알 발사 상태인지 확인
 	virtual bool BulletCountFire();
-
+	// 에너미가 충돌했는지 확인
 	bool CheckCollision(Direction dir);
-
+	
 	void SetPosition(POINT pos);
 
 	RECT GetRect() { return _rc; }

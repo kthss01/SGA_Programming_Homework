@@ -97,9 +97,14 @@ void Enemy::Animation()
 
 bool Enemy::BulletCountFire()
 {
+	// 발사 카운트 증가
 	_fireCount++;
+	// 발사 카운트와 랜덤으로 정해진 발사 카운트의 나머지가 0일 때
+	// 발사 가능 상태 true로 반환
 	if (_fireCount % _rndFireCount == 0) {
+		// 랜덤 발사 카운트 다시 랜덤으로 설정
 		_rndFireCount = RND->GetFromInto(1, FIRECOUNT);
+		// 발사 카운트 초기화
 		_fireCount = 0;
 		return true;
 	}

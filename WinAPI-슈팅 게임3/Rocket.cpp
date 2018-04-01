@@ -21,8 +21,6 @@ HRESULT Rocket::Init()
 	m_missile = new Missile;
 	m_missile->Init(100, 500);
 
-	m_delay = 0;
-
 	m_hp = m_maxHp = 5.0f;
 	m_hpBar = RectMake(
 		m_player->GetX(), m_player->GetY() - 5,
@@ -67,10 +65,13 @@ void Rocket::Update()
 		m_player->GetX(), m_player->GetY() - 5,
 		m_player->GetWidth() * m_hp / m_maxHp, 5);
 
+	// 그림자 이미지의 위치는 플레이어 이미지 위치 오른쪽 아래 위치하도록
 	m_shadow->SetX(m_player->GetX() + m_player->GetWidth() + SHADOWX);
 	m_shadow->SetY(m_player->GetY() + m_player->GetHeight() + SHADOWY);
 
+	// 스페이스 버튼 클릭시
 	if (INPUT->GetKeyDown(VK_SPACE)) {
+		// 미사일 총알을 플레이어 위치 위에서 발사
 		m_missile->Fire(
 			m_player->GetX() + m_player->GetWidth() / 2,
 			m_player->GetY() - m_player->GetHeight() / 2);
@@ -78,6 +79,7 @@ void Rocket::Update()
 
 	m_missile->Update();
 
+	// hp 0 시 결과 씬으로 이동
 	if (m_hp == 0) {
 		m_em->Release();
 		SCENE->ChangeScene("Result");
