@@ -37,6 +37,15 @@ HRESULT Boss::Init(const char * imageName, POINT position)
 
 	currentParts = BOSS_ENEMY;
 
+	_hpBar = new ProgressBar;
+	_hp = _maxHp = 500;
+	_hpBar->Init(
+		IMAGE->AddImage(
+			"hp_front", "images/bar_front.bmp", 0, 0, 700, 50, true, RGB(255, 0, 255)),
+		IMAGE->AddImage(
+			"hp_back", "images/bar_back.bmp", 0, 0, 700, 50, true, RGB(255, 0, 255)),
+		WINSIZEX / 2 - 350, WINSIZEY - 100, 700, 50);
+
 	return S_OK;
 }
 
@@ -58,11 +67,17 @@ void Boss::Update()
 		else if (currentParts == BOSS_DEPLOY)
 			currentParts = BOSS_ENEMY;
 	}
+
+	CheckDamaged();
+
+	_hpBar->SetGauge(_hp, _maxHp);
+	_hpBar->Update();
 }
 
 void Boss::Render()
 {
 	Draw();
+	_hpBar->Render();
 }
 
 void Boss::Move(Direction dir)
@@ -235,6 +250,18 @@ void Boss::Animation()
 			_isEnemy = false;
 			_isHatchClose = true;
 			_currentFrameXs[BOSS_ENEMY] = 0;
+		}
+	}
+}
+
+void Boss::CheckDamaged()
+{
+	if (!GetLived()) {
+		_hp -= 10;
+		SetLived(true);
+		if (_hp <= 0) {
+			_hp = 0;
+			SetDied(true);
 		}
 	}
 }

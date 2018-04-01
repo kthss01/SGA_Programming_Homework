@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
+#include "ProgressBar.h"
 
 enum BOSS_PARTS {
 	BOSS_HATCH,
@@ -27,6 +28,9 @@ private:
 
 	BOSS_PARTS currentParts;
 
+	int _hp;
+	int _maxHp;
+	ProgressBar * _hpBar;
 public:
 	Boss();
 	~Boss();
@@ -40,6 +44,6 @@ public:
 	void Draw() override;
 	void Animation() override;
 
-	
+	void CheckDamaged();
 };
 

@@ -17,8 +17,8 @@ HRESULT EnemyManager::Init()
 	_bullet = new Bullet;
 	_bullet->Init((char*)"bullet", 100, 1000);
 
-	this->SetAlien();
-	//this->SetBoss();
+	//this->SetAlien();
+	this->SetBoss();
 
 	_isLeft = false;
 	_isDown = false;
@@ -74,7 +74,7 @@ void EnemyManager::Update()
 		if ((*_viBoss)->GetLived() &&
 			_rocket->GetMissile()->CheckCollision((*_viBoss)->GetRect())) {
 			(*_viBoss)->SetLived(false);
-			(*_viBoss)->SetDied(true);
+			//(*_viBoss)->SetDied(true);
 		}
 
 		if ((*_viBoss)->GetDied()) {
