@@ -95,6 +95,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-슈팅 게임3", "Wi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-타일 이동 및 A스타", "WinAPI-타일 이동 및 A스타\WinAPI-타일 이동 및 A스타.vcxproj", "{0ECAFE07-1A7B-478C-8C89-072B84EF8307}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-몬스터 리스폰 (FPS)", "WinAPI-몬스터 리스폰 (FPS)\WinAPI-몬스터 리스폰 (FPS).vcxproj", "{6708993F-E6DE-4760-9355-D75E4D04A578}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -471,6 +473,14 @@ Global
 		{0ECAFE07-1A7B-478C-8C89-072B84EF8307}.Release|x64.Build.0 = Release|x64
 		{0ECAFE07-1A7B-478C-8C89-072B84EF8307}.Release|x86.ActiveCfg = Release|Win32
 		{0ECAFE07-1A7B-478C-8C89-072B84EF8307}.Release|x86.Build.0 = Release|Win32
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Debug|x64.ActiveCfg = Debug|x64
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Debug|x64.Build.0 = Debug|x64
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Debug|x86.ActiveCfg = Debug|Win32
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Debug|x86.Build.0 = Debug|Win32
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Release|x64.ActiveCfg = Release|x64
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Release|x64.Build.0 = Release|x64
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Release|x86.ActiveCfg = Release|Win32
+		{6708993F-E6DE-4760-9355-D75E4D04A578}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
