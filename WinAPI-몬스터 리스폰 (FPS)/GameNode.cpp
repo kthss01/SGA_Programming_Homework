@@ -41,6 +41,9 @@ void GameNode::Release() {
 
 	IMAGE->Release();
 	IMAGE->ReleaseSingleton();
+
+	FRAME->Release();
+	FRAME->ReleaseSingleton();
 }
 
 void GameNode::Update() {

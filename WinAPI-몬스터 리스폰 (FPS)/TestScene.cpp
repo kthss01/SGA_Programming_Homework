@@ -159,6 +159,8 @@ void TestScene::Render()
 
 void TestScene::Move() {
 	for (int i = 0; i < POKEMON_MAX; i++) {
+		if (pokemon[i].isLive == false) continue;
+
 		pokemon[i].x += cosf(pokemon[i].angle) * pokemon[i].speed;
 		pokemon[i].y -= sinf(pokemon[i].angle) * pokemon[i].speed;
 
