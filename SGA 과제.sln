@@ -97,6 +97,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-타일 이동 및 A�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-몬스터 리스폰 (FPS)", "WinAPI-몬스터 리스폰 (FPS)\WinAPI-몬스터 리스폰 (FPS).vcxproj", "{6708993F-E6DE-4760-9355-D75E4D04A578}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-몬스터 리스폰 (FPS, Sound)", "WinAPI-몬스터 리스폰 (FPS,Sound)\WinAPI-몬스터 리스폰 (FPS, Sound).vcxproj", "{79607765-9FFB-4D77-B4D5-3134C509A1EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -481,6 +483,14 @@ Global
 		{6708993F-E6DE-4760-9355-D75E4D04A578}.Release|x64.Build.0 = Release|x64
 		{6708993F-E6DE-4760-9355-D75E4D04A578}.Release|x86.ActiveCfg = Release|Win32
 		{6708993F-E6DE-4760-9355-D75E4D04A578}.Release|x86.Build.0 = Release|Win32
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Debug|x64.ActiveCfg = Debug|x64
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Debug|x64.Build.0 = Debug|x64
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Debug|x86.ActiveCfg = Debug|Win32
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Debug|x86.Build.0 = Debug|Win32
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Release|x64.ActiveCfg = Release|x64
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Release|x64.Build.0 = Release|x64
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Release|x86.ActiveCfg = Release|Win32
+		{79607765-9FFB-4D77-B4D5-3134C509A1EC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

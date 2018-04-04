@@ -22,7 +22,7 @@ Image* GameNode::SetBackBuffer() {
 HRESULT GameNode::Init() {
 	SetBackBuffer();
 	_hdc = GetDC(g_hWnd);
-	SetTimer(g_hWnd, 1, 10, NULL);
+	//SetTimer(g_hWnd, 1, 10, NULL);
 
 	FRAME->Init();
 
@@ -30,7 +30,7 @@ HRESULT GameNode::Init() {
 }
 
 void GameNode::Release() {
-	KillTimer(g_hWnd, 1);
+	//KillTimer(g_hWnd, 1);
 	m_backBuffer->Release();
 	SAFE_DELETE(m_backBuffer);
 
