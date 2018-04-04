@@ -68,7 +68,8 @@ void TestScene::Update()
 
 	if (INPUT->GetKey(VK_SPACE) && count % 5 == 0) {
 		SOUND->Play("fire", 0.5f);
-		bullet->Fire(gun.x, gun.y, gun.angle, 2.5f);
+		bullet->Fire(gun.x + cosf(gun.angle) * gun.length, 
+			gun.y - sinf(gun.angle) * gun.length, gun.angle, 2.5f);
 	}
 
 	Move();
