@@ -110,6 +110,10 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage("boss_idle", "images/boss/boss_idle_24x1.bmp", 0, 0,
 	300 * 24, 250, 24, 1, true, RGB(255, 0, 255));
 
+	// save book
+	IMAGE->AddImage("save_book", "images/savebook_9x1.bmp", 0, 0,
+		50 * 9, 50, 9, 1, true, RGB(255, 0, 255));
+
 	_em = new EnemyManager;
 	_em->Init();
 
@@ -153,6 +157,8 @@ HRESULT MainGame::Init()
 	isLoad = false;
 
 	SOUND->Play("intro", 0.5f);
+
+	SAVEBOOK->Init();
 
 	return S_OK;
 }
@@ -203,6 +209,8 @@ void MainGame::Update()
 		offsetY--;
 	}
 
+	SAVEBOOK->Update();
+
 	//====================== Debug =====================//
 	if (INPUT->GetKeyDown(VK_F11)) {
 		isDebug = !isDebug;
@@ -237,6 +245,8 @@ void MainGame::Render()
 
 	}
 	//=================================================
+	if(isStart)
+		SAVEBOOK->Render(GetMemDC());
 	FRAME->Render(GetMemDC());
 	this->SetBackBuffer()->Render(GetHDC());
 }

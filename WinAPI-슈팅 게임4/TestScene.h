@@ -6,6 +6,8 @@ class TestScene : public GameNode
 {
 private:
 	bool isDebug;
+
+	vector<string> test;
 public:
 	TestScene();
 	~TestScene();

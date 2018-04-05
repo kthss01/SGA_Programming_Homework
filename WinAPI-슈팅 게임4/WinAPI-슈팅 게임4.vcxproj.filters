@@ -49,6 +49,9 @@
     <Filter Include="GameFrameWork\Manager\Timer">
       <UniqueIdentifier>{91160422-8f67-49ea-822e-2ee0087699dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SaveFile">
+      <UniqueIdentifier>{e81e1476-63fa-4f8e-8342-172e80772554}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -129,6 +132,12 @@
     <ClInclude Include="SoundManager.h">
       <Filter>GameFrameWork\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="TextData.h">
+      <Filter>SaveFile</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveBook.h">
+      <Filter>GameMain\ShootingGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -193,6 +202,12 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>GameFrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextData.cpp">
+      <Filter>SaveFile</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveBook.cpp">
+      <Filter>GameMain\ShootingGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

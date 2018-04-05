@@ -47,6 +47,11 @@ void GameNode::Release() {
 
 	SOUND->Release();
 	SOUND->ReleaseSingleton();
+
+	TEXTDATA->ReleaseSingleton();
+
+	SAVEBOOK->Release();
+	SAVEBOOK->ReleaseSingleton();
 }
 
 void GameNode::Update() {

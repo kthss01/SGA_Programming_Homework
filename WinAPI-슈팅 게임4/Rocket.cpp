@@ -22,7 +22,12 @@ HRESULT Rocket::Init()
 	m_missile = new Missile;
 	m_missile->Init(100, 500);
 
-	m_hp = m_maxHp = 5.0f;
+	m_maxHp = 100.0f;
+	m_hp = SAVEBOOK->GetHp();
+
+	m_player->SetX(SAVEBOOK->GetPos().x);
+	m_player->SetY(SAVEBOOK->GetPos().y);
+
 	m_hpBar = RectMake(
 		m_player->GetX(), m_player->GetY() - 5,
 		m_player->GetWidth() * m_hp / m_maxHp, 5);
@@ -83,6 +88,14 @@ void Rocket::Update()
 
 	m_missile->Update();
 
+	if (m_missile->CheckCollision(SAVEBOOK->GetRect())) {
+		if (!SAVEBOOK->GetIsSave()) {
+			SAVEBOOK->SetHp(m_hp);
+			SAVEBOOK->SetPos(PointMake(m_player->GetX(), m_player->GetY()));
+			SAVEBOOK->SetIsSave(true);
+		}
+	}
+
 	// hp 0 시 결과 씬으로 이동
 	if (m_hp == 0) {
 		m_em->Release();
@@ -94,6 +107,7 @@ void Rocket::Update()
 		if (SOUND->IsPlaySound("boss_bgm"))
 			SOUND->Stop("boss_bgm");
 		SOUND->Play("gameover", 0.8f);
+		SAVEBOOK->AddGameOver();
 	}
 }
 
@@ -106,6 +120,9 @@ void Rocket::Render()
 
 	BeginSolidColor(GetMemDC(), &brush, RGB(0, 128, 0));
 	RectangleMake(GetMemDC(), m_hpBar);
+	DeleteObject(brush);
+
+	BeginSolidColor(GetMemDC(), &brush, RGB(235, 235, 235));
 	DeleteObject(brush);
 
 	//if (m_hp == 0) {

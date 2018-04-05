@@ -67,6 +67,7 @@ void EnemyManager::Update()
 			(*_viAlien)->SetLived(false);
 
 			SOUND->Play("alien_die", 0.5f);
+			SAVEBOOK->AddKill();
 		}
 
 		// 에너미가 죽는 경우 
@@ -112,17 +113,12 @@ void EnemyManager::Update()
 				if (SOUND->IsPlaySound("boss_bgm"))
 					SOUND->Stop("boss_bgm");
 				SOUND->Play("ending", 0.5f);
+				SAVEBOOK->AddEnding();
 			}
 		}
 		else
 			++_viBoss;
 	}
-
-	// 보스 사이즈 0이고 에너미 사이즈 0이면
-	// 재시작을 위해서 에너미 매니저 release()
-	// 에너미 매니저가 씬이 아니라서 이렇게 관리 필요
-	if (_vBoss.size() == 0 && _vAlien.size() == 0)
-		this->Release();
 
 	// 치트키 사용
 	if (INPUT->GetKeyDown(VK_TAB)) {
@@ -142,6 +138,7 @@ void EnemyManager::Update()
 				_rocket->SetHp(0);
 		}
 		SOUND->Play("rocket_damaged", 0.5f);
+		SAVEBOOK->AddHit();
 	}
 	// 플레이어가 보스 총알의 맞을 때 (치트 안켜져있어야 함)
 	if (_bossBullet->CheckCollision(_rocket->GetRect())) {
@@ -152,6 +149,7 @@ void EnemyManager::Update()
 				_rocket->SetHp(0);
 		}
 		SOUND->Play("rocket_damaged", 0.5f);
+		SAVEBOOK->AddHit();
 	}
 
 	// 에너미 이동이 처음이 아니면
@@ -171,6 +169,11 @@ void EnemyManager::Update()
 	// 보스 이동
 	this->BossMove();
 
+	// 보스 사이즈 0이고 에너미 사이즈 0이면
+	// 재시작을 위해서 에너미 매니저 release()
+	// 에너미 매니저가 씬이 아니라서 이렇게 관리 필요
+	if (_vBoss.size() == 0 && _vAlien.size() == 0)
+		this->Release();
 }
 
 void EnemyManager::Render()
@@ -189,7 +192,7 @@ void EnemyManager::Render()
 	if (_cheat) {
 		SetBkMode(GetMemDC(), TRANSPARENT);
 		SetTextColor(GetMemDC(), RGB(255, 0, 0));
-		TextOut(GetMemDC(), WINSIZEX - 100, WINSIZEY - 50, 
+		TextOut(GetMemDC(), WINSIZEX - 100, WINSIZEY - 50,
 			"On Cheat", strlen("On Cheat"));
 	}
 }
