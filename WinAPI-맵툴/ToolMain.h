@@ -14,7 +14,10 @@ private:
 
 	tagTileInfo tile[MAXWINTILEY][MAXWINTILEX];
 
-	tagTileInfo currentTile;
+	//tagTileInfo currentTile;
+	vector<tagTileInfo> vCurrentTile;
+	int countX, countY;
+	int currentX, currentY;
 
 	bool isDebug;
 public:
@@ -26,6 +29,9 @@ public:
 	virtual void Update();
 	virtual void Render();
 
-	void SetCurrentTile(tagTileInfo tile) { currentTile = tile; }
+	//void SetCurrentTile(tagTileInfo tile) { currentTile = tile; }
+	void SetTileXY(int endX, int endY) { this->countX = endX; this->countY = endY; }
+	void AddCurrentTile(tagTileInfo tile) { vCurrentTile.push_back(tile); }
+	void ClearCurrentTile() { vCurrentTile.clear(); }
 };
 

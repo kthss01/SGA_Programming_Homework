@@ -29,6 +29,8 @@ HRESULT ToolSub::Init()
 	}
 
 	isDebug = false;
+	isStart = false;
+	startX = startY = endX = endY = 0;
 
 	return S_OK;
 }
@@ -45,7 +47,43 @@ void ToolSub::Update()
 			for (int i = 0; i < MAXTILEY; i++) {
 				if (PtInRect(&tile[i][j].rc, SUBWIN->GetPtMouse())) {
 					//currentTile = tile[i][j];
-					toolMain->SetCurrentTile(tile[i][j]);
+					//toolMain->SetCurrentTile(tile[i][j]);
+					startX = j;
+					startY = i;
+					isStart = true;
+				}
+			}
+		}
+	}
+	if (INPUT->GetKey(VK_LBUTTON)
+		&& SUBWIN->GetIsActive()) {
+		for (int j = 0; j < MAXTILEX; j++) {
+			for (int i = 0; i < MAXTILEY; i++) {
+				if (PtInRect(&tile[i][j].rc, SUBWIN->GetPtMouse())) {
+					//currentTile = tile[i][j];
+					//toolMain->SetCurrentTile(tile[i][j]);
+					endX = j;
+					endY = i;
+				}
+			}
+		}
+	}
+	if (INPUT->GetKeyUp(VK_LBUTTON)
+		&& SUBWIN->GetIsActive()) {
+		for (int j = 0; j < MAXTILEX; j++) {
+			for (int i = 0; i < MAXTILEY; i++) {
+				if (PtInRect(&tile[i][j].rc, SUBWIN->GetPtMouse())) {
+					//currentTile = tile[i][j];
+					//toolMain->SetCurrentTile(tile[i][j]);
+					endX = j;
+					endY = i;
+					toolMain->ClearCurrentTile();
+					toolMain->SetTileXY(endX - startX, endY - startY);
+					for (int j = startX; j <= endX; j++) {
+						for (int i = startY; i <= endY; i++) {
+							toolMain->AddCurrentTile(tile[i][j]);
+						}
+					}
 				}
 			}
 		}
@@ -65,12 +103,32 @@ void ToolSub::Render(HDC hdc)
 
 	//=================================================
 	{
+		//RectangleMake(hdc,
+		//	tile[startY][startX].rc.left, tile[startY][startX].rc.top,
+		//	tile[endY][endX].rc.right, tile[endY][endX].rc.bottom);
+
 		for (int j = 0; j < MAXTILEX; j++) {
 			for (int i = 0; i < MAXTILEY; i++) {
 				img->FrameRender(hdc, tile[i][j].x, tile[i][j].y,
 					tile[i][j].tileX, tile[i][j].tileY);
 			}
 		}
+
+		if (isStart) {
+			HPEN pen = CreatePen(PS_SOLID, 5, RGB(255, 255, 0));
+			HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+
+			MoveToEx(hdc,
+				tile[startY][startX].rc.left, tile[startY][startX].rc.top, NULL);
+			LineTo(hdc, tile[endY][endX].rc.right, tile[startY][startX].rc.top);
+			LineTo(hdc, tile[endY][endX].rc.right, tile[endY][endX].rc.bottom);
+			LineTo(hdc, tile[startY][startX].rc.left, tile[endY][endX].rc.bottom);
+			LineTo(hdc, tile[startY][startX].rc.left, tile[startY][startX].rc.top);
+
+			SelectObject(hdc, oldPen);
+			DeleteObject(pen);
+		}
+		
 	}
 	//==================   Debug   ====================
 	if (isDebug)

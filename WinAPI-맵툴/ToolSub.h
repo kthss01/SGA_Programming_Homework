@@ -14,6 +14,10 @@ private:
 	Image * img;
 	tagTileInfo tile[MAXTILEY][MAXTILEX];
 
+	int startX, startY;
+	int endX, endY;
+	bool isStart;
+
 	ToolMain * toolMain;
 public:
 	ToolSub();
