@@ -101,6 +101,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-몬스터 리스폰 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-슈팅 게임4", "WinAPI-슈팅 게임4\WinAPI-슈팅 게임4.vcxproj", "{DAF33706-0918-4807-8FB5-A10A92A6E1C4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-맵툴", "WinAPI-맵툴\WinAPI-맵툴.vcxproj", "{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -501,6 +503,14 @@ Global
 		{DAF33706-0918-4807-8FB5-A10A92A6E1C4}.Release|x64.Build.0 = Release|x64
 		{DAF33706-0918-4807-8FB5-A10A92A6E1C4}.Release|x86.ActiveCfg = Release|Win32
 		{DAF33706-0918-4807-8FB5-A10A92A6E1C4}.Release|x86.Build.0 = Release|Win32
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Debug|x64.ActiveCfg = Debug|x64
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Debug|x64.Build.0 = Debug|x64
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Debug|x86.ActiveCfg = Debug|Win32
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Debug|x86.Build.0 = Debug|Win32
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Release|x64.ActiveCfg = Release|x64
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Release|x64.Build.0 = Release|x64
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Release|x86.ActiveCfg = Release|Win32
+		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
