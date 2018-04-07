@@ -26,14 +26,13 @@ HRESULT GameNode::Init() {
 
 	FRAME->Init();
 
-	SUBWIN->Init();
-
 	return S_OK;
 }
 
 void GameNode::Release() {
 	//KillTimer(g_hWnd, 1);
-	m_backBuffer->Release();
+	if(m_backBuffer != NULL)
+		m_backBuffer->Release();
 	SAFE_DELETE(m_backBuffer);
 
 	INPUT->ReleaseSingleton();
@@ -84,6 +83,7 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_MOUSEMOVE:
+		SUBWIN->SetIsActive(false);
 		g_ptMouse.x = LOWORD(lParam);
 		g_ptMouse.y = HIWORD(lParam);
 		break;

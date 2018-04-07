@@ -40,6 +40,9 @@
     <Filter Include="SaveFile">
       <UniqueIdentifier>{00ce1dc5-6825-424a-bc36-d5cbe091fea5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameMain\MapTool">
+      <UniqueIdentifier>{939beb6d-4082-49a4-a70a-61d2999d8282}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -111,6 +114,15 @@
     <ClInclude Include="IniData.h">
       <Filter>SaveFile</Filter>
     </ClInclude>
+    <ClInclude Include="MapTool.h">
+      <Filter>GameMain\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolMain.h">
+      <Filter>GameMain\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolSub.h">
+      <Filter>GameMain\MapTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -166,6 +178,15 @@
     </ClCompile>
     <ClCompile Include="IniData.cpp">
       <Filter>SaveFile</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTool.cpp">
+      <Filter>GameMain\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolSub.cpp">
+      <Filter>GameMain\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolMain.cpp">
+      <Filter>GameMain\MapTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,8 +28,8 @@ Window::Window()
 	RECT rcWin;
 	GetWindowRect(g_hWnd, &rcWin);
 
-	cx = 250;
-	cy = 600;
+	cx = SUBWINSIZEX;
+	cy = SUBWINSIZEY;
 	x = rcWin.right;
 	y = rcWin.top;
 
@@ -48,7 +48,7 @@ Window::Window()
 	Init();
 
 	m_backBuffer = new Image();
-	m_backBuffer->Init(250, 600);
+	m_backBuffer->Init(SUBWINSIZEX, SUBWINSIZEY);
 }
 
 
@@ -59,7 +59,7 @@ Window::~Window()
 
 void Window::Init()
 {
-
+	isActive = false;
 }
 
 void Window::Release()
@@ -74,8 +74,8 @@ void Window::Update()
 	RECT rcWin;
 	GetWindowRect(g_hWnd, &rcWin);
 
-	cx = 250;
-	cy = 600;
+	cx = SUBWINSIZEX;
+	cy = SUBWINSIZEY;
 	x = rcWin.right;
 	y = rcWin.top;
 
@@ -104,14 +104,16 @@ void Window::Render()
 void Window::SetScene(GameNode * scene)
 {
 	currentScene = scene;
+	currentScene->Init();
 }
 
 LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_MOUSEMOVE:
+		SUBWIN->SetIsActive(true);
 		ptMouse.x = LOWORD(lParam);
-		g_ptMouse.y = HIWORD(lParam);
+		ptMouse.y = g_ptMouse.y = HIWORD(lParam);
 		break;
 	case WM_PAINT:
 	{

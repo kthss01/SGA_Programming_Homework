@@ -7,6 +7,7 @@ class MainGame : public GameNode
 private:
 	bool isDebug;
 
+
 public:
 	MainGame();
 	~MainGame();
