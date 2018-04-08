@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ToolMain.h"
 
-
 ToolMain::ToolMain()
 {
 }
@@ -17,13 +16,29 @@ HRESULT ToolMain::Init()
 
 	img = IMAGE->FindImage("tile_main");
 
-	for (int j = 0; j < MAXWINTILEX; j++) {
-		for (int i = 0; i < MAXWINTILEY; i++) {
+	startX = MAXWINTILEX / 2;
+	startY = MAXWINTILEY / 2;
+	endX = MAXWINTILEX * 3 / 2;
+	endY = MAXWINTILEY * 3 / 2;
+
+	for (int j = 0; j < MAXWINTILEX * 2; j++) {
+		for (int i = 0; i < MAXWINTILEY * 2; i++) {
 			ZeroMemory(&tile[i][j], sizeof(tagTileInfo));
-			tile[i][j].x = j * img->GetFrameWidth();
-			tile[i][j].y = i * img->GetFrameHeight();
-			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
-				img->GetFrameWidth(), img->GetFrameHeight());
+			if (startX <= j && j < endX && startY <= i && i < endY) {
+				tile[i][j].x = j * img->GetFrameWidth() - startX * 25;
+				tile[i][j].y = i * img->GetFrameHeight() - startY * 25;
+				tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+					img->GetFrameWidth(), img->GetFrameHeight());
+
+				//// test
+				//tile[i][j].check = true;
+				//tile[i][j].tileX = RND->GetInt(MAXTILEX);
+				//tile[i][j].tileY = RND->GetInt(MAXTILEY);
+			}
+			// test2
+			tile[i][j].check = true;
+			tile[i][j].tileX = RND->GetInt(MAXTILEX);
+			tile[i][j].tileY = RND->GetInt(MAXTILEY);
 		}
 	}
 
@@ -39,8 +54,43 @@ void ToolMain::Release()
 
 void ToolMain::Update()
 {
-	for (int j = 0; j < MAXWINTILEX; j++) {
-		for (int i = 0; i < MAXWINTILEY; i++) {
+
+	//if (INPUT->GetKey('A') && startX > 0) {
+	if(g_ptMouse.x < WINSIZEX / 8 && startX > 0
+		&& SUBWIN->GetIsActive() == false) {
+		startX--;
+		endX--;
+	}
+	//if (INPUT->GetKey('D') && endX < MAXWINTILEX * 2) {
+	if (g_ptMouse.x > WINSIZEX - WINSIZEX / 8 && endX < MAXWINTILEX * 2
+		&& SUBWIN->GetIsActive() == false) {
+		startX++;
+		endX++;
+	}
+	//if (INPUT->GetKey('W') && startY > 0) {
+	if (g_ptMouse.y < WINSIZEY / 8 && startY > 0
+		&& SUBWIN->GetIsActive() == false) {
+		startY--;
+		endY--;
+	}
+	//if (INPUT->GetKey('S') && endY < MAXWINTILEY * 2) {
+	if (g_ptMouse.y > WINSIZEY - WINSIZEY / 8 && endY < MAXWINTILEY * 2
+		&& SUBWIN->GetIsActive() == false) {
+		startY++;
+		endY++;
+	}
+
+	for (int j = startX; j < endX; j++) {
+		for (int i = startY; i < endY; i++) {
+			tile[i][j].x = j * img->GetFrameWidth() - startX * 25;
+			tile[i][j].y = i * img->GetFrameHeight() - startY * 25;
+			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+				img->GetFrameWidth(), img->GetFrameHeight());
+		}
+	}
+
+	for (int j = startX; j < endX; j++) {
+		for (int i = startY; i < endY; i++) {
 			if (PtInRect(&tile[i][j].rc, g_ptMouse)) {
 				currentX = j;
 				currentY = i;
@@ -50,8 +100,8 @@ void ToolMain::Update()
 
 	if (INPUT->GetKey(VK_LBUTTON)
 		&& SUBWIN->GetIsActive() == false) {
-		for (int j = 0; j < MAXWINTILEX; j++) {
-			for (int i = 0; i < MAXWINTILEY; i++) {
+		for (int j = startX; j < endX; j++) {
+			for (int i = startY; i < endY; i++) {
 				if (PtInRect(&tile[i][j].rc, g_ptMouse)) {
 					//int x = tile[i][j].x;
 					//int y = tile[i][j].y;
@@ -61,9 +111,9 @@ void ToolMain::Update()
 					int cnt = 0;
 					if (vCurrentTile.size() != 0) {
 						for (int l = j; l <= j + countX; l++) {
-							if (l >= MAXWINTILEX) break;
+							if (l >= MAXWINTILEX * 2) break;
 							for (int k = i; k <= i + countY; k++) {
-								if (k >= MAXWINTILEY) {
+								if (k >= MAXWINTILEY * 2) {
 									cnt += currentY + countY - k + 1;
 									break;
 								}
@@ -97,8 +147,8 @@ void ToolMain::Render()
 		//img->FrameRender(GetMemDC(), WINSIZEX / 2, WINSIZEY / 2,
 		//	currentTile.tileX, currentTile.tileY);
 
-		for (int j = 0; j < MAXWINTILEX; j++) {
-			for (int i = 0; i < MAXWINTILEY; i++) {
+		for (int j = startX; j < endX; j++) {
+			for (int i = startY; i < endY; i++) {
 				if (tile[i][j].check == false) continue;
 				img->FrameRender(GetMemDC(),
 					tile[i][j].x, tile[i][j].y,
@@ -106,12 +156,13 @@ void ToolMain::Render()
 			}
 		}
 
-		if (vCurrentTile.size() != 0) {
+		if (vCurrentTile.size() != 0 
+			&& SUBWIN->GetIsActive() == false) {
 			int cnt = 0;
 			for (int j = currentX; j <= currentX + countX; j++) {
-				if (j >= MAXWINTILEX) break;
+				if (j >= MAXWINTILEX * 2) break;
 				for (int i = currentY; i <= currentY + countY; i++) {
-					if (i >= MAXWINTILEY) {
+					if (i >= MAXWINTILEY * 2) {
 						cnt += currentY + countY - i + 1;
 						break;
 					}
@@ -129,8 +180,8 @@ void ToolMain::Render()
 		sprintf_s(str, "(%d %d)", g_ptMouse.x, g_ptMouse.y);
 		TextOut(GetMemDC(), WINSIZEX - 100, 0, str, strlen(str));
 
-		for (int j = 0; j < MAXWINTILEX; j++) {
-			for (int i = 0; i < MAXWINTILEY; i++) {
+		for (int j = startX; j < endX; j++) {
+			for (int i = startY; i < endY; i++) {
 				RectangleMake(GetMemDC(), tile[i][j].rc);
 			}
 		}
@@ -140,13 +191,9 @@ void ToolMain::Render()
 
 void ToolMain::InitTile()
 {
-	for (int j = 0; j < MAXWINTILEX; j++) {
-		for (int i = 0; i < MAXWINTILEY; i++) {
-			ZeroMemory(&tile[i][j], sizeof(tagTileInfo));
-			tile[i][j].x = j * img->GetFrameWidth();
-			tile[i][j].y = i * img->GetFrameHeight();
-			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
-				img->GetFrameWidth(), img->GetFrameHeight());
+	for (int j = 0; j < MAXWINTILEX * 2; j++) {
+		for (int i = 0; i < MAXWINTILEY * 2; i++) {
+			tile[i][j].check = false;
 		}
 	}
 }

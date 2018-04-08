@@ -11,7 +11,7 @@ private:
 
 	char str[128];
 
-	Image * img;
+	Image * tileImg;
 	tagTileInfo tile[MAXTILEY][MAXTILEX];
 
 	int startX, startY;
@@ -20,6 +20,9 @@ private:
 
 	Image * toolbar;
 	RECT init, save, load;
+
+	tagTileInfo miniMap[MAXWINTILEY * 2][MAXWINTILEX * 2];
+	Image * miniTile;
 
 	ToolMain * toolMain;
 public:
@@ -32,5 +35,7 @@ public:
 	virtual void Render(HDC hdc);
 
 	void SetToolMain(ToolMain* toolMain) { this->toolMain = toolMain; }
+
+	void SetMiniMap();
 };
 

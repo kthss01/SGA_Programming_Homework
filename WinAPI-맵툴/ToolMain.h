@@ -2,9 +2,6 @@
 
 #include "MapTool.h"
 
-#define MAXWINTILEX WINSIZEX / 25
-#define MAXWINTILEY WINSIZEY / 25
-
 class ToolMain : public MapTool
 {
 private:
@@ -12,12 +9,15 @@ private:
 
 	char str[128];
 
-	tagTileInfo tile[MAXWINTILEY][MAXWINTILEX];
+	tagTileInfo tile[MAXWINTILEY * 2][MAXWINTILEX * 2];
 
 	//tagTileInfo currentTile;
 	vector<tagTileInfo> vCurrentTile;
 	int countX, countY;
 	int currentX, currentY;
+
+	int startX, startY;
+	int endX, endY;
 
 	bool isDebug;
 public:
@@ -37,5 +37,15 @@ public:
 	void InitTile();
 	void SaveTile();
 	void LoadTile();
+
+	// 편법
+	//tagTileInfo* GetTile() { return (tagTileInfo*)tile; }
+	// 2차원 배열 반환
+	tagTileInfo (* GetTile())[MAXWINTILEX * 2] { return tile; }
+
+	int GetStartX() { return startX; }
+	int GetStartY() { return startY; }
+	int GetEndX() { return endX; }
+	int GetEndY() { return endY; }
 };
 

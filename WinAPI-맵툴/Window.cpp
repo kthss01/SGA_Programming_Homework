@@ -90,7 +90,7 @@ void Window::Update()
 void Window::Render()
 {
 	HDC hdc = GetDC(hWnd);
-	PatBlt(m_backBuffer->GetMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	PatBlt(m_backBuffer->GetMemDC(), 0, 0, SUBWINSIZEX, SUBWINSIZEY, WHITENESS);
 	//==============================
 	if (currentScene != NULL)
 	{

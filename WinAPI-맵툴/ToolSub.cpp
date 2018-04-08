@@ -14,7 +14,7 @@ ToolSub::~ToolSub()
 
 HRESULT ToolSub::Init()
 {
-	img = IMAGE->FindImage("tile_sub");
+	tileImg = IMAGE->FindImage("tile_sub");
 
 	for (int j = 0; j < MAXTILEX; j++) {
 		for (int i = 0; i < MAXTILEY; i++) {
@@ -23,7 +23,7 @@ HRESULT ToolSub::Init()
 			tile[i][j].tileX = j;
 			tile[i][j].tileY = i;
 			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
-				img->GetFrameWidth(), img->GetFrameHeight());
+				tileImg->GetFrameWidth(), tileImg->GetFrameHeight());
 			tile[i][j].check = true;
 		}
 	}
@@ -38,6 +38,18 @@ HRESULT ToolSub::Init()
 	save = RectMake(60, 0, 50, 50);
 	load = RectMake(120, 0, 50, 50);
 	
+	int temp = 5;
+
+	miniTile = IMAGE->FindImage("tile_mini");
+
+	for (int j = 0; j < MAXWINTILEX * 2; j++) {
+		for (int i = 0; i < MAXWINTILEY * 2; i++) {
+			miniMap[i][j].x = j * temp + 10;
+			miniMap[i][j].y = i * temp + 410;
+			miniMap[i][j].rc = RectMake(miniMap[i][j].x, miniMap[i][j].y, temp, temp);
+		}
+	}
+
 	return S_OK;
 }
 
@@ -105,6 +117,8 @@ void ToolSub::Update()
 		}
 	}
 
+	SetMiniMap();
+
 	//====================== Debug =====================//
 	if (INPUT->GetKeyDown(VK_SHIFT)) {
 		isDebug = !isDebug;
@@ -125,7 +139,7 @@ void ToolSub::Render(HDC hdc)
 
 		for (int j = 0; j < MAXTILEX; j++) {
 			for (int i = 0; i < MAXTILEY; i++) {
-				img->FrameRender(hdc, tile[i][j].x, tile[i][j].y,
+				tileImg->FrameRender(hdc, tile[i][j].x, tile[i][j].y,
 					tile[i][j].tileX, tile[i][j].tileY);
 			}
 		}
@@ -148,6 +162,21 @@ void ToolSub::Render(HDC hdc)
 		toolbar->FrameRender(hdc, init.left, init.top, 0, 0);
 		toolbar->FrameRender(hdc, save.left, save.top, 1, 0);
 		toolbar->FrameRender(hdc, load.left, load.top, 2, 0);
+
+		for (int j = 0; j < MAXWINTILEX * 2; j++) {
+			for (int i = 0; i < MAXWINTILEY * 2; i++) {
+				if (miniMap[i][j].check == false) continue;
+				miniTile->FrameRender(hdc, miniMap[i][j].x, miniMap[i][j].y,
+					miniMap[i][j].tileX, miniMap[i][j].tileY);
+			}
+		}
+
+		LineMake(hdc, PointMake(0, 400), PointMake(SUBWINSIZEX, 400));
+		IMAGE->Render("miniMap", hdc, 10, 365);
+		TextOut(hdc, 55, 375, "MiniMap", strlen("MiniMap"));
+		IMAGE->Render("camera", hdc, 
+			miniMap[toolMain->GetStartY()][toolMain->GetStartX()].x,
+			miniMap[toolMain->GetStartY()][toolMain->GetStartX()].y);
 	}
 	//==================   Debug   ====================
 	if (isDebug)
@@ -164,6 +193,30 @@ void ToolSub::Render(HDC hdc)
 		RectangleMake(hdc, init);
 		RectangleMake(hdc, save);
 		RectangleMake(hdc, load);
+
+		for (int j = 0; j < MAXWINTILEX * 2; j++) {
+			for (int i = 0; i < MAXWINTILEY * 2; i++) {
+				RectangleMake(hdc, miniMap[i][j].rc);
+			}
+		}
 	}
 	//=================================================
+}
+
+void ToolSub::SetMiniMap()
+{
+	tagTileInfo (*tile)[MAXWINTILEX * 2] = toolMain->GetTile();
+
+	for (int j = 0; j < MAXWINTILEX * 2; j++) {
+		for (int i = 0; i < MAXWINTILEY * 2; i++) {
+			int x = miniMap[i][j].x;
+			int y = miniMap[i][j].y;
+			RECT rc = miniMap[i][j].rc;
+			//miniMap[i][j] = tile[j * MAXWINTILEY * 2 + i];
+			miniMap[i][j] = tile[i][j];
+			miniMap[i][j].x = x;
+			miniMap[i][j].y = y;
+			miniMap[i][j].rc = rc;
+		}
+	}
 }

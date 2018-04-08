@@ -26,9 +26,15 @@ HRESULT MainGame::Init()
 		21 * 25, 16 * 25, 21, 16, true, RGB(255, 0, 255));
 	IMAGE->AddImage("tile_sub", "images/tile.bmp", 0, 0,
 		21 * 20, 16 * 20, 21, 16, true, RGB(255, 0, 255));
+	IMAGE->AddImage("tile_mini", "images/tile.bmp", 0, 0,
+		21 * 5, 16 * 5, 21, 16, true, RGB(255, 0, 255));
 
 	IMAGE->AddImage("toolbar", "images/toolbar_3x1.bmp", 0, 0,
 		3 * 50, 50, 3, 1, true, RGB(255, 0, 255));
+	IMAGE->AddImage("miniMap", "images/miniMap.bmp", 0, 0,
+		35, 35, true, RGB(255, 0, 255));
+	IMAGE->AddImage("camera", "images/camera.bmp", 0, 0,
+		200, 150, true, RGB(255, 0, 255));
 
 	//TestScene * test = new TestScene;
 	//SCENE->AddScene("Test", test);
