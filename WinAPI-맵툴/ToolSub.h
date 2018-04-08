@@ -18,6 +18,8 @@ private:
 	int endX, endY;
 	bool isStart;
 
+	RECT save, load;
+
 	ToolMain * toolMain;
 public:
 	ToolSub();

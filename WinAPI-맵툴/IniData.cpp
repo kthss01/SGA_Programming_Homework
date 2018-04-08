@@ -14,9 +14,13 @@ IniData::~IniData()
 void IniData::AddData(const char * section, const char * key, const char * value)
 {
 	tagIniData iniData;
-	iniData.section = section;
-	iniData.key = key;
-	iniData.value = value;
+	//iniData.section = section;
+	//iniData.key = key;
+	//iniData.value = value;
+
+	strcpy_s(iniData.section, sizeof(iniData.section), section);
+	strcpy_s(iniData.key, sizeof(iniData.key), key);
+	strcpy_s(iniData.value, sizeof(iniData.value), value);
 
 	this->_vIniData.push_back(iniData);
 }

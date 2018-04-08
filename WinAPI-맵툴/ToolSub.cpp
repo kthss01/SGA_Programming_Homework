@@ -32,6 +32,9 @@ HRESULT ToolSub::Init()
 	isStart = false;
 	startX = startY = endX = endY = 0;
 
+	save = RectMake(0, 0, 210, 50);
+	load = RectMake(210, 0, 210, 50);
+	
 	return S_OK;
 }
 
@@ -53,6 +56,13 @@ void ToolSub::Update()
 					isStart = true;
 				}
 			}
+		}
+
+		if (PtInRect(&save, SUBWIN->GetPtMouse())) {
+			toolMain->SaveTile();
+		}
+		if (PtInRect(&load, SUBWIN->GetPtMouse())) {
+			toolMain->LoadTile();
 		}
 	}
 	if (INPUT->GetKey(VK_LBUTTON)
@@ -128,6 +138,9 @@ void ToolSub::Render(HDC hdc)
 			SelectObject(hdc, oldPen);
 			DeleteObject(pen);
 		}
+
+		RectangleMake(hdc, save);
+		RectangleMake(hdc, load);
 		
 	}
 	//==================   Debug   ====================

@@ -137,3 +137,113 @@ void ToolMain::Render()
 	}
 	//=================================================
 }
+
+void ToolMain::SaveTile()
+{
+	//string temp;
+	//char temp[128];
+	//TEXTDATA->CreateWriteTextDataHandle((char*)"save/mapInfo.txt");
+	TEXTDATA->CreateWriteTextDataFilePointer((char*)"save/mapInfo.txt");
+
+	for (int j = 0; j < MAXWINTILEX; j++) {
+		for (int i = 0; i < MAXWINTILEY; i++) {
+
+			//// 포인트 문제로 고생함 결국 IniData 쪽을 바꿈
+			//// 모두 저장하려면 엄청 오래 걸림
+			//// check된거만 저장하자 -> 읽어올 때 문제됨
+			//sprintf_s(str, "tile_%d_%d_x", i, j);
+			//INIDATA->AddData("tile", str, to_string(tile[i][j].x).c_str());
+			//sprintf_s(str, "tile_%d_%d_y", i, j);
+			//INIDATA->AddData("tile", str, to_string(tile[i][j].y).c_str());
+			//sprintf_s(str, "tile_%d_%d_tileX", i, j);
+			//INIDATA->AddData("tile", str, to_string(tile[i][j].tileX).c_str());
+			//sprintf_s(str, "tile_%d_%d_tileY", i, j);
+			//INIDATA->AddData("tile", str, to_string(tile[i][j].tileY).c_str());
+			//sprintf_s(str, "tile_%d_%d_check", i, j);
+			//INIDATA->AddData("tile", str, to_string((int)tile[i][j].check).c_str());
+
+			//sprintf_s(str, "tile_%d_%d_x", i, j);
+			//strcpy_s(temp, sizeof(temp), str);
+			//INIDATA->AddData("tile", temp, to_string(tile[i][j].x).c_str());
+			//sprintf_s(str, "tile_%d_%d_y", i, j);
+			//strcpy_s(temp, sizeof(temp), str);
+			//INIDATA->AddData("tile", temp, to_string(tile[i][j].y).c_str());
+			//sprintf_s(str, "tile_%d_%d_tileX", i, j);
+			//strcpy_s(temp, sizeof(temp), str);
+			//INIDATA->AddData("tile", temp, to_string(tile[i][j].tileX).c_str());
+			//sprintf_s(str, "tile_%d_%d_tileY", i, j);
+			//strcpy_s(temp, sizeof(temp), str);
+			//INIDATA->AddData("tile", temp, to_string(tile[i][j].tileY).c_str());
+			//sprintf_s(str, "tile_%d_%d_check", i, j);
+			//strcpy_s(temp, sizeof(temp), str);
+			//INIDATA->AddData("tile", temp, to_string((int)tile[i][j].check).c_str());
+
+			//temp = "tile_" + to_string(i) + "_" + to_string(j) + "_x";
+			//INIDATA->AddData("tile", temp.c_str(), to_string(tile[i][j].x).c_str());
+			//temp = "tile_" + to_string(i) + "_" + to_string(j) + "_y";
+			//INIDATA->AddData("tile", temp.c_str(), to_string(tile[i][j].y).c_str());
+			//temp = "tile_" + to_string(i) + "_" + to_string(j) + "_tileX";
+			//INIDATA->AddData("tile", temp.c_str(), to_string(tile[i][j].tileX).c_str());
+			//temp = "tile_" + to_string(i) + "_" + to_string(j) + "_tileY";
+			//INIDATA->AddData("tile", temp.c_str(), to_string(tile[i][j].tileY).c_str());
+			//temp = "tile_" + to_string(i) + "_" + to_string(j) + "_check";
+			//INIDATA->AddData("tile", temp.c_str(), to_string((int)tile[i][j].check).c_str());
+
+			vector<string> vStr;
+			sprintf_s(str, "%d", tile[i][j].x);
+			vStr.push_back(str);
+			sprintf_s(str, "%d", tile[i][j].y);
+			vStr.push_back(str);
+			sprintf_s(str, "%d", tile[i][j].tileX);
+			vStr.push_back(str);
+			sprintf_s(str, "%d", tile[i][j].tileY);
+			vStr.push_back(str);
+			sprintf_s(str, "%d", tile[i][j].check);
+			vStr.push_back(str);
+			TEXTDATA->TextWrite(vStr);
+		}
+	}
+	//INIDATA->SaveData("MapInfo");
+
+	//TEXTDATA->CloseTextDataHandle();
+	TEXTDATA->CloseTextDataFilePointer();
+}
+
+void ToolMain::LoadTile()
+{
+	//TEXTDATA->CreateReadTextDataHandle((char*)"save/mapInfo.txt");
+	TEXTDATA->CreateReadTextDataFilePointer((char*)"save/mapInfo.txt");
+
+	vector< vector<string> > vvStr = TEXTDATA->TextRead();
+
+	for (int j = 0; j < MAXWINTILEX; j++) {
+		for (int i = 0; i < MAXWINTILEY; i++) {
+			//sprintf_s(str, "tile_%d_%d_x", i, j);
+			//tile[i][j].x = INIDATA->LoadDataInteger("MapInfo", "tile", str);
+			//sprintf_s(str, "tile_%d_%d_y", i, j);
+			//tile[i][j].y = INIDATA->LoadDataInteger("MapInfo", "tile", str);
+			//sprintf_s(str, "tile_%d_%d_tileX", i, j);
+			//tile[i][j].tileX = INIDATA->LoadDataInteger("MapInfo", "tile", str);
+			//sprintf_s(str, "tile_%d_%d_tileY", i, j);
+			//tile[i][j].tileY = INIDATA->LoadDataInteger("MapInfo", "tile", str);
+			//sprintf_s(str, "tile_%d_%d_check", i, j);
+			//tile[i][j].check = INIDATA->LoadDataInteger("MapInfo", "tile", str);
+			//tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+			//	img->GetFrameWidth(), img->GetFrameHeight());
+
+			vector<string> vStr = vvStr[j * MAXWINTILEY + i];
+
+			tile[i][j].x = atoi(vStr[0].c_str());
+			tile[i][j].y = atoi(vStr[1].c_str());
+			tile[i][j].tileX = atoi(vStr[2].c_str());
+			tile[i][j].tileY = atoi(vStr[3].c_str());
+			tile[i][j].check = atoi(vStr[4].c_str());
+
+			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+				img->GetFrameWidth(), img->GetFrameHeight());
+		}
+	}
+
+	//TEXTDATA->CloseTextDataHandle();
+	TEXTDATA->CloseTextDataFilePointer();
+}

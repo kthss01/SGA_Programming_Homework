@@ -33,5 +33,8 @@ public:
 	void SetTileXY(int endX, int endY) { this->countX = endX; this->countY = endY; }
 	void AddCurrentTile(tagTileInfo tile) { vCurrentTile.push_back(tile); }
 	void ClearCurrentTile() { vCurrentTile.clear(); }
+
+	void SaveTile();
+	void LoadTile();
 };
 

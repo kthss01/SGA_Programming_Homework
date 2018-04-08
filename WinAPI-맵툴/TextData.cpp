@@ -20,11 +20,13 @@ void TextData::TextSave(char * saveFileName, vector<string> vStr)
 {
 	// api가 가지고있는 save 함수 사용
 	HANDLE file;
-	char str[256];
+	char str[MAXSTRSIZE];
 	DWORD write;
 
+	ZeroMemory(str, sizeof(str));
+
 	// 복사해주는데 크기까지 설정가능한 거
-	strncpy_s(str, 256, VectorArrayCombine(vStr), 256);
+	strncpy_s(str, MAXSTRSIZE, VectorArrayCombine(vStr), MAXSTRSIZE);
 
 	// CreateFile Binary 형식으로 들어감
 	// Binary 16진수 데이터 형식으로 들어감
@@ -41,22 +43,25 @@ void TextData::TextSave(char * saveFileName, vector<string> vStr)
 		NULL			// 만들어질 파일이 갖게 될 특성 etc 저장되는 핸들
 	);
 
-	WriteFile(file, str, 256, &write, NULL);
+	WriteFile(file, str, MAXSTRSIZE, &write, NULL);
 	CloseHandle(file);
 }
 
 char * TextData::VectorArrayCombine(vector<string> vArray)
 {
-	char str[256];
+	char str[MAXSTRSIZE];
 	ZeroMemory(str, sizeof(str));
 
 	for (int i = 0; i < vArray.size(); i++) {
-		strncat_s(str, 256, vArray[i].c_str(), 256);
+		strncat_s(str, MAXSTRSIZE, vArray[i].c_str(), MAXSTRSIZE);
 
 		// 마지막 문자는 제외하려고 해서
 		if ((i + 1) < vArray.size()) {
 			strcat_s(str, ",");
 		}
+		// 이거 안하기로 함
+		//if(i == vArray.size() - 1)
+		//	strcat_s(str, "|");
 	}
 
 	return str;
@@ -65,7 +70,7 @@ char * TextData::VectorArrayCombine(vector<string> vArray)
 vector<string> TextData::TextLoad(char * loadFileName)
 {
 	HANDLE file;
-	char str[256];
+	char str[MAXSTRSIZE];
 	DWORD read;
 
 	ZeroMemory(str, sizeof(str));
@@ -80,7 +85,7 @@ vector<string> TextData::TextLoad(char * loadFileName)
 		NULL
 	);
 
-	ReadFile(file, str, 256, &read, NULL);
+	ReadFile(file, str, MAXSTRSIZE, &read, NULL);
 	CloseHandle(file);
 
 	return CharArraySeparation(str);
@@ -103,3 +108,58 @@ vector<string> TextData::CharArraySeparation(char charArray[])
 
 	return vArray;;
 }
+
+void TextData::TextWrite(vector<string> vStr)
+{
+	char str[MAXSTRSIZE];
+
+	ZeroMemory(str, sizeof(str));
+
+	strcpy_s(str, MAXSTRSIZE, VectorArrayCombine(vStr));
+	fprintf(fp, "%s\n", str);
+}
+
+vector<vector<string>> TextData::TextRead()
+{
+	vector< vector<string> > vvStr;
+
+	char str[MAXSTRSIZE];
+
+	while (fscanf_s(fp, "%s", &str, MAXSTRSIZE) != EOF) {
+		vvStr.push_back(CharArraySeparation(str));
+	}
+
+	return vvStr;
+}
+
+//void TextData::TextWrite(vector<string> vStr)
+//{
+//	char str[MAXSTRSIZE];
+//	DWORD write;
+//
+//	ZeroMemory(str, sizeof(str));
+//
+//	strncpy_s(str, MAXSTRSIZE, VectorArrayCombine(vStr), MAXSTRSIZE);
+//	WriteFile(file, str, MAXSTRSIZE, &write, NULL);
+//}
+//
+
+//vector<vector<string>> TextData::TextRead()
+//{
+//	vector< vector<string> > vvStr;
+//
+//	char str[MAXSTRSIZE];
+//	DWORD read = 0;
+//
+//	ZeroMemory(str, sizeof(str));
+//
+//	int cnt = 0;
+//	while (true) {
+//		ReadFile(file, str, MAXSTRSIZE, &read, NULL);
+//		if (read <= 0) break;
+//		vvStr.push_back(CharArraySeparation(str));
+//	};
+//
+//
+//	return vvStr;
+//}

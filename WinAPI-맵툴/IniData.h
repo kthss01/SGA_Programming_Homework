@@ -9,10 +9,16 @@ ini 파일은
 값으로 되어있음
 */
 
+//struct tagIniData {
+//	const char* section;
+//	const char* key;
+//	const char* value;
+//};
+
 struct tagIniData {
-	const char* section;
-	const char* key;
-	const char* value;
+	char section[32];
+	char key[32];
+	char value[32];
 };
 
 class IniData : public SingletonBase<IniData>
