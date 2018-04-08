@@ -18,7 +18,8 @@ private:
 	int endX, endY;
 	bool isStart;
 
-	RECT save, load;
+	Image * toolbar;
+	RECT init, save, load;
 
 	ToolMain * toolMain;
 public:

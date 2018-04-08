@@ -34,6 +34,7 @@ public:
 	void AddCurrentTile(tagTileInfo tile) { vCurrentTile.push_back(tile); }
 	void ClearCurrentTile() { vCurrentTile.clear(); }
 
+	void InitTile();
 	void SaveTile();
 	void LoadTile();
 };

@@ -138,6 +138,19 @@ void ToolMain::Render()
 	//=================================================
 }
 
+void ToolMain::InitTile()
+{
+	for (int j = 0; j < MAXWINTILEX; j++) {
+		for (int i = 0; i < MAXWINTILEY; i++) {
+			ZeroMemory(&tile[i][j], sizeof(tagTileInfo));
+			tile[i][j].x = j * img->GetFrameWidth();
+			tile[i][j].y = i * img->GetFrameHeight();
+			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+				img->GetFrameWidth(), img->GetFrameHeight());
+		}
+	}
+}
+
 void ToolMain::SaveTile()
 {
 	//string temp;

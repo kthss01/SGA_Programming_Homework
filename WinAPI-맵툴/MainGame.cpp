@@ -27,6 +27,9 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage("tile_sub", "images/tile.bmp", 0, 0,
 		21 * 20, 16 * 20, 21, 16, true, RGB(255, 0, 255));
 
+	IMAGE->AddImage("toolbar", "images/toolbar_3x1.bmp", 0, 0,
+		3 * 50, 50, 3, 1, true, RGB(255, 0, 255));
+
 	//TestScene * test = new TestScene;
 	//SCENE->AddScene("Test", test);
 	//SOUND->AddSound("Test", "sounds/¿µÀü3.wav", true, true);

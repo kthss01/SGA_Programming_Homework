@@ -32,8 +32,11 @@ HRESULT ToolSub::Init()
 	isStart = false;
 	startX = startY = endX = endY = 0;
 
-	save = RectMake(0, 0, 210, 50);
-	load = RectMake(210, 0, 210, 50);
+	toolbar = IMAGE->FindImage("toolbar");
+
+	init = RectMake(0, 0, 50, 50);
+	save = RectMake(60, 0, 50, 50);
+	load = RectMake(120, 0, 50, 50);
 	
 	return S_OK;
 }
@@ -58,6 +61,9 @@ void ToolSub::Update()
 			}
 		}
 
+		if (PtInRect(&init, SUBWIN->GetPtMouse())) {
+			toolMain->InitTile();
+		}
 		if (PtInRect(&save, SUBWIN->GetPtMouse())) {
 			toolMain->SaveTile();
 		}
@@ -139,9 +145,9 @@ void ToolSub::Render(HDC hdc)
 			DeleteObject(pen);
 		}
 
-		RectangleMake(hdc, save);
-		RectangleMake(hdc, load);
-		
+		toolbar->FrameRender(hdc, init.left, init.top, 0, 0);
+		toolbar->FrameRender(hdc, save.left, save.top, 1, 0);
+		toolbar->FrameRender(hdc, load.left, load.top, 2, 0);
 	}
 	//==================   Debug   ====================
 	if (isDebug)
@@ -154,6 +160,10 @@ void ToolSub::Render(HDC hdc)
 				RectangleMake(hdc, tile[i][j].rc);
 			}
 		}
+
+		RectangleMake(hdc, init);
+		RectangleMake(hdc, save);
+		RectangleMake(hdc, load);
 	}
 	//=================================================
 }
