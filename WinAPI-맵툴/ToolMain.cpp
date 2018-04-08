@@ -216,8 +216,8 @@ void ToolMain::SaveTile()
 	//TEXTDATA->CreateWriteTextDataHandle((char*)"save/mapInfo.txt");
 	TEXTDATA->CreateWriteTextDataFilePointer((char*)"save/mapInfo.txt");
 
-	for (int j = 0; j < MAXWINTILEX; j++) {
-		for (int i = 0; i < MAXWINTILEY; i++) {
+	for (int j = 0; j < MAXWINTILEX * 2; j++) {
+		for (int i = 0; i < MAXWINTILEY * 2; i++) {
 
 			//// 포인트 문제로 고생함 결국 IniData 쪽을 바꿈
 			//// 모두 저장하려면 엄청 오래 걸림
@@ -287,8 +287,8 @@ void ToolMain::LoadTile()
 
 	vector< vector<string> > vvStr = TEXTDATA->TextRead();
 
-	for (int j = 0; j < MAXWINTILEX; j++) {
-		for (int i = 0; i < MAXWINTILEY; i++) {
+	for (int j = 0; j < MAXWINTILEX * 2; j++) {
+		for (int i = 0; i < MAXWINTILEY * 2; i++) {
 			//sprintf_s(str, "tile_%d_%d_x", i, j);
 			//tile[i][j].x = INIDATA->LoadDataInteger("MapInfo", "tile", str);
 			//sprintf_s(str, "tile_%d_%d_y", i, j);
@@ -302,7 +302,7 @@ void ToolMain::LoadTile()
 			//tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
 			//	img->GetFrameWidth(), img->GetFrameHeight());
 
-			vector<string> vStr = vvStr[j * MAXWINTILEY + i];
+			vector<string> vStr = vvStr[j * MAXWINTILEY * 2 + i];
 
 			tile[i][j].x = atoi(vStr[0].c_str());
 			tile[i][j].y = atoi(vStr[1].c_str());
