@@ -36,9 +36,9 @@ HRESULT ToolMain::Init()
 				//tile[i][j].tileY = RND->GetInt(MAXTILEY);
 			}
 			// test2
-			tile[i][j].check = true;
-			tile[i][j].tileX = RND->GetInt(MAXTILEX);
-			tile[i][j].tileY = RND->GetInt(MAXTILEY);
+			//tile[i][j].check = true;
+			//tile[i][j].tileX = RND->GetInt(MAXTILEX);
+			//tile[i][j].tileY = RND->GetInt(MAXTILEY);
 		}
 	}
 
@@ -127,6 +127,17 @@ void ToolMain::Update()
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+
+	if (INPUT->GetKey(VK_RBUTTON)
+		&& SUBWIN->GetIsActive() == false) {
+		for (int j = startX; j < endX; j++) {
+			for (int i = startY; i < endY; i++) {
+				if (PtInRect(&tile[i][j].rc, g_ptMouse)) {
+					tile[i][j].check = false;
 				}
 			}
 		}
