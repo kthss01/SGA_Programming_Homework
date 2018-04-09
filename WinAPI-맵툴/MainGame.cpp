@@ -35,6 +35,8 @@ HRESULT MainGame::Init()
 		35, 35, true, RGB(255, 0, 255));
 	IMAGE->AddImage("camera", "images/camera.bmp", 0, 0,
 		200, 150, true, RGB(255, 0, 255));
+	IMAGE->AddImage("restore", "images/restore.bmp", 0, 0,
+		50, 50, true, RGB(255, 0, 255));
 
 	//TestScene * test = new TestScene;
 	//SCENE->AddScene("Test", test);

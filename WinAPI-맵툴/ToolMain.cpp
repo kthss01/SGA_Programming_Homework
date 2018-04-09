@@ -23,11 +23,11 @@ HRESULT ToolMain::Init()
 
 	for (int j = 0; j < MAXWINTILEX * 2; j++) {
 		for (int i = 0; i < MAXWINTILEY * 2; i++) {
-			ZeroMemory(&tile[i][j], sizeof(tagTileInfo));
+			ZeroMemory(&tile.tile[i][j], sizeof(tagTileInfo));
 			if (startX <= j && j < endX && startY <= i && i < endY) {
-				tile[i][j].x = j * img->GetFrameWidth() - startX * 25;
-				tile[i][j].y = i * img->GetFrameHeight() - startY * 25;
-				tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+				tile.tile[i][j].x = j * img->GetFrameWidth() - startX * 25;
+				tile.tile[i][j].y = i * img->GetFrameHeight() - startY * 25;
+				tile.tile[i][j].rc = RectMake(tile.tile[i][j].x, tile.tile[i][j].y,
 					img->GetFrameWidth(), img->GetFrameHeight());
 
 				//// test
@@ -82,16 +82,16 @@ void ToolMain::Update()
 
 	for (int j = startX; j < endX; j++) {
 		for (int i = startY; i < endY; i++) {
-			tile[i][j].x = j * img->GetFrameWidth() - startX * 25;
-			tile[i][j].y = i * img->GetFrameHeight() - startY * 25;
-			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+			tile.tile[i][j].x = j * img->GetFrameWidth() - startX * 25;
+			tile.tile[i][j].y = i * img->GetFrameHeight() - startY * 25;
+			tile.tile[i][j].rc = RectMake(tile.tile[i][j].x, tile.tile[i][j].y,
 				img->GetFrameWidth(), img->GetFrameHeight());
 		}
 	}
 
 	for (int j = startX; j < endX; j++) {
 		for (int i = startY; i < endY; i++) {
-			if (PtInRect(&tile[i][j].rc, g_ptMouse)) {
+			if (PtInRect(&tile.tile[i][j].rc, g_ptMouse)) {
 				currentX = j;
 				currentY = i;
 			}
@@ -102,7 +102,7 @@ void ToolMain::Update()
 		&& SUBWIN->GetIsActive() == false) {
 		for (int j = startX; j < endX; j++) {
 			for (int i = startY; i < endY; i++) {
-				if (PtInRect(&tile[i][j].rc, g_ptMouse)) {
+				if (PtInRect(&tile.tile[i][j].rc, g_ptMouse)) {
 					//int x = tile[i][j].x;
 					//int y = tile[i][j].y;
 					//tile[i][j] = currentTile;
@@ -110,6 +110,8 @@ void ToolMain::Update()
 					//tile[i][j].y = y;
 					int cnt = 0;
 					if (vCurrentTile.size() != 0) {
+							stack.push(tile);
+
 						for (int l = j; l <= j + countX; l++) {
 							if (l >= MAXWINTILEX * 2) break;
 							for (int k = i; k <= i + countY; k++) {
@@ -117,13 +119,13 @@ void ToolMain::Update()
 									cnt += currentY + countY - k + 1;
 									break;
 								}
-								int x = tile[k][l].x;
-								int y = tile[k][l].y;
-								RECT rc = tile[k][l].rc;
-								tile[k][l] = vCurrentTile[cnt++];
-								tile[k][l].x = x;
-								tile[k][l].y = y;
-								tile[k][l].rc = rc;
+								int x = tile.tile[k][l].x;
+								int y = tile.tile[k][l].y;
+								RECT rc = tile.tile[k][l].rc;
+								tile.tile[k][l] = vCurrentTile[cnt++];
+								tile.tile[k][l].x = x;
+								tile.tile[k][l].y = y;
+								tile.tile[k][l].rc = rc;
 							}
 						}
 					}
@@ -136,8 +138,8 @@ void ToolMain::Update()
 		&& SUBWIN->GetIsActive() == false) {
 		for (int j = startX; j < endX; j++) {
 			for (int i = startY; i < endY; i++) {
-				if (PtInRect(&tile[i][j].rc, g_ptMouse)) {
-					tile[i][j].check = false;
+				if (PtInRect(&tile.tile[i][j].rc, g_ptMouse)) {
+					tile.tile[i][j].check = false;
 				}
 			}
 		}
@@ -160,10 +162,10 @@ void ToolMain::Render()
 
 		for (int j = startX; j < endX; j++) {
 			for (int i = startY; i < endY; i++) {
-				if (tile[i][j].check == false) continue;
+				if (tile.tile[i][j].check == false) continue;
 				img->FrameRender(GetMemDC(),
-					tile[i][j].x, tile[i][j].y,
-					tile[i][j].tileX, tile[i][j].tileY);
+					tile.tile[i][j].x, tile.tile[i][j].y,
+					tile.tile[i][j].tileX, tile.tile[i][j].tileY);
 			}
 		}
 
@@ -178,7 +180,7 @@ void ToolMain::Render()
 						break;
 					}
 					img->FrameRender(GetMemDC(),
-						tile[i][j].x, tile[i][j].y,
+						tile.tile[i][j].x, tile.tile[i][j].y,
 						vCurrentTile[cnt].tileX, vCurrentTile[cnt].tileY, 128);
 					cnt++;
 				}
@@ -193,7 +195,7 @@ void ToolMain::Render()
 
 		for (int j = startX; j < endX; j++) {
 			for (int i = startY; i < endY; i++) {
-				RectangleMake(GetMemDC(), tile[i][j].rc);
+				RectangleMake(GetMemDC(), tile.tile[i][j].rc);
 			}
 		}
 	}
@@ -204,7 +206,7 @@ void ToolMain::InitTile()
 {
 	for (int j = 0; j < MAXWINTILEX * 2; j++) {
 		for (int i = 0; i < MAXWINTILEY * 2; i++) {
-			tile[i][j].check = false;
+			tile.tile[i][j].check = false;
 		}
 	}
 }
@@ -261,15 +263,15 @@ void ToolMain::SaveTile()
 			//INIDATA->AddData("tile", temp.c_str(), to_string((int)tile[i][j].check).c_str());
 
 			vector<string> vStr;
-			sprintf_s(str, "%d", tile[i][j].x);
+			sprintf_s(str, "%d", tile.tile[i][j].x);
 			vStr.push_back(str);
-			sprintf_s(str, "%d", tile[i][j].y);
+			sprintf_s(str, "%d", tile.tile[i][j].y);
 			vStr.push_back(str);
-			sprintf_s(str, "%d", tile[i][j].tileX);
+			sprintf_s(str, "%d", tile.tile[i][j].tileX);
 			vStr.push_back(str);
-			sprintf_s(str, "%d", tile[i][j].tileY);
+			sprintf_s(str, "%d", tile.tile[i][j].tileY);
 			vStr.push_back(str);
-			sprintf_s(str, "%d", tile[i][j].check);
+			sprintf_s(str, "%d", tile.tile[i][j].check);
 			vStr.push_back(str);
 			TEXTDATA->TextWrite(vStr);
 		}
@@ -304,17 +306,46 @@ void ToolMain::LoadTile()
 
 			vector<string> vStr = vvStr[j * MAXWINTILEY * 2 + i];
 
-			tile[i][j].x = atoi(vStr[0].c_str());
-			tile[i][j].y = atoi(vStr[1].c_str());
-			tile[i][j].tileX = atoi(vStr[2].c_str());
-			tile[i][j].tileY = atoi(vStr[3].c_str());
-			tile[i][j].check = atoi(vStr[4].c_str());
+			tile.tile[i][j].x = atoi(vStr[0].c_str());
+			tile.tile[i][j].y = atoi(vStr[1].c_str());
+			tile.tile[i][j].tileX = atoi(vStr[2].c_str());
+			tile.tile[i][j].tileY = atoi(vStr[3].c_str());
+			tile.tile[i][j].check = atoi(vStr[4].c_str());
 
-			tile[i][j].rc = RectMake(tile[i][j].x, tile[i][j].y,
+			tile.tile[i][j].rc = RectMake(tile.tile[i][j].x, tile.tile[i][j].y,
 				img->GetFrameWidth(), img->GetFrameHeight());
 		}
 	}
 
 	//TEXTDATA->CloseTextDataHandle();
 	TEXTDATA->CloseTextDataFilePointer();
+}
+
+void ToolMain::RestoreTile()
+{
+	if (stack.empty()) return;
+
+	// 마우스 키 입력이라 같은 타일 정보가 들어가는 경우가 있음 
+	// 그 경우 다 빼버리려고 하는거
+	while (true) {
+		bool isSame = true;
+		for (int j = 0; j < MAXWINTILEX * 2; j++) {
+			for (int i = 0; i < MAXWINTILEY * 2; i++) {
+				if (tile.tile[i][j].check != stack.top().tile[i][j].check) {
+					isSame = false;
+					break;
+				}
+			}
+			if (isSame == false)
+				break;
+		}
+
+		if (isSame)
+			stack.pop();
+		else
+			break;
+	}
+
+	tile = stack.top();
+	stack.pop();
 }

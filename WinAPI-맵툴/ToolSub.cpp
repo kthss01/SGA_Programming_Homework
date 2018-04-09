@@ -37,6 +37,7 @@ HRESULT ToolSub::Init()
 	init = RectMake(0, 0, 50, 50);
 	save = RectMake(60, 0, 50, 50);
 	load = RectMake(120, 0, 50, 50);
+	restore = RectMake(180, 0, 50, 50);
 	
 	int temp = 5;
 
@@ -81,6 +82,9 @@ void ToolSub::Update()
 		}
 		if (PtInRect(&load, SUBWIN->GetPtMouse())) {
 			toolMain->LoadTile();
+		}
+		if (PtInRect(&restore, SUBWIN->GetPtMouse())) {
+			toolMain->RestoreTile();
 		}
 	}
 	if (INPUT->GetKey(VK_LBUTTON)
@@ -162,6 +166,7 @@ void ToolSub::Render(HDC hdc)
 		toolbar->FrameRender(hdc, init.left, init.top, 0, 0);
 		toolbar->FrameRender(hdc, save.left, save.top, 1, 0);
 		toolbar->FrameRender(hdc, load.left, load.top, 2, 0);
+		IMAGE->Render("restore", hdc, restore.left, restore.top);
 
 		for (int j = 0; j < MAXWINTILEX * 2; j++) {
 			for (int i = 0; i < MAXWINTILEY * 2; i++) {
@@ -193,6 +198,7 @@ void ToolSub::Render(HDC hdc)
 		RectangleMake(hdc, init);
 		RectangleMake(hdc, save);
 		RectangleMake(hdc, load);
+		RectangleMake(hdc, restore);
 
 		for (int j = 0; j < MAXWINTILEX * 2; j++) {
 			for (int i = 0; i < MAXWINTILEY * 2; i++) {

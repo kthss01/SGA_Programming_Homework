@@ -19,7 +19,7 @@ private:
 	bool isStart;
 
 	Image * toolbar;
-	RECT init, save, load;
+	RECT init, save, load, restore;
 
 	tagTileInfo miniMap[MAXWINTILEY * 2][MAXWINTILEX * 2];
 	Image * miniTile;

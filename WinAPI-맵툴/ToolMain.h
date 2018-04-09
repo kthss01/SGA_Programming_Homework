@@ -2,6 +2,14 @@
 
 #include "MapTool.h"
 
+#include <stack>
+
+using namespace std;
+
+struct tagTileData {
+	tagTileInfo tile[MAXWINTILEY * 2][MAXWINTILEX * 2];
+};
+
 class ToolMain : public MapTool
 {
 private:
@@ -9,7 +17,9 @@ private:
 
 	char str[128];
 
-	tagTileInfo tile[MAXWINTILEY * 2][MAXWINTILEX * 2];
+	//tagTileInfo tile[MAXWINTILEY * 2][MAXWINTILEX * 2];
+	tagTileData tile;
+	stack<tagTileData> stack;
 
 	//tagTileInfo currentTile;
 	vector<tagTileInfo> vCurrentTile;
@@ -37,11 +47,12 @@ public:
 	void InitTile();
 	void SaveTile();
 	void LoadTile();
+	void RestoreTile();
 
 	// 편법
 	//tagTileInfo* GetTile() { return (tagTileInfo*)tile; }
 	// 2차원 배열 반환
-	tagTileInfo (* GetTile())[MAXWINTILEX * 2] { return tile; }
+	tagTileInfo (* GetTile())[MAXWINTILEX * 2] { return tile.tile; }
 
 	int GetStartX() { return startX; }
 	int GetStartY() { return startY; }
