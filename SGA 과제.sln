@@ -103,6 +103,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-슈팅 게임4", "Wi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-맵툴", "WinAPI-맵툴\WinAPI-맵툴.vcxproj", "{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-이미지 크기 변환", "WinAPI-이미지 크기 변환\WinAPI-이미지 크기 변환.vcxproj", "{60392847-418A-4C55-BC81-E6D6D08E39D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -511,6 +513,14 @@ Global
 		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Release|x64.Build.0 = Release|x64
 		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Release|x86.ActiveCfg = Release|Win32
 		{AADA81F8-C1D6-4FB4-95B2-4088EF18D9B0}.Release|x86.Build.0 = Release|Win32
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Debug|x64.ActiveCfg = Debug|x64
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Debug|x64.Build.0 = Debug|x64
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Debug|x86.ActiveCfg = Debug|Win32
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Debug|x86.Build.0 = Debug|Win32
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Release|x64.ActiveCfg = Release|x64
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Release|x64.Build.0 = Release|x64
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Release|x86.ActiveCfg = Release|Win32
+		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
