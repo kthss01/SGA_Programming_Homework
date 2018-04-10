@@ -6,6 +6,18 @@ POINT Window::ptMouse = POINT{ 0,0 };
 
 Window::Window()
 {
+	m_backBuffer = new Image();
+	m_backBuffer->Init(SUBWINSIZEX, SUBWINSIZEY);
+}
+
+
+Window::~Window()
+{
+	SAFE_DELETE(m_backBuffer);
+}
+
+void Window::Init()
+{
 	// 로그 윈도우 생성
 	int x, y, cx, cy;
 	WNDCLASS wc;
@@ -36,6 +48,9 @@ Window::Window()
 	HWND		hParenthWnd = NULL;
 	HINSTANCE	hInst = NULL;
 
+	hParenthWnd = g_hWnd;
+	hInst = GetModuleHandle(NULL);
+
 	hWnd = CreateWindow(
 		"sub",
 		"sub",
@@ -43,23 +58,13 @@ Window::Window()
 		x, y, cx, cy, hParenthWnd, NULL,
 		hInst, NULL);
 
+	SetWindowPos(hWnd, NULL, x, y, cx, cy, SWP_NOZORDER);
+
 	ShowWindow(hWnd, SW_SHOW);
 
-	Init();
-
-	m_backBuffer = new Image();
-	m_backBuffer->Init(SUBWINSIZEX, SUBWINSIZEY);
-}
-
-
-Window::~Window()
-{
-	SAFE_DELETE(m_backBuffer);
-}
-
-void Window::Init()
-{
 	isActive = false;
+
+
 }
 
 void Window::Release()
@@ -79,7 +84,7 @@ void Window::Update()
 	x = rcWin.right;
 	y = rcWin.top;
 
-	SetWindowPos(hWnd, NULL, x, y, cx, cy, 0);
+	//SetWindowPos(hWnd, NULL, x, y, cx, cy, 0);
 
 	if (currentScene != NULL)
 	{
@@ -113,7 +118,7 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		SUBWIN->SetIsActive(true);
 		ptMouse.x = LOWORD(lParam);
-		ptMouse.y = g_ptMouse.y = HIWORD(lParam);
+		ptMouse.y = HIWORD(lParam);
 		break;
 	case WM_PAINT:
 	{

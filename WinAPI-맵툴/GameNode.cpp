@@ -25,6 +25,7 @@ HRESULT GameNode::Init() {
 	//SetTimer(g_hWnd, 1, 10, NULL);
 
 	FRAME->Init();
+	SUBWIN;
 
 	return S_OK;
 }
@@ -60,7 +61,7 @@ void GameNode::Release() {
 void GameNode::Update() {
 	InvalidateRect(g_hWnd, NULL, FALSE);
 
-	SUBWIN->Update();
+	//SUBWIN->Update();
 }
 
 void GameNode::Render() {}

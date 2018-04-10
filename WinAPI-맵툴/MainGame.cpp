@@ -8,7 +8,7 @@
 
 MainGame::MainGame()
 {
-	SUBWIN->Init();
+	//SUBWIN->Init();
 }
 
 
@@ -20,6 +20,7 @@ HRESULT MainGame::Init()
 {
 	GameNode::Init();
 	SOUND->Init();
+	SUBWIN->Init();
 	isDebug = false;
 
 	IMAGE->AddImage("tile_main", "images/tile.bmp", 0, 0,
@@ -38,12 +39,16 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage("restore", "images/restore.bmp", 0, 0,
 		50, 50, true, RGB(255, 0, 255));
 
+	IMAGE->AddImage("test", "images/miniMap.bmp", 0, 0,
+		WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+
 	//TestScene * test = new TestScene;
 	//SCENE->AddScene("Test", test);
 	//SOUND->AddSound("Test", "sounds/¿µÀü3.wav", true, true);
 	//SUBWIN->SetScene(test);
 	//SCENE->ChangeScene("Test");
 	
+
 	ToolMain * main = (ToolMain*)SCENE->AddScene("MapTool_Main", new ToolMain);
 	ToolSub * sub = (ToolSub*)SCENE->AddScene("MapTool_Sub", new ToolSub);
 	SUBWIN->SetScene(sub);
@@ -77,6 +82,8 @@ void MainGame::Render()
 	PatBlt(GetMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//=================================================
 	{
+		//IMAGE->Render("test", GetMemDC(), 0, 0);
+
 		SCENE->Render();
 		SUBWIN->Render();
 	}
