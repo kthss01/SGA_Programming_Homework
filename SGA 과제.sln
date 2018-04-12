@@ -105,6 +105,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-맵툴", "WinAPI-맵
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-이미지 크기 변환", "WinAPI-이미지 크기 변환\WinAPI-이미지 크기 변환.vcxproj", "{60392847-418A-4C55-BC81-E6D6D08E39D6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-탱크게임1", "WinAPI-탱크게임1\WinAPI-탱크게임1.vcxproj", "{B75F86C1-F845-4398-9B86-3D991943DED3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-탱크게임2", "WinAPI-탱크게임2\WinAPI-탱크게임2.vcxproj", "{68961A4F-F957-4BEB-B1E6-3B842E13AC09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -521,6 +525,22 @@ Global
 		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Release|x64.Build.0 = Release|x64
 		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Release|x86.ActiveCfg = Release|Win32
 		{60392847-418A-4C55-BC81-E6D6D08E39D6}.Release|x86.Build.0 = Release|Win32
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Debug|x64.ActiveCfg = Debug|x64
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Debug|x64.Build.0 = Debug|x64
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Debug|x86.ActiveCfg = Debug|Win32
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Debug|x86.Build.0 = Debug|Win32
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Release|x64.ActiveCfg = Release|x64
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Release|x64.Build.0 = Release|x64
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Release|x86.ActiveCfg = Release|Win32
+		{B75F86C1-F845-4398-9B86-3D991943DED3}.Release|x86.Build.0 = Release|Win32
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Debug|x64.ActiveCfg = Debug|x64
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Debug|x64.Build.0 = Debug|x64
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Debug|x86.ActiveCfg = Debug|Win32
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Debug|x86.Build.0 = Debug|Win32
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Release|x64.ActiveCfg = Release|x64
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Release|x64.Build.0 = Release|x64
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Release|x86.ActiveCfg = Release|Win32
+		{68961A4F-F957-4BEB-B1E6-3B842E13AC09}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
