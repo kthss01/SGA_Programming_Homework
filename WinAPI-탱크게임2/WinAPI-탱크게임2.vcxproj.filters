@@ -123,6 +123,9 @@
     <ClInclude Include="RandomFunction.h">
       <Filter>GameFrameWork\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameMain\TankGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -187,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>GameFrameWork\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameMain\TankGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

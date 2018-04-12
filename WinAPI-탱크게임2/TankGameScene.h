@@ -3,12 +3,14 @@
 #include "GameNode.h"
 #include "Tank.h"
 #include "TankMap.h"
+#include "Enemy.h"
 
 class TankGameScene : public GameNode
 {
 private:
 	Tank * tank;
 	TankMap* map;
+	Enemy * enemy;
 public:
 	TankGameScene();
 	~TankGameScene();

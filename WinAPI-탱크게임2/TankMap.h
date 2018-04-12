@@ -5,6 +5,13 @@
 
 // 타일 정보를 탱크한테 넘겨주면 탱크가 알아서 처리하게 할꺼
 
+enum TANKDIRECTION {
+	TANKDIRECTION_LEFT,
+	TANKDIRECTION_RIGHT,
+	TANKDIRECTION_UP,
+	TANKDIRECTION_DOWN
+};
+
 class TankMap : public GameNode
 {
 private:
@@ -25,7 +32,7 @@ public:
 
 	tagTile* GetTiles() { return _tiles; }
 	int GetPosFirst() { return 0; }
-	//int GetPosSecond() { return _pos[1]; }
+	int GetPosSecond() { return TILEX * TILEY - 1; }
 	DWORD* GetAttribute() { return _attributes; }
 
 

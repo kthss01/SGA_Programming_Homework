@@ -17,8 +17,14 @@ HRESULT TankGameScene::Init()
 	tank->Init();
 	map = new TankMap;
 	map->Init();
-	tank->SetTankMapMemorLink(map);
+	tank->SetTankMapMemoryLink(map);
 	tank->SetTankPosition();
+	enemy = new Enemy;
+	enemy->Init();
+	enemy->SetTankMapMemoryLink(map);
+	enemy->SetTankPosition();
+	tank->SetEnemyMemoryLink(enemy);
+	enemy->SetTankMemoryLink(tank);
 	return S_OK;
 }
 
@@ -26,15 +32,18 @@ void TankGameScene::Release()
 {
 	SAFE_DELETE(tank);
 	SAFE_DELETE(map);
+	SAFE_DELETE(enemy);
 }
 
 void TankGameScene::Update()
 {
 	tank->Update();
+	enemy->Update();
 }
 
 void TankGameScene::Render()
 {
 	map->Render();
 	tank->Render();
+	enemy->Render();
 }

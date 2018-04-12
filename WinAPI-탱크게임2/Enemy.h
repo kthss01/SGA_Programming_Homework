@@ -3,13 +3,14 @@
 #include "GameNode.h"
 #include "TankMap.h"
 
-class Enemy;
+class Tank;
 
-class Tank : public GameNode
+class Enemy : public GameNode
 {
 private:
 	TANKDIRECTION _direction;
 	Image * _image;
+	int frameX, frameY;
 	RECT _rc;
 	float _x, _y;
 	float _speed;
@@ -20,14 +21,15 @@ private:
 
 	vector<int> vTileIndex;
 
-	int frameX, frameY;
+	int cnt;
+	TANKDIRECTION currentDir;
 
-	Enemy * enemy;
+	Tank * tank;
 
 	bool isLive;
 public:
-	Tank();
-	~Tank();
+	Enemy();
+	~Enemy();
 
 	HRESULT Init();
 	void Release();
@@ -38,7 +40,7 @@ public:
 	void TankFire();
 	void SetTankPosition();
 	void SetTankMapMemoryLink(TankMap * tm) { _tankMap = tm; }
-	void SetEnemyMemoryLink(Enemy* enemy) { this->enemy = enemy; }
+	void SetTankMemoryLink(Tank * tank) { this->tank = tank; }
 	RECT GetRect() { return _rc; }
 	void SetIsLive(bool isLive) { this->isLive = isLive; }
 	bool GetIsLive() { return isLive; }

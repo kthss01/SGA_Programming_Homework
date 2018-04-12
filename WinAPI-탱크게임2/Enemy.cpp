@@ -1,65 +1,84 @@
 #include "stdafx.h"
-#include "Tank.h"
-
 #include "Enemy.h"
 
-Tank::Tank()
+#include "Tank.h"
+
+Enemy::Enemy()
 {
 }
 
 
-Tank::~Tank()
+Enemy::~Enemy()
 {
 }
 
-HRESULT Tank::Init()
+HRESULT Enemy::Init()
 {
-	_direction = TANKDIRECTION_RIGHT;
+	_direction = TANKDIRECTION_UP;
+	frameX = 0;
+	frameY = 0;
 
 	_image = IMAGE->AddImage("tank", "images/tank.bmp", 0, 0,
 		256, 128, 8, 4, true, RGB(255, 0, 255));
 
 	_speed = 100.0f;
 
-	frameX = 0;
-	frameY = 3;
+	cnt = 0;
+	currentDir = _direction;
 
 	isLive = true;
 
 	return S_OK;
 }
 
-void Tank::Release()
+void Enemy::Release()
 {
 }
 
-void Tank::Update()
+void Enemy::Update()
 {
-	if (!isLive) return;
+	// 죽었거나 탱크가 죽으면 Update() 진행안하고 반환
+	if (!isLive || !tank->GetIsLive()) return;
 
-	// Left Move
-	if (INPUT->GetKey(VK_LEFT) && _x - (_rc.right - _rc.left) / 2 > 0) {
-		_direction = TANKDIRECTION_LEFT;
-		ray = Ray(_x, _y, -1 * WINSIZEX, 0 + _y);
-		TankMove();
-	}
-	// Right Move
-	if (INPUT->GetKey(VK_RIGHT) && _x + (_rc.right - _rc.left) / 2 < WINSIZEX) {
-		_direction = TANKDIRECTION_RIGHT;
-		ray = Ray(_x, _y, 1 * WINSIZEX, 0 + _y);
-		TankMove();
-	}
-	// Up Move
-	if (INPUT->GetKey(VK_UP) && _y - (_rc.bottom - _rc.top) / 2 > 0) {
-		_direction = TANKDIRECTION_UP;
-		ray = Ray(_x, _y, 0 + _x, -1 * WINSIZEY);
-		TankMove();
-	}
-	// Down Move
-	if (INPUT->GetKey(VK_DOWN) && _y + (_rc.bottom - _rc.top) / 2 < WINSIZEY) {
-		_direction = TANKDIRECTION_DOWN;
-		ray = Ray(_x, _y, 0 + _x, 1 * WINSIZEY);
-		TankMove();
+	// 그냥 랜덤으로 이동
+	
+	cnt++;
+	if (cnt % 50 == 0)
+		currentDir = (TANKDIRECTION)RND->GetInt(4);
+
+	switch (currentDir) {
+	case 0:
+		// Left Move
+		if (_x - (_rc.right - _rc.left) / 2 > 0) {
+			_direction = TANKDIRECTION_LEFT;
+			ray = Ray(_x, _y, -1 * WINSIZEX, 0 + _y);
+			TankMove();
+		}
+		break;
+	case 1:
+		// Right Move
+		if (_x + (_rc.right - _rc.left) / 2 < WINSIZEX) {
+			_direction = TANKDIRECTION_RIGHT;
+			ray = Ray(_x, _y, 1 * WINSIZEX, 0 + _y);
+			TankMove();
+		}
+		break;
+	case 2:
+		// Up Move
+		if (_y - (_rc.bottom - _rc.top) / 2 > 0) {
+			_direction = TANKDIRECTION_UP;
+			ray = Ray(_x, _y, 0 + _x, -1 * WINSIZEY);
+			TankMove();
+		}
+		break;
+	case 3:
+		// Down Move
+		if (_y + (_rc.bottom - _rc.top) / 2 < WINSIZEY) {
+			_direction = TANKDIRECTION_DOWN;
+			ray = Ray(_x, _y, 0 + _x, 1 * WINSIZEY);
+			TankMove();
+		}
+		break;
 	}
 
 	_rc = RectMakeCenter(_x, _y, _image->GetFrameWidth(), _image->GetFrameHeight());
@@ -85,29 +104,31 @@ void Tank::Update()
 	}
 
 	// 총알 발사
-	if (INPUT->GetKeyDown(VK_SPACE)) {
-		SOUND->Play("Fire", 0.8f);
-		TankFire();
+	// 레이에 타일들 하나라도 걸리면 총알 발사
+	// 또는 탱크가 레이에 걸려도 발사
+	if (vTileIndex.size() != 0 ||
+		ray.CollisionRect(tank->GetRect())) {
+		if (cnt % 25 == 0) {
+			SOUND->Play("Fire", 0.5f);
+			TankFire();
+		}
 	}
-
 }
 
-void Tank::Render()
+void Enemy::Render()
 {
-	if (!isLive) {
-		IMAGE->Render("gameover", GetMemDC(), 0, 0);
-	}
-	else {
-		ray.DrawRay(GetMemDC());
-		_image->FrameRender(GetMemDC(), _rc.left, _rc.top, frameX, frameY);
-		//_image->Render(GetMemDC());
-	}
+	// 죽었거나 탱크가 죽으면 Render() 진행안하고 반환
+	if (!isLive || !tank->GetIsLive()) return;
+
+	ray.DrawRay(GetMemDC());
+	_image->FrameRender(GetMemDC(), _rc.left, _rc.top, frameX, frameY);
+	//_image->Render(GetMemDC());
 }
 
-void Tank::TankMove()
+void Enemy::TankMove()
 {
 	RECT rcCollision;	// 충돌 렉트
-	// 0은 내가 밟고있는 타일, 1은 내가 진행하고 있는 방향의 타일
+						// 0은 내가 밟고있는 타일, 1은 내가 진행하고 있는 방향의 타일
 	int tileIndex[2];
 	int tileX, tileY;	// 타일 x,y
 	rcCollision = _rc;
@@ -211,13 +232,12 @@ void Tank::TankMove()
 		_image->GetFrameWidth(), _image->GetFrameHeight());
 }
 
-void Tank::TankFire()
+void Enemy::TankFire()
 {
-	// 타일 제거
 	if (vTileIndex.size() != 0) {
+		// 가장 가까운 타일 찾기
 		tagTile temp = _tankMap->GetTiles()[vTileIndex[0]];
 
-		// 가장 가까운 타일 찾기
 		int distance = GetDistance(_x, _y,
 			temp.rc.left + (temp.rc.right - temp.rc.left) / 2,
 			temp.rc.top + (temp.rc.bottom - temp.rc.top) / 2);
@@ -233,24 +253,23 @@ void Tank::TankFire()
 			}
 		}
 
-		// 에너미와의 거리 계산해서 찾은 타일보다 에너미가 더 가까우면 에너미 제거
-		if (ray.CollisionRect(enemy->GetRect()) &&
-			enemy->GetIsLive() &&
+		// 탱크와의 거리 계산해서 찾은 타일보다 탱크가 더 가까우면 에너미 제거
+		if (ray.CollisionRect(tank->GetRect()) &&
+			tank->GetIsLive() &&
 			distance > GetDistance(_x, _y,
-			enemy->GetRect().left + (enemy->GetRect().right - enemy->GetRect().left) / 2,
-			enemy->GetRect().top + (enemy->GetRect().bottom - enemy->GetRect().top) / 2)) {
-			enemy->SetIsLive(false);
+				tank->GetRect().left + (tank->GetRect().right - tank->GetRect().left) / 2,
+				tank->GetRect().top + (tank->GetRect().bottom - tank->GetRect().top) / 2)) {
+			tank->SetIsLive(false);
 		}
-		// 아닌 경우 타일 제거
+		// 타일이 가까우면 타일 제거
 		else {
-			// 찾은 타일 수정
+			// 타일 처리
 			POINT pos;
-			// 한방짜리 블락이면 제거
+
 			if (_tankMap->GetTiles()[index].obj == OBJ_BLOCK1) {
 				_tankMap->GetTiles()[index].obj = OBJ_NONE;
 				_tankMap->GetAttribute()[index] = 0;
 			}
-			// 나머지이면 (블락2,3) 한단계 아래로
 			else {
 				_tankMap->GetTiles()[index].obj =
 					(OBJECT)(_tankMap->GetTiles()[index].obj - 1);
@@ -263,16 +282,16 @@ void Tank::TankFire()
 	}
 	// 제거할 타일이 없을 때
 	else {
-		// 에너미 제거
-		if (ray.CollisionRect(enemy->GetRect())) {
-			enemy->SetIsLive(false);
+		// 탱크 제거
+		if (ray.CollisionRect(tank->GetRect())) {
+			tank->SetIsLive(false);
 		}
 	}
 }
 
-void Tank::SetTankPosition()
+void Enemy::SetTankPosition()
 {
-	_rc = _tankMap->GetTiles()[_tankMap->GetPosFirst()].rc;
+	_rc = _tankMap->GetTiles()[_tankMap->GetPosSecond()].rc;
 	_x = _rc.left + (_rc.right - _rc.left) / 2;
 	_y = _rc.top + (_rc.bottom - _rc.top) / 2;
 }
