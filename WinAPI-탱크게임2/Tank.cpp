@@ -90,6 +90,10 @@ void Tank::Update()
 		TankFire();
 	}
 
+	// 에너미 부활
+	if (INPUT->GetKeyDown('C')) {
+		enemy->SetIsLive(true);
+	}
 }
 
 void Tank::Render()
