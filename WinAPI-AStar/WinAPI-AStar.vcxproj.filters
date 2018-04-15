@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="GameMain">
+      <UniqueIdentifier>{845645a1-9155-4c20-a24b-6fe5ce9d7b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork">
+      <UniqueIdentifier>{6f7ec61b-0c78-4453-8657-0342c7a8cb4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Manager">
+      <UniqueIdentifier>{0845b775-0658-417f-bc6b-0e756e591948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Util">
+      <UniqueIdentifier>{f431337e-7403-4dc1-827c-f64410624cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Image">
+      <UniqueIdentifier>{335315f4-caca-4fbf-b95b-7f6ce47666df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Manager\Timer">
+      <UniqueIdentifier>{1da45c4c-f4b5-4e8c-b685-b56abf3f8efd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrameWork\Scene">
+      <UniqueIdentifier>{94d2c6e8-577f-48b8-8232-c4c3cd5c2c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SaveFile">
+      <UniqueIdentifier>{00ce1dc5-6825-424a-bc36-d5cbe091fea5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SIngletonBase.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>GameFrameWork\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
+      <Filter>GameFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>GameMain</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBar.h">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>GameFrameWork\Manager\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>GameFrameWork\Manager\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>GameFrameWork\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextData.h">
+      <Filter>SaveFile</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>GameMain</Filter>
+    </ClInclude>
+    <ClInclude Include="IniData.h">
+      <Filter>SaveFile</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMacroFunction.h">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomFunction.h">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>GameFrameWork\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameNode.cpp">
+      <Filter>GameFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBar.cpp">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>GameFrameWork\Manager\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>GameFrameWork\Manager\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>GameFrameWork\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>GameFrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextData.cpp">
+      <Filter>SaveFile</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="IniData.cpp">
+      <Filter>SaveFile</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>GameFrameWork\Util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinAPI.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="WinAPI.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
