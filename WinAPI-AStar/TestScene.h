@@ -46,8 +46,6 @@ class TestScene : public GameNode
 private:
 	bool isDebug;
 
-	//vector<string> test;
-
 	tagTile tiles[TILESIZE];
 
 	vector<int> openList;

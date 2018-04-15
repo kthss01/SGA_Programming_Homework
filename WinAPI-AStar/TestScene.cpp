@@ -15,24 +15,6 @@ HRESULT TestScene::Init()
 {
 	isDebug = false;
 
-	//SOUND->Play("Test", 0.5f);
-	//
-	//test.push_back("test");
-	//test.push_back("test1");
-	//test.push_back("test2");
-	//test.push_back("test3");
-	//
-	//TEXTDATA->TextSave((char*)"save/test.txt", test);
-	//
-	//test = TEXTDATA->TextLoad((char*)"save/test.txt");
-	//
-	//INIDATA->AddData("Test", "KeyTest", "1000");
-	//INIDATA->AddData("Test", "KeyTest2", "3.141592f");
-	//INIDATA->AddData("Test2", "KeyTest3", "1234");
-	//INIDATA->AddData("Test3", "KeyTest4", "1000");
-	//INIDATA->AddData("Test", "KeyTest5", "1000");
-	//INIDATA->SaveData("IniSave");
-
 	for (int i = 0; i < TILEY; i++) {
 		for (int j = 0; j < TILEX; j++) {
 			ZeroMemory(&tiles[j + i * TILEX], sizeof(tagTile));
@@ -51,6 +33,7 @@ HRESULT TestScene::Init()
 	noPath = false;
 	startAStar = false;
 
+	// 위치조정을 위한 임시변수
 	temp = 50;
 
 	for (int i = 0; i < 5; i++) {
@@ -81,6 +64,7 @@ void TestScene::Update()
 			openList.push_back(currentTile);
 		}
 	}
+	// 초기화
 	if (INPUT->GetKeyDown('5')) {
 		openList.clear();
 		closeList.clear();
@@ -131,19 +115,6 @@ void TestScene::Render()
 {
 	//=================================================
 	{
-		//for (int i = 0; i < test.size(); i++) {
-		//	TextOut(GetMemDC(), WINSIZEX / 2, i * 20,
-		//		test[i].c_str(), strlen(test[i].c_str()));
-		//}
-		//
-		//sprintf_s(str, "%d",
-		//	INIDATA->LoadDataInteger("IniSave", "Test3", "KeyTest4"));
-		//TextOut(GetMemDC(), WINSIZEX / 2, WINSIZEY / 2, str, strlen(str));
-		//
-		//float data = atof(INIDATA->LoadDataString("IniSave", "Test", "KeyTest2"));
-		//sprintf_s(str, "%f", data);
-		//TextOut(GetMemDC(), WINSIZEX / 2, WINSIZEY / 2 + 50, str, strlen(str));
-
 		for (int i = 0; i < TILESIZE; i++) {
 			if (tiles[i].block) {
 				if (i == startTile) startTile = -1;
@@ -268,6 +239,7 @@ void TestScene::AStar()
 	int endX = endTile % TILEX;
 	int endY = endTile / TILEX;
 
+	// 매 업데이트마다 A Star 진행 상황 보여주기 위해 반복문 빼버림
 	//while (true) {
 
 	int currentX = currentTile % TILEX;
@@ -277,14 +249,16 @@ void TestScene::AStar()
 	int dy[] = { 0, 0, -1, 1, -1, 1, 1, -1 };
 	bool tempBlock[8];
 
-
+	// 방향 찾는 반복문
 	for (int i = 0; i < 8; i++) {
 		int x = currentX + dx[i];
 		int y = currentY + dy[i];
 		tempBlock[i] = false;
 
+		// 해당 방향으로 움직인 타일이 유효한 타일인지 확인
 		if (0 <= x && x < TILEX && 0 <= y && y < TILEY) {
 			bool isOpen;
+			// 대각선 타일의 이동 문제로 (주변에 블락있으면 못감) 임시로 블락 상태 저장
 			if (tiles[y * TILEX + x].block) tempBlock[i] = true;
 			else {
 				// check closeList
@@ -581,6 +555,7 @@ void TestScene::AStar()
 		//break;
 	}
 
+	// 현재 타일 클로즈리스트에 넣기
 	closeList.push_back(currentTile);
 
 	if (openList.size() != 0) {
@@ -596,12 +571,14 @@ void TestScene::AStar()
 	}
 	//}
 
+	// 타일 렌더를 위해 상태 저장
 	for (int i = 0; i < openList.size(); i++) {
 		tiles[openList[i]].showState = STATE_OPEN;
 	}
 	for (int i = 0; i < closeList.size(); i++) {
 		tiles[closeList[i]].showState = STATE_CLOSE;
 	}
+	// 길 찾기 성공시 각 타일에 길찾기 상태 저장
 	int tempTile = endTile;
 	while (tiles[tempTile].node != startTile
 		&& isFind) {
