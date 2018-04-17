@@ -78,6 +78,12 @@ void TankMap::Load()
 		if (_tiles[i].obj == OBJ_BLOCK1) _attributes[i] = ATTR_UNMOVE;
 		if (_tiles[i].obj == OBJ_BLOCK2) _attributes[i] = ATTR_UNMOVE;
 		if (_tiles[i].obj == OBJ_BLOCK3) _attributes[i] = ATTR_UNMOVE;
+
+		if (_tiles[i].terrain == TR_WATER) _tiles[i].walkable = false;
+		else _tiles[i].walkable = true;
+
+		_tiles[i].y = i / TILEX;
+		_tiles[i].x = i % TILEX;
 	}
 }
 

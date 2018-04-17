@@ -4,6 +4,7 @@
 #define TILESIZE 32
 #define TILEX 20
 #define TILEY 20
+#define BIGNUM 5000	
 
 #define TILESIZEX TILEX * TILESIZE
 #define TILESIZEY TILEY * TILESIZE
@@ -58,4 +59,10 @@ struct tagTile {
 	int terrainFrameY;
 	int objFrameX;
 	int objFrameY;
+
+	bool walkable;
+	bool listOn;
+	int y, x;
+	int F, G, H;
+	tagTile * parent;
 };

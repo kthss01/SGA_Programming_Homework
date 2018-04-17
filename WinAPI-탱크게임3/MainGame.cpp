@@ -43,6 +43,9 @@ HRESULT MainGame::Init()
 	IMAGE->AddImage("gameover", "images/GameOver.bmp", 0, 0,
 		WINSIZEX, WINSIZEY, false, RGB(255, 0, 255));
 
+	IMAGE->AddImage("flag", "images/flag.bmp", 0, 0,
+		32, 32, true, RGB(255, 0, 255));
+
 	imageFrame = { 7, 2 };
 
 	MapToolSetup();
