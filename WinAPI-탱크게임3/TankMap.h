@@ -12,6 +12,8 @@ enum TANKDIRECTION {
 	TANKDIRECTION_DOWN
 };
 
+#define RAYLENGTH 100
+
 class TankMap : public GameNode
 {
 private:

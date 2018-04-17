@@ -40,25 +40,25 @@ void Tank::Update()
 	// Left Move
 	if (INPUT->GetKey(VK_LEFT) && _x - (_rc.right - _rc.left) / 2 > 0) {
 		_direction = TANKDIRECTION_LEFT;
-		ray = Ray(_x, _y, -1 * WINSIZEX, 0 + _y);
+		ray = Ray(_x, _y, -1 * RAYLENGTH + _x, 0 + _y);
 		TankMove();
 	}
 	// Right Move
 	if (INPUT->GetKey(VK_RIGHT) && _x + (_rc.right - _rc.left) / 2 < WINSIZEX) {
 		_direction = TANKDIRECTION_RIGHT;
-		ray = Ray(_x, _y, 1 * WINSIZEX, 0 + _y);
+		ray = Ray(_x, _y, 1 * RAYLENGTH + _x, 0 + _y);
 		TankMove();
 	}
 	// Up Move
 	if (INPUT->GetKey(VK_UP) && _y - (_rc.bottom - _rc.top) / 2 > 0) {
 		_direction = TANKDIRECTION_UP;
-		ray = Ray(_x, _y, 0 + _x, -1 * WINSIZEY);
+		ray = Ray(_x, _y, 0 + _x, -1 * RAYLENGTH + _y);
 		TankMove();
 	}
 	// Down Move
 	if (INPUT->GetKey(VK_DOWN) && _y + (_rc.bottom - _rc.top) / 2 < WINSIZEY) {
 		_direction = TANKDIRECTION_DOWN;
-		ray = Ray(_x, _y, 0 + _x, 1 * WINSIZEY);
+		ray = Ray(_x, _y, 0 + _x, 1 * RAYLENGTH + _y);
 		TankMove();
 	}
 
