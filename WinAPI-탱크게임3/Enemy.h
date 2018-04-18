@@ -27,6 +27,17 @@ private:
 	Tank * tank;
 
 	bool isLive;
+
+	tagTile* _targetTile;
+
+	vector<tagTile*> _openList;
+	vector<tagTile*> _closeList;
+
+	int _lastIndex;
+	int _Cx, _Cy, _Cg;
+
+	int _startX, _startY;
+	int _endX, _endY;
 public:
 	Enemy();
 	~Enemy();
@@ -44,5 +55,8 @@ public:
 	RECT GetRect() { return _rc; }
 	void SetIsLive(bool isLive) { this->isLive = isLive; }
 	bool GetIsLive() { return isLive; }
+
+	void PathInit();
+	void PathFind();
 };
 

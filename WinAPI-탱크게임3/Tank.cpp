@@ -84,7 +84,7 @@ void Tank::Update()
 		else {
 			_x = (_targetTile->rc.left + _targetTile->rc.right) / 2;
 			_y = (_targetTile->rc.top + _targetTile->rc.bottom) / 2;
-			_targetTile = _targetTile->parent;
+			_targetTile = _targetTile->tankParent;
 		}
 
 		_rc = RectMakeCenter(_x, _y, _image->GetFrameWidth(), _image->GetFrameHeight());
@@ -365,7 +365,7 @@ void Tank::PathInit()
 	for (int i = 0; i < TILEY; i++) {
 		for (int j = 0; j < TILEX; j++) {
 			_tankMap->GetTiles()[i*TILEX + j].listOn = false;
-			_tankMap->GetTiles()[i*TILEX + j].parent = NULL;
+			_tankMap->GetTiles()[i*TILEX + j].tankParent = NULL;
 			_tankMap->GetTiles()[i*TILEX + j].F = BIGNUM;
 			_tankMap->GetTiles()[i*TILEX + j].H = 0;
 			_tankMap->GetTiles()[i*TILEX + j].G = 0;
@@ -405,14 +405,14 @@ void Tank::PathFind()
 					if (!_tankMap->GetTiles()[y * TILEX + x].listOn) {
 						_tankMap->GetTiles()[y * TILEX + x].listOn = true;
 						_tankMap->GetTiles()[y * TILEX + x].G = _Cg + 10;
-						_tankMap->GetTiles()[y * TILEX + x].parent =
+						_tankMap->GetTiles()[y * TILEX + x].tankParent =
 							_closeList[_lastIndex];
 						_openList.push_back(&_tankMap->GetTiles()[y * TILEX + x]);
 					}
 					else {
 						if (_Cg + 10 < _tankMap->GetTiles()[y * TILEX + x].G) {
 							_tankMap->GetTiles()[y * TILEX + x].G = _Cg + 10;
-							_tankMap->GetTiles()[y * TILEX + x].parent =
+							_tankMap->GetTiles()[y * TILEX + x].tankParent =
 								_closeList[_lastIndex];
 						}
 					}
@@ -460,7 +460,7 @@ void Tank::PathFind()
 		// found path
 		if (_closeList[_lastIndex]->x == _startX &&
 			_closeList[_lastIndex]->y == _startY) {
-			_targetTile = _closeList[_lastIndex]->parent;
+			_targetTile = _closeList[_lastIndex]->tankParent;
 			break;
 		}
 	}

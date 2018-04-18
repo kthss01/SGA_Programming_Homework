@@ -56,5 +56,6 @@ public:
 
 	void PathInit();
 	void PathFind();
+	POINT GetPos() { return PointMake((int)(_x / TILESIZE), (int)(_y / TILESIZE)); }
 };
 

@@ -28,6 +28,8 @@ HRESULT Enemy::Init()
 
 	isLive = true;
 
+	_targetTile = NULL;
+
 	return S_OK;
 }
 
@@ -43,46 +45,101 @@ void Enemy::Update()
 	// 그냥 랜덤으로 이동
 	
 	cnt++;
-	if (cnt % 50 == 0)
-		currentDir = (TANKDIRECTION)RND->GetInt(4);
+	//if (cnt % 50 == 0)
+	//	currentDir = (TANKDIRECTION)RND->GetInt(4);
+	//switch (currentDir) {
+	//case 0:
+	//	// Left Move
+	//	if (_x - (_rc.right - _rc.left) / 2 > 0) {
+	//		_direction = TANKDIRECTION_LEFT;
+	//		ray = Ray(_x, _y, -1 * WINSIZEX, 0 + _y);
+	//		TankMove();
+	//	}
+	//	break;
+	//case 1:
+	//	// Right Move
+	//	if (_x + (_rc.right - _rc.left) / 2 < WINSIZEX) {
+	//		_direction = TANKDIRECTION_RIGHT;
+	//		ray = Ray(_x, _y, 1 * WINSIZEX, 0 + _y);
+	//		TankMove();
+	//	}
+	//	break;
+	//case 2:
+	//	// Up Move
+	//	if (_y - (_rc.bottom - _rc.top) / 2 > 0) {
+	//		_direction = TANKDIRECTION_UP;
+	//		ray = Ray(_x, _y, 0 + _x, -1 * WINSIZEY);
+	//		TankMove();
+	//	}
+	//	break;
+	//case 3:
+	//	// Down Move
+	//	if (_y + (_rc.bottom - _rc.top) / 2 < WINSIZEY) {
+	//		_direction = TANKDIRECTION_DOWN;
+	//		ray = Ray(_x, _y, 0 + _x, 1 * WINSIZEY);
+	//		TankMove();
+	//	}
+	//	break;
+	//}
+	//_rc = RectMakeCenter(_x, _y, _image->GetFrameWidth(), _image->GetFrameHeight());
 
-	switch (currentDir) {
-	case 0:
-		// Left Move
-		if (_x - (_rc.right - _rc.left) / 2 > 0) {
-			_direction = TANKDIRECTION_LEFT;
-			ray = Ray(_x, _y, -1 * WINSIZEX, 0 + _y);
-			TankMove();
-		}
-		break;
-	case 1:
-		// Right Move
-		if (_x + (_rc.right - _rc.left) / 2 < WINSIZEX) {
-			_direction = TANKDIRECTION_RIGHT;
-			ray = Ray(_x, _y, 1 * WINSIZEX, 0 + _y);
-			TankMove();
-		}
-		break;
-	case 2:
-		// Up Move
-		if (_y - (_rc.bottom - _rc.top) / 2 > 0) {
-			_direction = TANKDIRECTION_UP;
-			ray = Ray(_x, _y, 0 + _x, -1 * WINSIZEY);
-			TankMove();
-		}
-		break;
-	case 3:
-		// Down Move
-		if (_y + (_rc.bottom - _rc.top) / 2 < WINSIZEY) {
-			_direction = TANKDIRECTION_DOWN;
-			ray = Ray(_x, _y, 0 + _x, 1 * WINSIZEY);
-			TankMove();
-		}
-		break;
+	if (cnt % 50 == 0) {
+		_endX = tank->GetPos().x;
+		_endY = tank->GetPos().y;
+		PathInit();
+		PathFind();
 	}
 
-	_rc = RectMakeCenter(_x, _y, _image->GetFrameWidth(), _image->GetFrameHeight());
+	if (_targetTile != NULL) {
+		// left
+		if ((int)(_x / TILESIZE) > _targetTile->x &&
+			(int)(_y / TILESIZE) == _targetTile->y) {
+			_direction = TANKDIRECTION_LEFT;
+		}
+		// right
+		else if ((int)(_x / TILESIZE) < _targetTile->x &&
+			(int)(_y / TILESIZE) == _targetTile->y) {
+			_direction = TANKDIRECTION_RIGHT;
+		}
+		// up
+		else if ((int)(_x / TILESIZE) == _targetTile->x &&
+			(int)(_y / TILESIZE) > _targetTile->y) {
+			_direction = TANKDIRECTION_UP;
+		}
+		// down
+		else if ((int)(_x / TILESIZE) == _targetTile->x &&
+			(int)(_y / TILESIZE) < _targetTile->y) {
+			_direction = TANKDIRECTION_DOWN;
+		}
 
+		if (GetDistance(_x, _y,
+			(_targetTile->rc.left + _targetTile->rc.right) / 2,
+			(_targetTile->rc.top + _targetTile->rc.bottom) / 2) > 5) {
+			TankMove();
+		}
+		else {
+			_x = (_targetTile->rc.left + _targetTile->rc.right) / 2;
+			_y = (_targetTile->rc.top + _targetTile->rc.bottom) / 2;
+			_targetTile = _targetTile->enemyParent;
+		}
+
+		_rc = RectMakeCenter(_x, _y, _image->GetFrameWidth(), _image->GetFrameHeight());
+		switch (_direction)
+		{
+		case TANKDIRECTION_LEFT:
+			ray = Ray(_x, _y, -1 * RAYLENGTH + _x, 0 + _y);
+			break;
+		case TANKDIRECTION_RIGHT:
+			ray = Ray(_x, _y, 1 * RAYLENGTH + _x, 0 + _y);
+			break;
+		case TANKDIRECTION_UP:
+			ray = Ray(_x, _y, 0 + _x, -1 * RAYLENGTH + _y);
+			break;
+		case TANKDIRECTION_DOWN:
+			ray = Ray(_x, _y, 0 + _x, 1 * RAYLENGTH + _y);
+			break;
+		}
+	}
 
 	vTileIndex.clear();
 
@@ -294,4 +351,118 @@ void Enemy::SetTankPosition()
 	_rc = _tankMap->GetTiles()[_tankMap->GetPosSecond()].rc;
 	_x = _rc.left + (_rc.right - _rc.left) / 2;
 	_y = _rc.top + (_rc.bottom - _rc.top) / 2;
+}
+
+void Enemy::PathInit()
+{
+	RECT tempRc = _tankMap->GetTiles()[(int)(_y / TILESIZE) * TILEX + (int)(_x / TILESIZE)].rc;
+	_x = (tempRc.left + tempRc.right) / 2;
+	_y = (tempRc.top + tempRc.bottom) / 2;
+	_rc = RectMakeCenter(_x, _y, _image->GetFrameWidth(), _image->GetFrameHeight());
+
+	_startX = (int)(_x / TILESIZE);
+	_startY = (int)(_y / TILESIZE);
+
+	for (int i = 0; i < TILEY; i++) {
+		for (int j = 0; j < TILEX; j++) {
+			_tankMap->GetTiles()[i*TILEX + j].listOn = false;
+			_tankMap->GetTiles()[i*TILEX + j].enemyParent = NULL;
+			_tankMap->GetTiles()[i*TILEX + j].F = BIGNUM;
+			_tankMap->GetTiles()[i*TILEX + j].H = 0;
+			_tankMap->GetTiles()[i*TILEX + j].G = 0;
+		}
+	}
+
+	_openList.clear();
+	_closeList.clear();
+
+	_tankMap->GetTiles()[_endY*TILEX + _endX].listOn = true;
+	_Cx = _tankMap->GetTiles()[_endY*TILEX + _endX].x;
+	_Cy = _tankMap->GetTiles()[_endY*TILEX + _endX].y;
+	_Cg = _tankMap->GetTiles()[_endY*TILEX + _endX].G;
+	_closeList.push_back(&_tankMap->GetTiles()[_endY*TILEX + _endX]);
+
+	_lastIndex = 0;
+
+	_targetTile = NULL;
+}
+
+void Enemy::PathFind()
+{
+	int dx[] = { -1,1,0,0 };
+	int dy[] = { 0,0,-1,1 };
+
+	while (true) {
+		// AddOpenList()
+		_Cx = _closeList[_lastIndex]->x;
+		_Cy = _closeList[_lastIndex]->y;
+		_Cg = _closeList[_lastIndex]->G;
+
+		for (int i = 0; i < 4; i++) {
+			int x = _Cx + dx[i];
+			int y = _Cy + dy[i];
+			if (0 <= x && x < TILEX && 0 <= y && y < TILEY) {
+				if (_tankMap->GetTiles()[y * TILEX + x].walkable) {
+					if (!_tankMap->GetTiles()[y * TILEX + x].listOn) {
+						_tankMap->GetTiles()[y * TILEX + x].listOn = true;
+						_tankMap->GetTiles()[y * TILEX + x].G = _Cg + 10;
+						_tankMap->GetTiles()[y * TILEX + x].enemyParent =
+							_closeList[_lastIndex];
+						_openList.push_back(&_tankMap->GetTiles()[y * TILEX + x]);
+					}
+					else {
+						if (_Cg + 10 < _tankMap->GetTiles()[y * TILEX + x].G) {
+							_tankMap->GetTiles()[y * TILEX + x].G = _Cg + 10;
+							_tankMap->GetTiles()[y * TILEX + x].enemyParent =
+								_closeList[_lastIndex];
+						}
+					}
+				}
+			}
+		}
+
+		// CalCulate H, F
+		for (int i = 0; i < _openList.size(); i++) {
+			int vertical = (_startX - _openList[i]->x) * 10;
+			int horizontal = (_startY - _openList[i]->y) * 10;
+
+			// 방향이 반대로 넘어가는 경우
+			if (vertical < 0) vertical *= -1;
+			if (horizontal < 0) horizontal *= -1;
+
+			_openList[i]->H = vertical + horizontal;
+
+			_openList[i]->F = _openList[i]->G + _openList[i]->H;
+		}
+
+		// AddCloseList()
+		int index = 0;
+		int min = BIGNUM;
+
+		for (int i = 0; i < _openList.size(); i++) {
+			if (_openList[i]->F < min) {
+				min = _openList[i]->F;
+				index = i;
+			}
+		}
+
+		_closeList.push_back(_openList[index]);
+		_openList.erase(_openList.begin() + index);
+
+		_lastIndex++;
+
+		// no way
+		if (_openList.size() == 0) {
+			_targetTile = NULL;
+			break;
+		}
+
+		// Check Arrive()
+		// found path
+		if (_closeList[_lastIndex]->x == _startX &&
+			_closeList[_lastIndex]->y == _startY) {
+			_targetTile = _closeList[_lastIndex]->enemyParent;
+			break;
+		}
+	}
 }

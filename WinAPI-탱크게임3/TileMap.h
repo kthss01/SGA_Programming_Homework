@@ -64,5 +64,6 @@ struct tagTile {
 	bool listOn;
 	int y, x;
 	int F, G, H;
-	tagTile * parent;
+	tagTile * tankParent;
+	tagTile * enemyParent;
 };
