@@ -115,6 +115,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-탱크게임3", "Win
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-IsoMetricTile", "WinAPI-IsoMetricTile\WinAPI-IsoMetricTile.vcxproj", "{56A11BBF-F603-4C91-A9AF-3676147BC385}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-IsoMetricMapTool", "WinAPI-IsoMetricMapTool\WinAPI-IsoMetricMapTool.vcxproj", "{2375D229-F68C-473F-9ED8-7AFFD685AAC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -571,6 +573,14 @@ Global
 		{56A11BBF-F603-4C91-A9AF-3676147BC385}.Release|x64.Build.0 = Release|x64
 		{56A11BBF-F603-4C91-A9AF-3676147BC385}.Release|x86.ActiveCfg = Release|Win32
 		{56A11BBF-F603-4C91-A9AF-3676147BC385}.Release|x86.Build.0 = Release|Win32
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Debug|x64.ActiveCfg = Debug|x64
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Debug|x64.Build.0 = Debug|x64
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Debug|x86.ActiveCfg = Debug|Win32
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Debug|x86.Build.0 = Debug|Win32
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Release|x64.ActiveCfg = Release|x64
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Release|x64.Build.0 = Release|x64
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Release|x86.ActiveCfg = Release|Win32
+		{2375D229-F68C-473F-9ED8-7AFFD685AAC7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
