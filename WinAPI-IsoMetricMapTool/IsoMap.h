@@ -35,10 +35,10 @@ public:
 	bool IsInRhombus(int corner, int isoX, int isoY);
 
 	void MapToolSetup();
-	void SetMap(int isoX, int isoY);
-	TERRAIN TerrainSelect(int frameX, int frameY);
-	OBJECT ObjSelect(int frameX, int frameY);
+	void SetMap(int isoX, int isoY, bool isAdd);
+	TILEKIND KindSelect(int frameX, int frameY);
 
+	void TileInit();
 	void Load();
 	void Save();
 };

@@ -28,7 +28,7 @@ HRESULT IsoMap::Init()
 
 	x = y = 0;
 
-	_currentCTRL = CTRL_TERRAINDRAW;
+	_currentCTRL = CTRL_DRAW;
 
 	MapToolSetup();
 
@@ -91,7 +91,56 @@ void IsoMap::Update()
 				break;
 			}
 
-			SetMap(isoX, isoY);
+			SetMap(isoX, isoY, false);
+
+			_center = corner;
+			_isoX = isoX;
+			_isoY = isoY;
+		}
+	}
+
+	if (!SUBWIN->GetIsActive() &&
+		INPUT->GetKeyDown(VK_RBUTTON)) {
+		float cellX = (float)(g_ptMouse.x - _startX);
+
+		if (cellX < 0) {
+			cellX = (cellX - CELL_WIDTH) / (float)CELL_WIDTH;
+		}
+		else {
+			cellX = cellX / (float)CELL_WIDTH;
+		}
+
+		int cellY = abs(g_ptMouse.y - _startY) / CELL_HEIGHT;
+
+		cellY = (g_ptMouse.y < _startY) ? cellY * -1 : cellY;
+
+		int isoX = (int)cellX + (int)cellY;
+		int isoY = (int)cellY - (int)cellX;
+
+		if (isoX >= 0 && isoX < TILE_COUNT_X &&
+			isoY >= 0 && isoY < TILE_COUNT_Y) {
+			int corner = GetCornerIndex(isoX, isoY);
+
+			if (IsInRhombus(corner, isoX, isoY))
+				corner = 0;
+
+			switch (corner)
+			{
+			case 1:
+				isoX = isoX - 1;
+				break;
+			case 2:
+				isoY = isoY - 1;
+				break;
+			case 3:
+				isoY = isoY + 1;
+				break;
+			case 4:
+				isoX = isoX + 1;
+				break;
+			}
+
+			SetMap(isoX, isoY, true);
 
 			_center = corner;
 			_isoX = isoX;
@@ -116,19 +165,23 @@ void IsoMap::DrawTileMap()
 			int left = _startX + (i * RADIUS_WIDTH) - (j * RADIUS_WIDTH);
 			int top = _startY + (i * RADIUS_HEIGHT) + (j * RADIUS_HEIGHT);
 
+			_tileMap[i][j].left = left;
+			_tileMap[i][j].top = top;
+
 			if (left + CELL_WIDTH <0 || left > WINSIZEX
 				|| top + CELL_HEIGHT < 0 || top > WINSIZEY) continue;
 
 			//IMAGE->FrameRender("tile", GetMemDC(), left, top,
 			//	0, 0);
 
-			if (_tileMap[i][j].terrain != TR_NONE) {
-				IMAGE->FrameRender("tile", GetMemDC(), left, top,
-					_tileMap[i][j].terrainFrameX, _tileMap[i][j].terrainFrameY);
-			}
-			if (_tileMap[i][j].obj != OBJ_NONE) {
-				IMAGE->FrameRender("tile", GetMemDC(), left, top,
-					_tileMap[i][j].objFrameX, _tileMap[i][j].objFrameY);
+			for (int z = 0; z < _tileMap[i][j].frameIndex.size(); z++) {
+				if (_tileMap[i][j].frameIndex[z].first != TILEKIND_NONE) {
+					IMAGE->FrameRender("tile", GetMemDC(), 
+						_tileMap[i][j].left, 
+						_tileMap[i][j].top - _tileMap[i][j].height * z,
+						_tileMap[i][j].frameIndex[z].second.x, 
+						_tileMap[i][j].frameIndex[z].second.y);
+				}
 			}
 
 			if (_isDebug) {
@@ -243,62 +296,118 @@ void IsoMap::MapToolSetup()
 {
 	for (int i = 0; i < TILE_COUNT_X; i++) {
 		for (int j = 0; j < TILE_COUNT_Y; j++) {
-			_tileMap[i][j].objFrameX = -1;
-			_tileMap[i][j].objFrameY = -1;
-
-			_tileMap[i][j].terrainFrameX = -1;
-			_tileMap[i][j].terrainFrameY = -1;
-
-			_tileMap[i][j].terrain = TR_NONE;
-			_tileMap[i][j].obj = OBJ_NONE;
+			_tileMap[i][j].height = 50;
 		}
 	}
 }
 
-void IsoMap::SetMap(int isoX, int isoY)
+void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 {
 	imageFrame = SUBWIN->GetFramePoint();
 	_currentCTRL = SUBWIN->GetCTRL();
 
 	switch (_currentCTRL)
 	{
-	case CTRL_TERRAINDRAW:
-		_tileMap[isoX][isoY].terrainFrameX = imageFrame.x;
-		_tileMap[isoX][isoY].terrainFrameY = imageFrame.y;
-
-		_tileMap[isoX][isoY].terrain = TerrainSelect(imageFrame.x, imageFrame.y);
-		break;
-	case CTRL_OBJECTDRAW:
-		_tileMap[isoX][isoY].objFrameX = imageFrame.x;
-		_tileMap[isoX][isoY].objFrameY = imageFrame.y;
-
-		_tileMap[isoX][isoY].obj = ObjSelect(imageFrame.x, imageFrame.y);
+	case CTRL_DRAW:
+		if(isAdd)
+			_tileMap[isoX][isoY].frameIndex.push_back(
+				make_pair(KindSelect(imageFrame.x, imageFrame.y), imageFrame));
+		else {
+			if (_tileMap[isoX][isoY].frameIndex.size() == 0)
+				_tileMap[isoX][isoY].frameIndex.push_back(
+					make_pair(
+						KindSelect(imageFrame.x, imageFrame.y), imageFrame));
+			else {
+				_tileMap[isoX][isoY].frameIndex[
+					_tileMap[isoX][isoY].frameIndex.size() - 1]
+					= make_pair(
+						KindSelect(imageFrame.x, imageFrame.y), imageFrame);
+			}
+		}	
+		
 		break;
 	case CTRL_ERASER:
-		_tileMap[isoX][isoY].obj = OBJ_NONE;
-		_tileMap[isoX][isoY].terrain = TR_NONE;
+		if(_tileMap[isoX][isoY].frameIndex.size() != 0)
+			_tileMap[isoX][isoY].frameIndex.pop_back();
 		break;
 	}
 }
 
-TERRAIN IsoMap::TerrainSelect(int frameX, int frameY)
+TILEKIND IsoMap::KindSelect(int frameX, int frameY)
 {
-	if (frameX == -1 && frameY == -1) return TR_NONE;
-
-	return TR_GROUND;
+	if (frameX == -1 && frameY == -1) return TILEKIND_NONE;
+	if (frameY <= 4) return TILEKIND_TERRAIN;
+	else return TILEKIND_OBJECT;
 }
 
-OBJECT IsoMap::ObjSelect(int frameX, int frameY)
+void IsoMap::TileInit()
 {
-	if (frameX == -1 && frameY == -1) return OBJ_NONE;
-
-	return OBJ_NONE;
+	for (int i = 0; i < TILE_COUNT_X; i++) {
+		for (int j = 0; j < TILE_COUNT_Y; j++) {
+			_tileMap[i][j].frameIndex.clear();
+		}
+	}
 }
 
 void IsoMap::Load()
 {
+	// api가 가지고있는 save 함수 사용
+	// 구조체로 넣을 수도 있고
+	// 마찬가지로 배열로도 넣을 수 있음
+	HANDLE file;
+	DWORD read;
+
+	// CreateFile Binary 형식으로 들어감
+	// Binary 16진수 데이터 형식으로 들어감
+	// Binary 한글 관련으로 문제가 있었음
+	// binary라 일반적인 fopen 보다 빠름 대신 한줄로 쭉 써짐
+	file = CreateFile(
+		"save/tileMap.map",	// 생성할 파일 또는 로드할 파일의 이름
+		GENERIC_READ, /// 수정	// 파일이나 장치를 만들거나 열때의 권한
+		0,				// 파일 공유 모드 입력
+		NULL,			// 파일 또는 장치를 열 때 보안 및 특성
+						// 항상 처음부터 작성하겠다는거 다 지우고
+						// 여기 바꿔주면 라인별로 넣을 수 있음
+		OPEN_EXISTING, /// 수정	// 파일이나 장치를 열 때 취할 행동
+		FILE_ATTRIBUTE_NORMAL,	// 파일, 장치를 열 때, 만들 때 갖는 특성
+		NULL			// 만들어질 파일이 갖게 될 특성 etc 저장되는 핸들
+	);
+
+	// 구분점은 따로 없고 쭉 들어가므로 사이즈로 구분해서 읽어와야함
+	ReadFile(file, _tileMap,
+		sizeof(tagTile) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
+
+	CloseHandle(file);
 }
 
 void IsoMap::Save()
-{
+{	
+	// api가 가지고있는 save 함수 사용
+	// 구조체로 넣을 수도 있고
+	// 마찬가지로 배열로도 넣을 수 있음
+	// 바이너리 파일이라 이미지 같은 웬만한거 다됨
+	HANDLE file;
+	DWORD write;
+
+	// CreateFile Binary 형식으로 들어감
+	// Binary 16진수 데이터 형식으로 들어감
+	// Binary 한글 관련으로 문제가 있었음
+	// binary라 일반적인 fopen 보다 빠름 대신 한줄로 쭉 써짐
+	file = CreateFile(
+		"save/tileMap.map",	// 생성할 파일 또는 로드할 파일의 이름
+		GENERIC_WRITE,	// 파일이나 장치를 만들거나 열때의 권한
+		0,				// 파일 공유 모드 입력
+		NULL,			// 파일 또는 장치를 열 때 보안 및 특성
+						// 항상 처음부터 작성하겠다는거 다 지우고
+						// 여기 바꿔주면 라인별로 넣을 수 있음
+		CREATE_ALWAYS,	// 파일이나 장치를 열 때 취할 행동
+		FILE_ATTRIBUTE_NORMAL,	// 파일, 장치를 열 때, 만들 때 갖는 특성
+		NULL			// 만들어질 파일이 갖게 될 특성 etc 저장되는 핸들
+	);
+
+	// 구분점은 따로 없고 쭉 들어가므로 사이즈로 구분해서 읽어와야함
+	WriteFile(file, _tileMap, 
+		sizeof(tagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
+
+	CloseHandle(file);
 }

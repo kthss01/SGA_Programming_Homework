@@ -16,22 +16,15 @@
 #define TILE_SIZE_X 8
 #define TILE_SIZE_Y 7
 
-enum TERRAIN {
-	TR_GROUND,
-	TR_NONE
-};
-
-enum OBJECT {
-	OBJ_BLOCK,
-	OBJ_NONE
+enum TILEKIND {
+	TILEKIND_OBJECT,
+	TILEKIND_TERRAIN,
+	TILEKIND_NONE
 };
 
 struct tagTile {
-	TERRAIN terrain;
-	OBJECT obj;
+	int left, top;
 
-	int terrainFrameX;
-	int terrainFrameY;
-	int objFrameX;
-	int objFrameY;
+	vector< pair<TILEKIND, POINT> > frameIndex;
+	int height;
 };

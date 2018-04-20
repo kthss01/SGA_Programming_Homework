@@ -5,7 +5,7 @@
 #include "IsoMap.h"
 
 POINT Window::ptMouse = POINT{ 0,0 };
-CTRL Window::_currentCTRL = CTRL_TERRAINDRAW;
+CTRL Window::_currentCTRL = CTRL_DRAW;
 
 Window::Window()
 {
@@ -27,29 +27,24 @@ void Window::Init()
 
 	int tempX = 10;
 
-	_btnTerrainDraw = CreateWindow("button", "Terrain",
+	_btnDraw = CreateWindow("button", "Tile",
 		// 자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		// 클릭했을때 어떤 값을 반환할지 hMenu
 		tempX, 0, 100, 20, hWnd, HMENU(0), g_hInstance, NULL);
-	_btnObjectDraw = CreateWindow("button", "Object",
-		// 자식으로 생성하면 안쪽에 만들어짐
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		// 클릭했을때 어떤 값을 반환할지 hMenu
-		tempX, 30, 100, 20, hWnd, HMENU(1), g_hInstance, NULL);
 	_btnEraser = CreateWindow("button", "Eraser",
 		// 자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		// 클릭했을때 어떤 값을 반환할지 hMenu
-		tempX, 60, 100, 20, hWnd, HMENU(2), g_hInstance, NULL);
+		tempX, 30, 100, 20, hWnd, HMENU(1), g_hInstance, NULL);
 
 	_btnSave = CreateWindow("button", "Save",
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 115, 0, 100, 20, hWnd, HMENU(3), g_hInstance, NULL);
+		tempX + 115, 0, 100, 20, hWnd, HMENU(2), g_hInstance, NULL);
 
 	_btnLoad = CreateWindow("button", "Load",
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 115, 30, 100, 20, hWnd, HMENU(4), g_hInstance, NULL);
+		tempX + 115, 30, 100, 20, hWnd, HMENU(3), g_hInstance, NULL);
 
 	clickFrame = { 0,0 };
 }
@@ -112,8 +107,7 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//// 클릭했을 때 0,1,2 값 중 하나가 들어옴 
 			//_currentCTRL = (CTRL)(LOWORD(wParam));
 			switch (LOWORD(wParam)) {
-			case CTRL_TERRAINDRAW:
-			case CTRL_OBJECTDRAW:
+			case CTRL_DRAW:
 			case CTRL_ERASER:
 				_currentCTRL = (CTRL)(LOWORD(wParam));
 				break;

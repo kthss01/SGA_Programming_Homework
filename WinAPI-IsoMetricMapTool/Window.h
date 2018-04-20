@@ -7,8 +7,7 @@
 
 enum CTRL
 {
-	CTRL_TERRAINDRAW,
-	CTRL_OBJECTDRAW,
+	CTRL_DRAW,
 	CTRL_ERASER,
 	CTRL_SAVE,
 	CTRL_LOAD,
@@ -27,8 +26,7 @@ private:
 	GameNode * currentScene;
 
 	// 버튼을 만들어서 사용할 녀석
-	HWND _btnTerrainDraw;
-	HWND _btnObjectDraw;
+	HWND _btnDraw;
 	HWND _btnEraser;
 
 	HWND _btnSave;
