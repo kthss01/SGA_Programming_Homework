@@ -2,7 +2,7 @@
 
 #include "GameNode.h"
 
-//#define SUBWINOPEN 1
+#define SUBWINOPEN 1
 
 class MainGame : public GameNode
 {

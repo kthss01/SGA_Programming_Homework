@@ -13,6 +13,25 @@
 #define TILE_COUNT_X 20
 #define TILE_COUNT_Y 20
 
+#define TILE_SIZE_X 8
+#define TILE_SIZE_Y 7
+
+enum TERRAIN {
+	TR_GROUND,
+	TR_NONE
+};
+
+enum OBJECT {
+	OBJ_BLOCK,
+	OBJ_NONE
+};
+
 struct tagTile {
-	bool isSelected;
+	TERRAIN terrain;
+	OBJECT obj;
+
+	int terrainFrameX;
+	int terrainFrameY;
+	int objFrameX;
+	int objFrameY;
 };

@@ -17,6 +17,9 @@ private:
 	bool _isDebug;
 
 	int x, y;
+
+	POINT imageFrame;
+	CTRL _currentCTRL;
 public:
 	IsoMap();
 	~IsoMap();
@@ -30,5 +33,13 @@ public:
 	void DrawRhombus(int left, int top);
 	int GetCornerIndex(int isoX, int isoY);
 	bool IsInRhombus(int corner, int isoX, int isoY);
+
+	void MapToolSetup();
+	void SetMap(int isoX, int isoY);
+	TERRAIN TerrainSelect(int frameX, int frameY);
+	OBJECT ObjSelect(int frameX, int frameY);
+
+	void Load();
+	void Save();
 };
 

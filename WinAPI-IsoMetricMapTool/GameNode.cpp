@@ -79,7 +79,8 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		this->Render();
 		EndPaint(hWnd, &ps);
 		break;
-	case WM_MOUSEMOVE:
+	case WM_MOUSEMOVE:		
+		SUBWIN->SetIsActive(false);
 		g_ptMouse.x = LOWORD(lParam);
 		g_ptMouse.y = HIWORD(lParam);
 		break;

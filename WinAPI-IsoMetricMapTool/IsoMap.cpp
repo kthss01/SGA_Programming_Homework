@@ -28,6 +28,10 @@ HRESULT IsoMap::Init()
 
 	x = y = 0;
 
+	_currentCTRL = CTRL_TERRAINDRAW;
+
+	MapToolSetup();
+
 	return S_OK;
 }
 
@@ -46,7 +50,8 @@ void IsoMap::Update()
 		_isDebug = !_isDebug;
 	}
 
-	if (INPUT->GetKey(VK_LBUTTON)) {
+	if (!SUBWIN->GetIsActive() &&
+		INPUT->GetKey(VK_LBUTTON)) {
 		float cellX = (float)(g_ptMouse.x - _startX);
 
 		if (cellX < 0) {
@@ -86,7 +91,7 @@ void IsoMap::Update()
 				break;
 			}
 
-			_tileMap[isoX][isoY].isSelected = true;
+			SetMap(isoX, isoY);
 
 			_center = corner;
 			_isoX = isoX;
@@ -114,27 +119,26 @@ void IsoMap::DrawTileMap()
 			if (left + CELL_WIDTH <0 || left > WINSIZEX
 				|| top + CELL_HEIGHT < 0 || top > WINSIZEY) continue;
 
-			IMAGE->FrameRender("tile", GetMemDC(), left, top,
-				0, 0);
+			//IMAGE->FrameRender("tile", GetMemDC(), left, top,
+			//	0, 0);
 
-			if (_isDebug) {
-				if (_tileMap[i][j].isSelected) {
-					HPEN myPen = CreatePen(PS_SOLID, 3, RGB(0, 0, 255));
-					HPEN oldPen = (HPEN)SelectObject(GetMemDC(), myPen);
-					DrawRhombus(left, top);
-					DeleteObject(SelectObject(GetMemDC(), oldPen));
-				}
-				else {
-					DrawRhombus(left, top);
-					SetTextColor(GetMemDC(), RGB(0, 0, 0));
-					sprintf_s(str, "(%d,%d)", i, j);
-					TextOut(GetMemDC(), 
-						left + RADIUS_WIDTH / 2 + 8, 
-						top + RADIUS_HEIGHT / 2 + 5, str, strlen(str));
-				}
+			if (_tileMap[i][j].terrain != TR_NONE) {
+				IMAGE->FrameRender("tile", GetMemDC(), left, top,
+					_tileMap[i][j].terrainFrameX, _tileMap[i][j].terrainFrameY);
+			}
+			if (_tileMap[i][j].obj != OBJ_NONE) {
+				IMAGE->FrameRender("tile", GetMemDC(), left, top,
+					_tileMap[i][j].objFrameX, _tileMap[i][j].objFrameY);
 			}
 
-
+			if (_isDebug) {
+				DrawRhombus(left, top);
+				SetTextColor(GetMemDC(), RGB(0, 0, 0));
+				sprintf_s(str, "(%d,%d)", i, j);
+				TextOut(GetMemDC(), 
+					left + RADIUS_WIDTH / 2 + 8, 
+					top + RADIUS_HEIGHT / 2 + 5, str, strlen(str));
+			}
 		}
 	}
 }
@@ -233,4 +237,68 @@ bool IsoMap::IsInRhombus(int corner, int isoX, int isoY)
 	}
 
 	return false;
+}
+
+void IsoMap::MapToolSetup()
+{
+	for (int i = 0; i < TILE_COUNT_X; i++) {
+		for (int j = 0; j < TILE_COUNT_Y; j++) {
+			_tileMap[i][j].objFrameX = -1;
+			_tileMap[i][j].objFrameY = -1;
+
+			_tileMap[i][j].terrainFrameX = -1;
+			_tileMap[i][j].terrainFrameY = -1;
+
+			_tileMap[i][j].terrain = TR_NONE;
+			_tileMap[i][j].obj = OBJ_NONE;
+		}
+	}
+}
+
+void IsoMap::SetMap(int isoX, int isoY)
+{
+	imageFrame = SUBWIN->GetFramePoint();
+	_currentCTRL = SUBWIN->GetCTRL();
+
+	switch (_currentCTRL)
+	{
+	case CTRL_TERRAINDRAW:
+		_tileMap[isoX][isoY].terrainFrameX = imageFrame.x;
+		_tileMap[isoX][isoY].terrainFrameY = imageFrame.y;
+
+		_tileMap[isoX][isoY].terrain = TerrainSelect(imageFrame.x, imageFrame.y);
+		break;
+	case CTRL_OBJECTDRAW:
+		_tileMap[isoX][isoY].objFrameX = imageFrame.x;
+		_tileMap[isoX][isoY].objFrameY = imageFrame.y;
+
+		_tileMap[isoX][isoY].obj = ObjSelect(imageFrame.x, imageFrame.y);
+		break;
+	case CTRL_ERASER:
+		_tileMap[isoX][isoY].obj = OBJ_NONE;
+		_tileMap[isoX][isoY].terrain = TR_NONE;
+		break;
+	}
+}
+
+TERRAIN IsoMap::TerrainSelect(int frameX, int frameY)
+{
+	if (frameX == -1 && frameY == -1) return TR_NONE;
+
+	return TR_GROUND;
+}
+
+OBJECT IsoMap::ObjSelect(int frameX, int frameY)
+{
+	if (frameX == -1 && frameY == -1) return OBJ_NONE;
+
+	return OBJ_NONE;
+}
+
+void IsoMap::Load()
+{
+}
+
+void IsoMap::Save()
+{
 }

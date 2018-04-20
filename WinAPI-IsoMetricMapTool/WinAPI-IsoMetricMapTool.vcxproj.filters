@@ -117,6 +117,9 @@
     <ClInclude Include="IsoTile.h">
       <Filter>GameMain\IsoMetric</Filter>
     </ClInclude>
+    <ClInclude Include="SubIsoMap.h">
+      <Filter>GameMain\IsoMetric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -174,6 +177,9 @@
       <Filter>GameFrameWork\Util</Filter>
     </ClCompile>
     <ClCompile Include="IsoMap.cpp">
+      <Filter>GameMain\IsoMetric</Filter>
+    </ClCompile>
+    <ClCompile Include="SubIsoMap.cpp">
       <Filter>GameMain\IsoMetric</Filter>
     </ClCompile>
   </ItemGroup>

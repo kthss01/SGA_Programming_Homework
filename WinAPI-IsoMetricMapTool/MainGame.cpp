@@ -4,12 +4,10 @@
 #include "TestScene.h"
 
 #include "IsoMap.h"
+#include "SubIsoMap.h"
 
 MainGame::MainGame()
 {
-#ifdef SUBWINOPEN
-	SUBWIN->Init();
-#endif // SUBWINDOW 필요시 MainGame.h 주석 제거
 }
 
 MainGame::~MainGame()
@@ -19,6 +17,11 @@ MainGame::~MainGame()
 HRESULT MainGame::Init()
 {
 	GameNode::Init();
+	SOUND->Init();
+#ifdef SUBWINOPEN
+	SUBWIN->Init();
+#endif // SUBWINDOW 필요시 MainGame.h 주석 제거
+
 	isDebug = false;
 
 	IMAGE->AddImage("tile_grass", "images/tile_grass.bmp", 
@@ -28,14 +31,19 @@ HRESULT MainGame::Init()
 
 	TestScene * test = new TestScene;
 	SCENE->AddScene("Test", test);
+	
+	SubIsoMap * sub = new SubIsoMap;
+	SCENE->AddScene("SubIsoMap", sub);
 
-	SOUND->Init();
+	IsoMap * map = new IsoMap;
+	SCENE->AddScene("IsoMap", map);
+
+	SUBWIN->SetIsoMap(map);
+
 	SOUND->AddSound("Test", "sounds/영전3.wav", true, true);
 
-	SCENE->AddScene("IsoMap", new IsoMap);
-
 #ifdef SUBWINOPEN
-	SUBWIN->SetScene(test);
+	SUBWIN->SetScene(sub);
 #endif // SUBWINDOW 필요시 MainGame.h 주석 제거
 
 	SCENE->ChangeScene("IsoMap");
