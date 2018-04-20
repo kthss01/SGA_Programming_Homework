@@ -176,10 +176,10 @@ void IsoMap::DrawTileMap()
 
 			for (int z = 0; z < _tileMap[i][j].frameIndex.size(); z++) {
 				if (_tileMap[i][j].frameIndex[z].first != TILEKIND_NONE) {
-					IMAGE->FrameRender("tile", GetMemDC(), 
-						_tileMap[i][j].left, 
+					IMAGE->FrameRender("tile", GetMemDC(),
+						_tileMap[i][j].left,
 						_tileMap[i][j].top - _tileMap[i][j].height * z,
-						_tileMap[i][j].frameIndex[z].second.x, 
+						_tileMap[i][j].frameIndex[z].second.x,
 						_tileMap[i][j].frameIndex[z].second.y);
 				}
 			}
@@ -188,8 +188,8 @@ void IsoMap::DrawTileMap()
 				DrawRhombus(left, top);
 				SetTextColor(GetMemDC(), RGB(0, 0, 0));
 				sprintf_s(str, "(%d,%d)", i, j);
-				TextOut(GetMemDC(), 
-					left + RADIUS_WIDTH / 2 + 8, 
+				TextOut(GetMemDC(),
+					left + RADIUS_WIDTH / 2 + 8,
 					top + RADIUS_HEIGHT / 2 + 5, str, strlen(str));
 			}
 		}
@@ -309,10 +309,18 @@ void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 	switch (_currentCTRL)
 	{
 	case CTRL_DRAW:
-		if(isAdd)
+		if (isAdd) {
+			if (KindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT
+				&& _tileMap[isoX][isoY].frameIndex.size() == 0)
+				break;
+
 			_tileMap[isoX][isoY].frameIndex.push_back(
 				make_pair(KindSelect(imageFrame.x, imageFrame.y), imageFrame));
+		}
 		else {
+			if (KindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT)
+				break;
+
 			if (_tileMap[isoX][isoY].frameIndex.size() == 0)
 				_tileMap[isoX][isoY].frameIndex.push_back(
 					make_pair(
@@ -323,11 +331,10 @@ void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 					= make_pair(
 						KindSelect(imageFrame.x, imageFrame.y), imageFrame);
 			}
-		}	
-		
+		}
 		break;
 	case CTRL_ERASER:
-		if(_tileMap[isoX][isoY].frameIndex.size() != 0)
+		if (_tileMap[isoX][isoY].frameIndex.size() != 0)
 			_tileMap[isoX][isoY].frameIndex.pop_back();
 		break;
 	}
@@ -381,7 +388,7 @@ void IsoMap::Load()
 }
 
 void IsoMap::Save()
-{	
+{
 	// api가 가지고있는 save 함수 사용
 	// 구조체로 넣을 수도 있고
 	// 마찬가지로 배열로도 넣을 수 있음
@@ -406,7 +413,7 @@ void IsoMap::Save()
 	);
 
 	// 구분점은 따로 없고 쭉 들어가므로 사이즈로 구분해서 읽어와야함
-	WriteFile(file, _tileMap, 
+	WriteFile(file, _tileMap,
 		sizeof(tagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
 
 	CloseHandle(file);

@@ -38,13 +38,19 @@ void Window::Init()
 		// 클릭했을때 어떤 값을 반환할지 hMenu
 		tempX, 30, 100, 20, hWnd, HMENU(1), g_hInstance, NULL);
 
+	_btnEraser = CreateWindow("button", "Init",
+		// 자식으로 생성하면 안쪽에 만들어짐
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		// 클릭했을때 어떤 값을 반환할지 hMenu
+		tempX, 60, 100, 20, hWnd, HMENU(2), g_hInstance, NULL);
+
 	_btnSave = CreateWindow("button", "Save",
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 115, 0, 100, 20, hWnd, HMENU(2), g_hInstance, NULL);
+		tempX + 115, 0, 100, 20, hWnd, HMENU(3), g_hInstance, NULL);
 
 	_btnLoad = CreateWindow("button", "Load",
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 115, 30, 100, 20, hWnd, HMENU(3), g_hInstance, NULL);
+		tempX + 115, 30, 100, 20, hWnd, HMENU(4), g_hInstance, NULL);
 
 	clickFrame = { 0,0 };
 }
@@ -110,6 +116,9 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			case CTRL_DRAW:
 			case CTRL_ERASER:
 				_currentCTRL = (CTRL)(LOWORD(wParam));
+				break;
+			case CTRL_INIT:
+				SUBWIN->GetIsoMap()->Init();
 				break;
 			case CTRL_SAVE:
 				SUBWIN->GetIsoMap()->Save();

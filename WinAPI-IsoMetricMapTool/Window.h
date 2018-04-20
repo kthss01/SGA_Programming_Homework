@@ -9,6 +9,7 @@ enum CTRL
 {
 	CTRL_DRAW,
 	CTRL_ERASER,
+	CTRL_INIT,
 	CTRL_SAVE,
 	CTRL_LOAD,
 	CTRL_END
@@ -28,6 +29,7 @@ private:
 	// 버튼을 만들어서 사용할 녀석
 	HWND _btnDraw;
 	HWND _btnEraser;
+	HWND _btnInit;
 
 	HWND _btnSave;
 	HWND _btnLoad;
