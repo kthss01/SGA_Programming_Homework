@@ -52,7 +52,20 @@ void Window::Init()
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 115, 30, 100, 20, hWnd, HMENU(4), g_hInstance, NULL);
 
+	_btnN1 = CreateWindow("button", "N1",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		tempX + 35, 135, 35, 25, hWnd, HMENU(5), g_hInstance, NULL);
+
+	_btnN2 = CreateWindow("button", "N2",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		tempX + 35 + 60, 135, 35, 25, hWnd, HMENU(6), g_hInstance, NULL);
+
+	_btnN3 = CreateWindow("button", "N3",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		tempX + 35 + 120, 135, 35, 25, hWnd, HMENU(7), g_hInstance, NULL);
+
 	clickFrame = { 0,0 };
+	clickIndex = 0;
 }
 
 void Window::Release()
@@ -125,6 +138,11 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 			case CTRL_LOAD:
 				SUBWIN->GetIsoMap()->Load();
+				break;
+			case CTRL_NUM1:
+			case CTRL_NUM2:
+			case CTRL_NUM3:
+				SUBWIN->SetFrameIndex(LOWORD(wParam) - 5);
 				break;
 			}
 			break;

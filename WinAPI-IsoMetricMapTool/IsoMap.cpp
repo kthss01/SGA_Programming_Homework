@@ -176,11 +176,24 @@ void IsoMap::DrawTileMap()
 
 			for (int z = 0; z < _tileMap[i][j].frameIndex.size(); z++) {
 				if (_tileMap[i][j].frameIndex[z].first != TILEKIND_NONE) {
-					IMAGE->FrameRender("tile", GetMemDC(),
+					switch (_tileMap[i][j].index)
+					{
+					case 0:					
+						IMAGE->FrameRender("tile", GetMemDC(),
 						_tileMap[i][j].left,
 						_tileMap[i][j].top - _tileMap[i][j].height * z,
 						_tileMap[i][j].frameIndex[z].second.x,
 						_tileMap[i][j].frameIndex[z].second.y);
+						break;
+					case 1:
+					case 2:
+						IMAGE->FrameRender("tile2", GetMemDC(),
+							_tileMap[i][j].left,
+							_tileMap[i][j].top - _tileMap[i][j].height * z,
+							_tileMap[i][j].frameIndex[z].second.x,
+							_tileMap[i][j].frameIndex[z].second.y);
+						break;
+					}
 				}
 			}
 
@@ -303,7 +316,29 @@ void IsoMap::MapToolSetup()
 
 void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 {
-	imageFrame = SUBWIN->GetFramePoint();
+	_tileMap[isoX][isoY].index = SUBWIN->GetFrameIndex();
+
+	switch (SUBWIN->GetFrameIndex())
+	{
+	case 0:
+		imageFrame = SUBWIN->GetFramePoint();
+		break;
+	case 1:
+		imageFrame.x = SUBWIN->GetFramePoint().y;
+		imageFrame.y = SUBWIN->GetFramePoint().x;
+		break;
+	case 2:
+		if (SUBWIN->GetFramePoint().y < 5) {
+			imageFrame.x = SUBWIN->GetFramePoint().x + 10;
+			imageFrame.y = SUBWIN->GetFramePoint().y;
+		}
+		else {
+			imageFrame.x = SUBWIN->GetFramePoint().x + 16;
+			imageFrame.y = SUBWIN->GetFramePoint().y - 5;
+		}
+		break;
+	}
+
 	_currentCTRL = SUBWIN->GetCTRL();
 
 	switch (_currentCTRL)
@@ -343,8 +378,16 @@ void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 TILEKIND IsoMap::KindSelect(int frameX, int frameY)
 {
 	if (frameX == -1 && frameY == -1) return TILEKIND_NONE;
-	if (frameY <= 4) return TILEKIND_TERRAIN;
-	else return TILEKIND_OBJECT;
+
+	if (SUBWIN->GetFrameIndex() == 0) {
+		if (frameY >= 7) return TILEKIND_NONE;
+		if (frameY <= 4) return TILEKIND_TERRAIN;
+		else return TILEKIND_OBJECT;
+	}
+	if (SUBWIN->GetFrameIndex() == 2) {
+		if (frameX >= 21) return TILEKIND_NONE;
+	}
+	return TILEKIND_TERRAIN;
 }
 
 void IsoMap::TileInit()

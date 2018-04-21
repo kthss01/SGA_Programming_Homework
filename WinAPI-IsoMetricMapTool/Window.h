@@ -12,6 +12,9 @@ enum CTRL
 	CTRL_INIT,
 	CTRL_SAVE,
 	CTRL_LOAD,
+	CTRL_NUM1,
+	CTRL_NUM2,
+	CTRL_NUM3,
 	CTRL_END
 };
 
@@ -34,8 +37,13 @@ private:
 	HWND _btnSave;
 	HWND _btnLoad;
 
+	HWND _btnN1;
+	HWND _btnN2;
+	HWND _btnN3;
+
 	static CTRL _currentCTRL;
 	POINT clickFrame;
+	int clickIndex;
 
 	bool isActive;
 
@@ -63,6 +71,9 @@ public:
 
 	void SetFramePoint(POINT frame) { clickFrame = frame; }
 	POINT GetFramePoint() { return clickFrame; }
+
+	void SetFrameIndex(int index) { clickIndex = index; }
+	int GetFrameIndex() { return clickIndex; }
 
 	void SetIsoMap(IsoMap * map) { this->map = map; }
 	IsoMap * GetIsoMap() { return map; }

@@ -28,6 +28,8 @@ HRESULT MainGame::Init()
 		0, 0, 100, 65, true, RGB(255, 0, 255));
 	IMAGE->AddImage("tile", "images/tile.bmp",
 		0, 0, 100 * 8, (50 + 50) * 7, 8, 7, true, RGB(255, 0, 255));
+	IMAGE->AddImage("tile2", "images/tile2.bmp",
+		0, 0, 100 * 21, (50 + 50) * 8, 21, 8, true, RGB(255, 0, 255));
 
 	TestScene * test = new TestScene;
 	SCENE->AddScene("Test", test);

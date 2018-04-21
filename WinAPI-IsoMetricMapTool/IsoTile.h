@@ -14,7 +14,7 @@
 #define TILE_COUNT_Y 20
 
 #define TILE_SIZE_X 8
-#define TILE_SIZE_Y 7
+#define TILE_SIZE_Y 10
 
 enum TILEKIND {
 	TILEKIND_OBJECT,
@@ -24,6 +24,8 @@ enum TILEKIND {
 
 struct tagTile {
 	int left, top;
+
+	int index;
 
 	vector< pair<TILEKIND, POINT> > frameIndex;
 	int height;
