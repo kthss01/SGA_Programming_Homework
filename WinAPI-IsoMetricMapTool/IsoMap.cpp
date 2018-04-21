@@ -176,7 +176,7 @@ void IsoMap::DrawTileMap()
 
 			for (int z = 0; z < _tileMap[i][j].frameIndex.size(); z++) {
 				if (_tileMap[i][j].frameIndex[z].first != TILEKIND_NONE) {
-					switch (_tileMap[i][j].index)
+					switch (_tileMap[i][j].index[z])
 					{
 					case 0:					
 						IMAGE->FrameRender("tile", GetMemDC(),
@@ -316,7 +316,7 @@ void IsoMap::MapToolSetup()
 
 void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 {
-	_tileMap[isoX][isoY].index = SUBWIN->GetFrameIndex();
+	int index = SUBWIN->GetFrameIndex();
 
 	switch (SUBWIN->GetFrameIndex())
 	{
@@ -349,6 +349,7 @@ void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 				&& _tileMap[isoX][isoY].frameIndex.size() == 0)
 				break;
 
+			_tileMap[isoX][isoY].index.push_back(index);
 			_tileMap[isoX][isoY].frameIndex.push_back(
 				make_pair(KindSelect(imageFrame.x, imageFrame.y), imageFrame));
 		}
@@ -356,11 +357,15 @@ void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 			if (KindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT)
 				break;
 
-			if (_tileMap[isoX][isoY].frameIndex.size() == 0)
+			if (_tileMap[isoX][isoY].frameIndex.size() == 0) {
+				_tileMap[isoX][isoY].index.push_back(index);
 				_tileMap[isoX][isoY].frameIndex.push_back(
 					make_pair(
 						KindSelect(imageFrame.x, imageFrame.y), imageFrame));
+			}
 			else {
+				_tileMap[isoX][isoY].index[
+					_tileMap[isoX][isoY].index.size()-1] = index;
 				_tileMap[isoX][isoY].frameIndex[
 					_tileMap[isoX][isoY].frameIndex.size() - 1]
 					= make_pair(
@@ -369,8 +374,10 @@ void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 		}
 		break;
 	case CTRL_ERASER:
-		if (_tileMap[isoX][isoY].frameIndex.size() != 0)
+		if (_tileMap[isoX][isoY].frameIndex.size() != 0) {
+			_tileMap[isoX][isoY].index.pop_back();
 			_tileMap[isoX][isoY].frameIndex.pop_back();
+		}
 		break;
 	}
 }
@@ -395,6 +402,7 @@ void IsoMap::TileInit()
 	for (int i = 0; i < TILE_COUNT_X; i++) {
 		for (int j = 0; j < TILE_COUNT_Y; j++) {
 			_tileMap[i][j].frameIndex.clear();
+			_tileMap[i][j].index.clear();
 		}
 	}
 }

@@ -25,7 +25,7 @@ enum TILEKIND {
 struct tagTile {
 	int left, top;
 
-	int index;
+	vector<int> index;
 
 	vector< pair<TILEKIND, POINT> > frameIndex;
 	int height;
