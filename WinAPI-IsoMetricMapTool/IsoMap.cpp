@@ -174,24 +174,24 @@ void IsoMap::DrawTileMap()
 			//IMAGE->FrameRender("tile", GetMemDC(), left, top,
 			//	0, 0);
 
-			for (int z = 0; z < _tileMap[i][j].frameIndex.size(); z++) {
-				if (_tileMap[i][j].frameIndex[z].first != TILEKIND_NONE) {
-					switch (_tileMap[i][j].index[z])
+			for (int z = 0; z <= _tileMap[i][j].index; z++) {
+				if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE) {
+					switch (_tileMap[i][j].tileNum[z])
 					{
 					case 0:					
 						IMAGE->FrameRender("tile", GetMemDC(),
 						_tileMap[i][j].left,
 						_tileMap[i][j].top - _tileMap[i][j].height * z,
-						_tileMap[i][j].frameIndex[z].second.x,
-						_tileMap[i][j].frameIndex[z].second.y);
+						_tileMap[i][j].tilePos[z].x,
+						_tileMap[i][j].tilePos[z].y);
 						break;
 					case 1:
 					case 2:
 						IMAGE->FrameRender("tile2", GetMemDC(),
 							_tileMap[i][j].left,
 							_tileMap[i][j].top - _tileMap[i][j].height * z,
-							_tileMap[i][j].frameIndex[z].second.x,
-							_tileMap[i][j].frameIndex[z].second.y);
+							_tileMap[i][j].tilePos[z].x,
+							_tileMap[i][j].tilePos[z].y);
 						break;
 					}
 				}
@@ -309,6 +309,7 @@ void IsoMap::MapToolSetup()
 {
 	for (int i = 0; i < TILE_COUNT_X; i++) {
 		for (int j = 0; j < TILE_COUNT_Y; j++) {
+			_tileMap[i][j].index = -1;
 			_tileMap[i][j].height = 50;
 		}
 	}
@@ -346,37 +347,44 @@ void IsoMap::SetMap(int isoX, int isoY, bool isAdd)
 	case CTRL_DRAW:
 		if (isAdd) {
 			if (KindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT
-				&& _tileMap[isoX][isoY].frameIndex.size() == 0)
+				&& _tileMap[isoX][isoY].index == -1)
 				break;
 
-			_tileMap[isoX][isoY].index.push_back(index);
-			_tileMap[isoX][isoY].frameIndex.push_back(
-				make_pair(KindSelect(imageFrame.x, imageFrame.y), imageFrame));
+			_tileMap[isoX][isoY].index++;
+			if (_tileMap[isoX][isoY].index >= TILE_MAX)
+				_tileMap[isoX][isoY].index = TILE_MAX - 1;
+			_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
+			_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] =
+				KindSelect(imageFrame.x, imageFrame.y);
+			_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index]
+				= imageFrame;
 		}
 		else {
 			if (KindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT)
 				break;
 
-			if (_tileMap[isoX][isoY].frameIndex.size() == 0) {
-				_tileMap[isoX][isoY].index.push_back(index);
-				_tileMap[isoX][isoY].frameIndex.push_back(
-					make_pair(
-						KindSelect(imageFrame.x, imageFrame.y), imageFrame));
+			if (_tileMap[isoX][isoY].index == -1) {
+				_tileMap[isoX][isoY].index++;
+				if (_tileMap[isoX][isoY].index >= TILE_MAX)
+					_tileMap[isoX][isoY].index = TILE_MAX - 1;
+				_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
+				_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] =
+					KindSelect(imageFrame.x, imageFrame.y);
+				_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index]
+					= imageFrame;
 			}
 			else {
-				_tileMap[isoX][isoY].index[
-					_tileMap[isoX][isoY].index.size()-1] = index;
-				_tileMap[isoX][isoY].frameIndex[
-					_tileMap[isoX][isoY].frameIndex.size() - 1]
-					= make_pair(
-						KindSelect(imageFrame.x, imageFrame.y), imageFrame);
+				_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
+				_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] =
+					KindSelect(imageFrame.x, imageFrame.y);
+				_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index]
+					= imageFrame;
 			}
 		}
 		break;
 	case CTRL_ERASER:
-		if (_tileMap[isoX][isoY].frameIndex.size() != 0) {
-			_tileMap[isoX][isoY].index.pop_back();
-			_tileMap[isoX][isoY].frameIndex.pop_back();
+		if (_tileMap[isoX][isoY].index > -1) {
+			_tileMap[isoX][isoY].index--;
 		}
 		break;
 	}
@@ -401,8 +409,7 @@ void IsoMap::TileInit()
 {
 	for (int i = 0; i < TILE_COUNT_X; i++) {
 		for (int j = 0; j < TILE_COUNT_Y; j++) {
-			_tileMap[i][j].frameIndex.clear();
-			_tileMap[i][j].index.clear();
+			_tileMap[i][j].index = -1;
 		}
 	}
 }

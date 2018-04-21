@@ -16,6 +16,8 @@
 #define TILE_SIZE_X 8
 #define TILE_SIZE_Y 10
 
+#define TILE_MAX 10
+
 enum TILEKIND {
 	TILEKIND_OBJECT,
 	TILEKIND_TERRAIN,
@@ -25,8 +27,10 @@ enum TILEKIND {
 struct tagTile {
 	int left, top;
 
-	vector<int> index;
+	int index;
+	int tileNum[TILE_MAX];
+	TILEKIND tileKind[TILE_MAX];
+	POINT tilePos[TILE_MAX];
 
-	vector< pair<TILEKIND, POINT> > frameIndex;
 	int height;
 };
