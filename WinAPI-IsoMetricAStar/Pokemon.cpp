@@ -93,10 +93,15 @@ void Pokemon::Update()
 				break;
 			}
 
-			_endX = isoX;
-			_endY = isoY;
-			PathInit();
-			PathFind();
+			tagTile(*tiles)[TILE_COUNT_Y] = _map->GetTiles();
+			
+			if (tiles[isoX][isoY].index == 0 &&
+				tiles[isoX][isoY].tileKind[0] == TILEKIND_TERRAIN) {
+				_endX = isoX;
+				_endY = isoY;
+				PathInit();
+				PathFind();
+			}
 		}
 	}
 
@@ -181,6 +186,8 @@ void Pokemon::PokemonMove()
 		_x = destX;
 		_y = destY;
 		_rc = RectMake(_x, _y, _image->GetFrameWidth(), _image->GetFrameHeight());
+		_aStarStartX = _targetTile->isoX;
+		_aStarStartY = _targetTile->isoY;
 		_targetTile = _targetTile->parent;
 		_state = POKEMONSTATE_IDLE;
 
@@ -265,51 +272,6 @@ bool Pokemon::IsInRhombus(int corner, int isoX, int isoY)
 
 void Pokemon::PathInit()
 {
-	//float cellX = (float)(_rc.right - _startX);
-
-	//if (cellX < 0) {
-	//	cellX = (cellX - CELL_WIDTH) / (float)CELL_WIDTH;
-	//}
-	//else {
-	//	cellX = cellX / (float)CELL_WIDTH;
-	//}
-
-	//float cellY = 
-	//	abs(_rc.bottom - _startY) / CELL_HEIGHT;
-
-	//cellY = (_rc.bottom < _startY) 
-	//	? cellY * -1 : cellY;
-
-	//int isoX = (int)cellX + (int)cellY;
-	//int isoY = (int)cellY - (int)cellX;
-
-	//if (isoX >= 0 && isoX < TILE_COUNT_X &&
-	//	isoY >= 0 && isoY < TILE_COUNT_Y) {
-	//	int corner = GetCornerIndex(isoX, isoY);
-
-	//	if (IsInRhombus(corner, isoX, isoY))
-	//		corner = 0;
-
-	//	switch (corner)
-	//	{
-	//	case 1:
-	//		isoX = isoX - 1;
-	//		break;
-	//	case 2:
-	//		isoY = isoY - 1;
-	//		break;
-	//	case 3:
-	//		isoY = isoY + 1;
-	//		break;
-	//	case 4:
-	//		isoX = isoX + 1;
-	//		break;
-	//	}
-
-	//	_aStarStartX = isoX;
-	//	_aStarStartY = isoY;
-	//}
-
 	tagTile(*tiles)[TILE_COUNT_Y] = _map->GetTiles();
 
 	for (int i = 0; i < TILE_COUNT_X; i++) {
@@ -344,36 +306,70 @@ void Pokemon::PathInit()
 	_lastIndex = 0;
 	_targetTile = NULL;
 
+	_state = POKEMONSTATE_IDLE;
 }
 
 void Pokemon::PathFind()
 {
-	int dx[] = { -1,1,0,0 };
-	int dy[] = { 0,0,-1,1 };
+	// left, right, up, down, leftup, rightdown, leftdown, rightup
+	int dx[] = { -1, 1, 0, 0, -1, 1, -1, 1 };
+	int dy[] = { 0, 0, -1, 1, -1, 1, 1, -1 };
+	bool check[8];
 
 	while (true) {
+		for (int i = 0; i < 8; i++) check[i] = false;
+
 		// AddOpenList()
 		_Cx = _closeList[_lastIndex]->isoX;
 		_Cy = _closeList[_lastIndex]->isoY;
 		_Cg = _closeList[_lastIndex]->G;
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 8; i++) {
 			int x = _Cx + dx[i];
 			int y = _Cy + dy[i];
 			if (0 <= x && x < TILE_COUNT_X && 0 <= y && y < TILE_COUNT_Y) {
 				if (_aStarTile[x][y].walkable) {
-					if (!_aStarTile[x][y].listOn) {
-						_aStarTile[x][y].listOn = true;
-						_aStarTile[x][y].G = _Cg + 10;
-						_aStarTile[x][y].parent =
-							_closeList[_lastIndex];
-						_openList.push_back(&_aStarTile[x][y]);
-					}
-					else {
-						if (_Cg + 10 < _aStarTile[x][y].G) {
+					check[i] = true;
+					if (i < 4) {
+						if (!_aStarTile[x][y].listOn) {
+							_aStarTile[x][y].listOn = true;
 							_aStarTile[x][y].G = _Cg + 10;
 							_aStarTile[x][y].parent =
 								_closeList[_lastIndex];
+							_openList.push_back(&_aStarTile[x][y]);
+						}
+						else {
+							if (_Cg + 10 < _aStarTile[x][y].G) {
+								_aStarTile[x][y].G = _Cg + 10;
+								_aStarTile[x][y].parent =
+									_closeList[_lastIndex];
+							}
+						}
+					}
+					else {
+						// leftup
+						if ((i == 4 && check[0] && check[2]) ||
+							// rightdown
+							(i == 5 && check[1] && check[3]) ||
+							// leftdown	
+							(i == 6 && check[0] && check[3]) ||
+							// rightup
+							(i == 7 && check[1] && check[2])) {
+
+							if (!_aStarTile[x][y].listOn) {
+								_aStarTile[x][y].listOn = true;
+								_aStarTile[x][y].G = _Cg + 14;
+								_aStarTile[x][y].parent =
+									_closeList[_lastIndex];
+								_openList.push_back(&_aStarTile[x][y]);
+							}
+							else {
+								if (_Cg + 14 < _aStarTile[x][y].G) {
+									_aStarTile[x][y].G = _Cg + 14;
+									_aStarTile[x][y].parent =
+										_closeList[_lastIndex];
+								}
+							}
 						}
 					}
 				}
