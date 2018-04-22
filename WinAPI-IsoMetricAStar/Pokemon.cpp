@@ -57,7 +57,7 @@ void Pokemon::Update()
 		float cellX = (float)(g_ptMouse.x - _startX);
 
 		if (cellX < 0) {
-			cellX = (cellX + CELL_WIDTH) / (float)CELL_WIDTH;
+			cellX = (cellX - CELL_WIDTH) / (float)CELL_WIDTH;
 		}
 		else {
 			cellX = cellX / (float)CELL_WIDTH;
@@ -268,7 +268,7 @@ void Pokemon::PathInit()
 	//float cellX = (float)(_rc.right - _startX);
 
 	//if (cellX < 0) {
-	//	cellX = (cellX + CELL_WIDTH) / (float)CELL_WIDTH;
+	//	cellX = (cellX - CELL_WIDTH) / (float)CELL_WIDTH;
 	//}
 	//else {
 	//	cellX = cellX / (float)CELL_WIDTH;
@@ -380,10 +380,16 @@ void Pokemon::PathFind()
 			}
 		}
 
+		// no way
+		if (_openList.size() == 0) {
+			_targetTile = NULL;
+			break;
+		}
+
 		// CalCulate H, F
 		for (int i = 0; i < _openList.size(); i++) {
-			int vertical = (_startX - _openList[i]->isoX) * 10;
-			int horizontal = (_startY - _openList[i]->isoY) * 10;
+			int vertical = (_aStarStartX - _openList[i]->isoX) * 10;
+			int horizontal = (_aStarStartY - _openList[i]->isoY) * 10;
 
 			// 방향이 반대로 넘어가는 경우
 			if (vertical < 0) vertical *= -1;
@@ -409,12 +415,6 @@ void Pokemon::PathFind()
 		_openList.erase(_openList.begin() + index);
 
 		_lastIndex++;
-
-		// no way
-		if (_openList.size() == 0) {
-			_targetTile = NULL;
-			break;
-		}
 
 		// Check Arrive()
 		// found path
