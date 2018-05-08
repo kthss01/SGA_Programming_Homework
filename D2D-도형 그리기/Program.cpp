@@ -83,7 +83,7 @@ void Program::Update()
 	matTrans = Matrix::Translation(vBoxPos);
 	matRotate = Matrix::Rotate(fAngle);
 
-	// coord 이동 시켜주는 녀석
+	// coord는 이동 시켜주는 녀석
 	// 회전을 시켜주는 녀석
 	dirTo = dirTo.TransformNormal(matRotate);
 

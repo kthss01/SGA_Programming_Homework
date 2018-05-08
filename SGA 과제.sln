@@ -123,6 +123,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI-IsoMetricAStar", "Wi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-도형 그리기", "D2D-도형 그리기\Direct2D.vcxproj", "{009C2F45-48F6-43E4-BC67-D7947F647DF6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SingleLinkedList", "싱글 링크드 리스크\SingleLinkedList.vcxproj", "{2D8C05C2-4D48-4497-BD60-D86019CEF609}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -611,6 +613,14 @@ Global
 		{009C2F45-48F6-43E4-BC67-D7947F647DF6}.Release|x64.Build.0 = Release|x64
 		{009C2F45-48F6-43E4-BC67-D7947F647DF6}.Release|x86.ActiveCfg = Release|Win32
 		{009C2F45-48F6-43E4-BC67-D7947F647DF6}.Release|x86.Build.0 = Release|Win32
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Debug|x64.ActiveCfg = Debug|x64
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Debug|x64.Build.0 = Debug|x64
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Debug|x86.ActiveCfg = Debug|Win32
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Debug|x86.Build.0 = Debug|Win32
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Release|x64.ActiveCfg = Release|x64
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Release|x64.Build.0 = Release|x64
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Release|x86.ActiveCfg = Release|Win32
+		{2D8C05C2-4D48-4497-BD60-D86019CEF609}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
