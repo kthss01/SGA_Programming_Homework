@@ -9,7 +9,7 @@ enum STATUS {
 	STATUS_NORMAL,
 	STATUS_ONLAND,
 	STATUS_TOUP,
-	STATUS_TOLOW
+	STATUS_TOLOW,
 };
 
 class Rect : public GameObject
@@ -33,6 +33,9 @@ private:
 
 	Transform * bgTransform;
 	class Camera* camera;
+
+	int currentBg;
+	bool isSee;
 public:
 	Rect();
 	~Rect();
@@ -49,4 +52,6 @@ public:
 
 	void SetCamera(Camera* camera) { this->camera = camera; }
 	void SetBgTransform(Transform* transform) { bgTransform = transform; }
+
+	int GetCurrentBg() { return currentBg; }
 };

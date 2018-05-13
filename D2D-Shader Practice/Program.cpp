@@ -11,6 +11,9 @@ Program::Program()
 {
 	srand(time(NULL));
 
+	//SOUND->AddSound("Test", "sounds/¿µÀü3.wav", true, true);
+	SOUND->AddSound("bg", "sounds/For River - Piano (Johnnys Version).mp3", true, true);
+
 	mainCamera = new Camera;
 
 	bg = new BackGround;
@@ -37,6 +40,32 @@ Program::Program()
 	CreateRenderTargetTexture();
 
 	miniMap->SetTexture(pRenderTexture);
+
+	//SOUND->Play("Test");
+	SOUND->Play("bg", 0.5f);
+
+	HRESULT hr = D3DXCreateTextureFromFile(
+		D2D::GetDevice(),
+		L"Textures/bg4.png",
+		&pTex[0]
+	);
+	assert(SUCCEEDED(hr));
+	hr = D3DXCreateTextureFromFile(
+		D2D::GetDevice(),
+		L"Textures/bg1.png",
+		&pTex[1]
+	);
+	assert(SUCCEEDED(hr));
+	hr = D3DXCreateTextureFromFile(
+		D2D::GetDevice(),
+		L"Textures/bg2.png",
+		&pTex[2]
+	);
+	assert(SUCCEEDED(hr));
+
+	currentBg = 0;
+	bg->SetTexture(pTex[currentBg]);
+	baseBg->SetTexture(pTex[currentBg]);
 }
 
 Program::~Program()
@@ -54,6 +83,10 @@ Program::~Program()
 
 void Program::Update()
 {
+	currentBg = rect->GetCurrentBg();
+	bg->SetTexture(pTex[currentBg]);
+	baseBg->SetTexture(pTex[currentBg]);
+
 	mainCamera->UpdateCamToDevice();
 	bg->Update();
 	baseBg->Update();

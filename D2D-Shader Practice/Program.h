@@ -11,10 +11,14 @@ private:
 	class BaseBackGround* baseBg;
 	class MiniMap* miniMap;
 
+	LPDIRECT3DTEXTURE9 pTex[3];
+
 	// 텍스에 대한 정보를 저장할 곳
 	LPDIRECT3DTEXTURE9 pRenderTexture;
 	// 텍스에 대한 표면 (색상값 설정)
 	LPDIRECT3DSURFACE9 pRenderSurface;
+
+	int currentBg;
 public:
 	Program();
 	~Program();

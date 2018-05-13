@@ -68,12 +68,12 @@ void BaseBackGround::Init()
 	transform = new Transform;
 	transform->UpdateTransform();
 
-	hr = D3DXCreateTextureFromFile(
-		D2D::GetDevice(),
-		L"Textures/bg1.png",
-		&pTex
-	);
-	assert(SUCCEEDED(hr));
+	//hr = D3DXCreateTextureFromFile(
+	//	D2D::GetDevice(),
+	//	L"Textures/bg1.png",
+	//	&pTex
+	//);
+	//assert(SUCCEEDED(hr));
 }
 
 void BaseBackGround::Release()

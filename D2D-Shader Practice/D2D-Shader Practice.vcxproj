@@ -166,6 +166,7 @@
     <ClInclude Include="GameObject\BaseBackGround.h" />
     <ClInclude Include="GameObject\MiniMap.h" />
     <ClInclude Include="Physics\Collision.h" />
+    <ClInclude Include="System\SoundManager.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="System\D2D.h" />
     <ClInclude Include="Math\Matrix.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="GameObject\BaseBackGround.cpp" />
     <ClCompile Include="GameObject\MiniMap.cpp" />
     <ClCompile Include="Physics\Collision.cpp" />
+    <ClCompile Include="System\SoundManager.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="System\D2D.cpp" />
     <ClCompile Include="Main.cpp" />

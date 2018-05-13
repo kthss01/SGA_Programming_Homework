@@ -133,6 +133,10 @@ void Rect::Init()
 
 	transform->SetWorldPosition(Vector2(0, WINSIZE_Y / 2 - 25 - 50));
 	transform->SetScale(Vector2(0.5f, 0.5f));
+
+	currentBg = 0;
+
+	isSee = false;
 }
 
 void Rect::Release()
@@ -147,12 +151,20 @@ void Rect::Release()
 
 void Rect::Update()
 {
+	if (INPUT->GetKeyDown(VK_UP)) {
+		isSee = !isSee;
+	}
+
 	switch (status)
 	{
 	case STATUS_NORMAL:
 		Jump();
 
-		if (isLeft) {
+		if (isSee) {
+			currentIndexX = 3;
+			currentIndexY = 3;
+		}
+		else if (isLeft) {
 			currentIndexX = 4;
 			currentIndexY = 3;
 		}
@@ -162,12 +174,14 @@ void Rect::Update()
 		}
 
 		if (INPUT->GetKey(VK_LEFT)) {
+			isSee = false;
 			status = STATUS_ONLAND;
 			isLeft = true;
 			currentIndexX = 4;
 			currentIndexY = 0;
 		}
 		if (INPUT->GetKey(VK_RIGHT)) {
+			isSee = false;
 			status = STATUS_ONLAND;
 			isLeft = false;
 			currentIndexX = 0;
@@ -309,7 +323,7 @@ void Rect::Move() {
 	if (INPUT->GetKey(VK_LEFT)) {
 		//transform->MovePositionSelf(Vector2(-SPEED, 0));
 
-		if (posX - 25> -WINSIZE_X / 2) {
+		if (posX - 25 > -WINSIZE_X / 2) {
 			if (posX >= WINSIZE_X / 4)
 				transform->MovePositionSelf(Vector2(-SPEED, 0));
 			else if (bgTransform->GetWorldPosition().x <
@@ -317,6 +331,27 @@ void Rect::Move() {
 				bgTransform->MovePositionSelf(Vector2(SPEED, 0));
 			else
 				transform->MovePositionSelf(Vector2(-SPEED, 0));
+		}
+		else {
+			switch (currentBg)
+			{
+			case 0:
+				break;
+			case 1:
+				currentBg = 0;
+				transform->SetWorldPosition(
+					Vector2(WINSIZE_X / 2 - 25,
+						transform->GetWorldPosition().y));
+				bgTransform->SetWorldPosition(Vector2(-WINSIZE_X / 2, 0));
+				break;
+			case 2:
+				currentBg = 1;
+				transform->SetWorldPosition(
+					Vector2(WINSIZE_X / 2 - 25,
+						transform->GetWorldPosition().y));
+				bgTransform->SetWorldPosition(Vector2(-WINSIZE_X / 2, 0));
+				break;
+			}
 		}
 		
 		isLeft = true;
@@ -341,6 +376,27 @@ void Rect::Move() {
 				bgTransform->MovePositionSelf(Vector2(-SPEED, 0));
 			else
 				transform->MovePositionSelf(Vector2(SPEED, 0));
+		}
+		else {
+			switch (currentBg)
+			{
+			case 0:
+				currentBg = 1;
+				transform->SetWorldPosition(
+					Vector2(-WINSIZE_X / 2 + 25,
+						transform->GetWorldPosition().y));
+				bgTransform->SetWorldPosition(Vector2(WINSIZE_X / 2, 0));
+				break;
+			case 1:
+				currentBg = 2;
+				transform->SetWorldPosition(
+					Vector2(-WINSIZE_X / 2 + 25,
+						transform->GetWorldPosition().y));
+				bgTransform->SetWorldPosition(Vector2(WINSIZE_X / 2, 0));
+				break;
+			case 2:
+				break;
+			}
 		}
 
 		isLeft = false;

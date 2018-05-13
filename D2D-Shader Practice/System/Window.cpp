@@ -152,6 +152,9 @@ Window::Window()
 
 Window::~Window()
 {
+	INPUT->Delete();
+	FRAME->Delete();
+	SOUND->Delete();
 
 	DestroyWindow(g_hWnd);
 	UnregisterClass(appName.c_str(), g_hInstance);
