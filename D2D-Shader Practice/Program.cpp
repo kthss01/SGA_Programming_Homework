@@ -9,6 +9,7 @@
 
 Program::Program()
 {
+
 	srand(time(NULL));
 
 	//SOUND->AddSound("Test", "sounds/¿µÀü3.wav", true, true);
@@ -42,7 +43,6 @@ Program::Program()
 	miniMap->SetTexture(pRenderTexture);
 
 	//SOUND->Play("Test");
-	SOUND->Play("bg", 0.5f);
 
 	HRESULT hr = D3DXCreateTextureFromFile(
 		D2D::GetDevice(),
@@ -83,6 +83,14 @@ Program::~Program()
 
 void Program::Update()
 {
+	SetCursor(NULL);
+	ShowCursor(FALSE);
+
+	if (INPUT->GetKeyDown(VK_SHIFT)) {
+		if (!SOUND->IsPlaySound("bg"))
+			SOUND->Play("bg", 0.5f);
+	}
+
 	currentBg = rect->GetCurrentBg();
 	bg->SetTexture(pTex[currentBg]);
 	baseBg->SetTexture(pTex[currentBg]);
