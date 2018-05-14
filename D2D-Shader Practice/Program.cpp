@@ -79,6 +79,9 @@ Program::~Program()
 	SAFE_DELETE(baseBg);
 	SAFE_DELETE(miniMap);
 	SAFE_DELETE(mainCamera);
+
+	for (int i = 0; i < 3; i++)
+		SAFE_RELEASE(pTex[i]);
 }
 
 void Program::Update()
