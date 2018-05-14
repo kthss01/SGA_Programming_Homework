@@ -1,10 +1,12 @@
 {
-   "enemy_x" : 269.5,
+   "bg_color" : 62146596.0,
+   "colorIndex" : 5,
+   "enemy_x" : 432.5,
    "enemy_y" : 75.0,
    "player_bottomY" : 75.0,
-   "player_status" : 1,
-   "player_vy" : 2.0,
+   "player_status" : 0,
+   "player_vy" : 13.0,
    "player_x" : -75.0,
-   "player_y" : -84.5,
-   "score" : 67
+   "player_y" : 75.0,
+   "score" : 2869
 }

@@ -4,12 +4,12 @@
 
 static DWORD scoreToColor[] = {
 	0xffffffff,
-	0xffff0000,
-	0xff00ff00,
 	0xff0000ff,
-	0xff00ffff,
-	0xffff00ff,
-	0xff00ffff,
+	0xff00ff00,
+	0xffa52a2a,
+	0xffff6347,
+	0xff6b8e23,
+	0xffffd700,
 };
 
 class Program

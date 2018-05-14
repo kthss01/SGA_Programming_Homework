@@ -36,7 +36,7 @@ Program::Program()
 	);
 
 	//SOUND->Play("Test");
-	SOUND->Play("bg", 0.5f);
+	//SOUND->Play("bg", 0.5f);
 
 	HRESULT hr = D3DXCreateTextureFromFile(
 		D2D::GetDevice(),
@@ -129,7 +129,11 @@ void Program::Update()
 	if (INPUT->GetKeyDown('C')) Load();
 
 	if (INPUT->GetKeyDown('P')) isPause = !isPause;
+
 	if (isPause) return;
+
+	if (!SOUND->IsPlaySound("bg"))
+		SOUND->Play("bg", 0.5f);
 
 	score++;
 	ChangeBGColor();
