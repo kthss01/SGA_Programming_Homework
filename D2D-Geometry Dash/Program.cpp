@@ -68,7 +68,9 @@ Program::Program()
 
 	for (int i = 0; i < 2; i++) {
 		bg[i]->SetTexture(pTex[0]);
+		bg[i]->SetCamera(mainCamera);
 		bottom[i]->SetTexture(pTex[1]);
+		bottom[i]->SetCamera(mainCamera);
 		bg[i]->SetSpeed(1.0f);
 	}
 	rect[0]->SetTexture(pTex[2]);
@@ -130,6 +132,7 @@ void Program::Update()
 	if (isPause) return;
 
 	score++;
+	ChangeBGColor();
 
 	for (int i = 0; i < 2; i++) {
 		rect[i]->Update();
@@ -188,6 +191,11 @@ void Program::Init()
 	rect[0]->SetStatus(STATUS_IDLE);
 
 	rect[1]->GetTransform()->SetWorldPosition(Vector2(WINSIZE_X / 2, 75));
+
+	for (int i = 0; i < 2; i++) {
+		bg[i]->SetColor(0xffffffff);
+		bottom[i]->SetColor(0xffffffff);
+	}
 }
 
 void Program::Save()
@@ -209,6 +217,12 @@ void Program::Save()
 
 	Json::SetValue(*root, "enemy_x", pos2.x);
 	Json::SetValue(*root, "enemy_y", pos2.y);
+
+	Json::SetValue(*root, "colorIndex", colorIndex);
+
+	float color = bg[0]->GetColor();
+
+	Json::SetValue(*root, "bg_color", color);
 
 	WriteJsonData(L"./save/data.Json", root);
 }
@@ -232,6 +246,15 @@ void Program::Load()
 
 	Json::GetValue(*root, "enemy_x", pos2.x);
 	Json::GetValue(*root, "enemy_y", pos2.y);
+
+	Json::GetValue(*root, "colorIndex", colorIndex);
+
+	float color;
+	Json::GetValue(*root, "bg_color", color);
+	for (int i = 0; i < 2; i++) {
+		bg[i]->SetColor(color);
+		bottom[i]->SetColor(color);
+	}
 
 	rect[0]->SetStatus((STATUS)status);
 	rect[0]->SetVy(vy);
@@ -262,4 +285,39 @@ void Program::ReadJsonData(wstring fileName, Json::Value * root)
 		reader.parse(stream, *root);
 	}
 	stream.close();
+}
+
+void Program::ChangeBGColor()
+{
+	colorIndex = (score / 500) % 7;
+
+	DWORD targetColor = scoreToColor[colorIndex];
+	DWORD currentColor = bg[0]->GetColor();
+
+	DWORD color;
+
+	if (targetColor == currentColor)
+		color = currentColor;
+	else {
+		color = currentColor;
+
+		DWORD temp = targetColor ^ currentColor;
+		byte r, g, b;
+		r = temp;
+		g = temp >> 8;
+		b = temp >> 16;
+		if (r != 0)
+			color += 1;
+		if (g != 0)
+			color += 1 << 8;
+		if (b != 0)
+			color += 1 << 16;
+	}
+
+	for (int i = 0; i < 2; i++) {
+		//bg[i]->SetColor(scoreToColor[colorIndex]);
+		//bottom[i]->SetColor(scoreToColor[colorIndex]);
+		bg[i]->SetColor(color);
+		bottom[i]->SetColor(color);
+	}
 }

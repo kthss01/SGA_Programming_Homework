@@ -2,6 +2,16 @@
 
 // MainGame대신 돌아갈꺼
 
+static DWORD scoreToColor[] = {
+	0xffffffff,
+	0xffff0000,
+	0xff00ff00,
+	0xff0000ff,
+	0xff00ffff,
+	0xffff00ff,
+	0xff00ffff,
+};
+
 class Program
 {
 private:
@@ -18,6 +28,8 @@ private:
 	int score = 0;
 
 	Json::Value* root;
+
+	int colorIndex = 0;
 public:
 	Program();
 	~Program();
@@ -31,6 +43,8 @@ public:
 
 	void WriteJsonData(wstring fileName, Json::Value* root);
 	void ReadJsonData(wstring fileName, Json::Value* root);
+
+	void ChangeBGColor();
 };
 
 /*
