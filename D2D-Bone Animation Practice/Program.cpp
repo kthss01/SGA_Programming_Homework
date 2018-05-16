@@ -10,6 +10,8 @@ Program::Program()
 	srand(time(NULL));
 
 	SOUND->AddSound("Test", "sounds/¿µÀü3.wav", true, true);
+	SOUND->AddSound("bg", "sounds/Most Memorable OSTs Gallant Char.mp3",
+		false, false);
 
 	mainCamera = new Camera;
 

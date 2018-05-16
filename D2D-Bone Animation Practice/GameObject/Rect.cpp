@@ -153,7 +153,9 @@ void Rect::Init()
 
 	SettingBodyPart();
 
-	isRight = true;
+	isUnion = false;
+	isDivine = false;
+	distance = 0;
 }
 
 void Rect::Release()
@@ -193,6 +195,8 @@ void Rect::Update()
 	//hr = vb->Unlock();
 	//assert(SUCCEEDED(hr));
 
+	MoveToBodyPart();
+
 	this->transform->DefaultControl2();
 	this->DrawInterface();
 	//clips->Update(AniRepeatType_Loop);
@@ -201,12 +205,25 @@ void Rect::Update()
 	if (INPUT->GetKey(VK_DOWN)) transform->MovePositionWorld(Vector2(0, 10));
 	if (INPUT->GetKey(VK_LEFT)) {
 		transform->MovePositionWorld(Vector2(-10, 0));
-		//isRight = false;
 	}
 	if (INPUT->GetKey(VK_RIGHT))
 	{
 		transform->MovePositionWorld(Vector2(10, 0));
-		//isRight = true;
+	}
+	
+	if (INPUT->GetKeyDown('Z'))
+	{
+		isUnion = true;
+		isDivine = false;
+		if (!SOUND->IsPlaySound("bg"))
+			SOUND->Play("bg");
+	}
+	if (INPUT->GetKeyDown('X'))
+	{
+		isDivine = true;
+		isUnion = false;
+		if (!SOUND->IsPlaySound("bg"))
+			SOUND->Play("bg");
 	}
 }
 
@@ -306,7 +323,7 @@ void Rect::SettingBodyPart()
 	//temp->RotateSelf(45.0f * D3DX_PI / 180.0f);
 	
 	temp = child[BodyKind_RightLeg];
-	temp->MovePositionSelf(Vector2(27.5f, -50));
+	temp->MovePositionSelf(Vector2(27.5, -50 ));
 	//temp->RotateSelf(-45.0f * D3DX_PI / 180.0f);
 
 	// ÆÈ
@@ -325,6 +342,14 @@ void Rect::SettingBodyPart()
 	child[BodyKind_Body]->AddChild(child[BodyKind_RightArm]);
 	transform->SetScale(Vector2(1.5f, 1.5f));
 	transform->MovePositionSelf(Vector2(-100, 110 + 200));
+
+	//int move = BODYPART_DISTANCE;
+	//child[BodyKind_Head]->MovePositionWorld(Vector2(0, -move));
+	//child[BodyKind_LeftLeg]->MovePositionWorld(Vector2(-move, 0));
+	//child[BodyKind_LeftArm]->MovePositionWorld(Vector2(-move, 0));
+	//child[BodyKind_RightLeg]->MovePositionWorld(Vector2(move, 0));
+	//child[BodyKind_RightArm]->MovePositionWorld(Vector2(move, 0));
+
 }
 
 void Rect::DrawInterface()
@@ -359,4 +384,39 @@ void Rect::ReadJsonData(wstring fileName, Json::Value * root)
 		reader.parse(stream, *root);
 	}
 	stream.close();
+}
+
+void Rect::MoveToBodyPart()
+{
+	if (isUnion) {
+		if (distance > 0) {
+			distance--;
+			int move = 1;
+			child[BodyKind_Head]->MovePositionWorld(Vector2(0, move));
+			child[BodyKind_LeftLeg]->MovePositionWorld(Vector2(move, -move));
+			child[BodyKind_LeftArm]->MovePositionWorld(Vector2(move, 0));
+			child[BodyKind_RightLeg]->MovePositionWorld(Vector2(-move, -move));
+			child[BodyKind_RightArm]->MovePositionWorld(Vector2(-move, 0));
+		}
+		else {
+			isUnion = false;
+			SOUND->Stop("bg");
+		}
+	}
+
+	if (isDivine) {
+		if (distance < BODYPART_DISTANCE) {
+			distance++;
+			int move = 1;
+			child[BodyKind_Head]->MovePositionWorld(Vector2(0, -move));
+			child[BodyKind_LeftLeg]->MovePositionWorld(Vector2(-move, move));
+			child[BodyKind_LeftArm]->MovePositionWorld(Vector2(-move, 0));
+			child[BodyKind_RightLeg]->MovePositionWorld(Vector2(move, move));
+			child[BodyKind_RightArm]->MovePositionWorld(Vector2(move, 0));
+		}
+		else {
+			isDivine = false;
+			SOUND->Stop("bg");
+		}
+	}
 }

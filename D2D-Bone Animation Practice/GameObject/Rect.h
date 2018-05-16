@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+#define BODYPART_DISTANCE 1000
+
 enum BodyKind {
 	BodyKind_Body,
 	BodyKind_Head,
@@ -30,7 +32,9 @@ private:
 
 	Transform* child[BodyKind_End];
 
-	bool isRight;
+	bool isUnion;
+	bool isDivine;
+	int distance;
 public:
 	Rect();
 	~Rect();
@@ -46,6 +50,8 @@ public:
 	void DrawInterface();
 	void WriteJsonData(wstring fileName, Json::Value* root);
 	void ReadJsonData(wstring fileName, Json::Value* root);
+
+	void MoveToBodyPart();
 
 	void SetCamera(Camera* camera) { this->camera = camera; }
 };
