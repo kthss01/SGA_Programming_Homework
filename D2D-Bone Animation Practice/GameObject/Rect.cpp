@@ -156,6 +156,9 @@ void Rect::Init()
 	isUnion = false;
 	isDivine = false;
 	distance = 0;
+
+	deltaTime = 0.0f;
+	angle = 0.0f;
 }
 
 void Rect::Release()
@@ -225,6 +228,21 @@ void Rect::Update()
 		if (!SOUND->IsPlaySound("bg"))
 			SOUND->Play("bg");
 	}
+
+	//deltaTime += FRAME->GetFrameDeltaSec();
+	//if (deltaTime > 0.5f) {
+	//	deltaTime = 0.0f;
+	//	angle = 45.0f;
+	//	float d = 1.0f;
+	//	child[BodyKind_LeftLeg]->RotateSelf(angle * D3DX_PI / 180.0f);
+	//	//child[BodyKind_LeftLeg]->MovePositionSelf(Vector2(
+	//	//	-cosf(angle * D3DX_PI / 180.0f) * d,
+	//	//	sinf(angle * D3DX_PI / 180.0f) * d));
+	//	child[BodyKind_RightLeg]->RotateSelf(-angle * D3DX_PI / 180.0f);
+	//	//child[BodyKind_RightLeg]->MovePositionSelf(Vector2(
+	//	//	cosf(-angle * D3DX_PI / 180.0f) * d,
+	//	//	-sinf(angle * D3DX_PI / 180.0f) * d));
+	//}
 }
 
 void Rect::Render()
@@ -349,7 +367,6 @@ void Rect::SettingBodyPart()
 	//child[BodyKind_LeftArm]->MovePositionWorld(Vector2(-move, 0));
 	//child[BodyKind_RightLeg]->MovePositionWorld(Vector2(move, 0));
 	//child[BodyKind_RightArm]->MovePositionWorld(Vector2(move, 0));
-
 }
 
 void Rect::DrawInterface()

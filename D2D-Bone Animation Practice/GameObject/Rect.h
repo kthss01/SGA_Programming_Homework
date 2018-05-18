@@ -35,6 +35,8 @@ private:
 	bool isUnion;
 	bool isDivine;
 	int distance;
+
+	float angle;
 public:
 	Rect();
 	~Rect();
