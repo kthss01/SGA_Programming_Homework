@@ -517,9 +517,50 @@ void Rect::InitAnimation()
 void Rect::Move() {
 	float posX = transform->GetWorldPosition().x;
 
+	Vector2 min, max;
+	Vector2 boxMin, boxMax;
+
 	if (INPUT->GetKey(VK_LEFT)) {
 		if (posX - 25 > -WINSIZE_X / 2) {
 			transform->MovePositionSelf(Vector2(-SPEED, 0));
+			collider->GetWorldAABBMinMax(transform, &min, &max);
+
+			for (int i = 0; i < box1Size; i++) {
+				if (Collision::IsOverlap(transform, collider,
+					box1[i]->GetTransform(), box1[i]->GetCollider())) {
+					box1[i]->GetCollider()->GetWorldAABBMinMax(box1[i]->GetTransform(),
+						&boxMin, &boxMax);
+					if (transform->GetWorldPosition().x > boxMax.x) {
+						transform->SetWorldPosition(Vector2(
+							boxMax.x + (max.x - min.x) / 2,
+							transform->GetWorldPosition().y));
+					}
+				}
+			}
+			for (int i = 0; i < box2Size; i++) {
+				if (Collision::IsOverlap(transform, collider,
+					box2[i]->GetTransform(), box2[i]->GetCollider())) {
+					box2[i]->GetCollider()->GetWorldAABBMinMax(box2[i]->GetTransform(),
+						&boxMin, &boxMax);
+					if (transform->GetWorldPosition().x > boxMax.x) {
+						transform->SetWorldPosition(Vector2(
+							boxMax.x + (max.x - min.x) / 2,
+							transform->GetWorldPosition().y));
+					}
+				}
+			}
+			for (int i = 0; i < box3Size; i++) {
+				if (Collision::IsOverlap(transform, collider,
+					box3[i]->GetTransform(), box3[i]->GetCollider())) {
+					box3[i]->GetCollider()->GetWorldAABBMinMax(box3[i]->GetTransform(),
+						&boxMin, &boxMax);
+					if (transform->GetWorldPosition().x > boxMax.x) {
+						transform->SetWorldPosition(Vector2(
+							boxMax.x + (max.x - min.x) / 2,
+							transform->GetWorldPosition().y));
+					}
+				}
+			}
 		}
 
 		isLeft = STATUS_END;
@@ -528,6 +569,44 @@ void Rect::Move() {
 	if (INPUT->GetKey(VK_RIGHT)) {
 		if (posX + 25 < WINSIZE_X / 2) {
 			transform->MovePositionSelf(Vector2(SPEED, 0));
+			collider->GetWorldAABBMinMax(transform, &min, &max);
+
+			for (int i = 0; i < box1Size; i++) {
+				if (Collision::IsOverlap(transform, collider,
+					box1[i]->GetTransform(), box1[i]->GetCollider())) {
+					box1[i]->GetCollider()->GetWorldAABBMinMax(box1[i]->GetTransform(),
+						&boxMin, &boxMax);
+					if (transform->GetWorldPosition().x < boxMin.x) {
+						transform->SetWorldPosition(Vector2(
+							boxMin.x - (max.x - min.x) / 2,
+							transform->GetWorldPosition().y));
+					}
+				}
+			}
+			for (int i = 0; i < box2Size; i++) {
+				if (Collision::IsOverlap(transform, collider,
+					box2[i]->GetTransform(), box2[i]->GetCollider())) {
+					box2[i]->GetCollider()->GetWorldAABBMinMax(box2[i]->GetTransform(),
+						&boxMin, &boxMax);
+					if (transform->GetWorldPosition().x < boxMin.x) {
+						transform->SetWorldPosition(Vector2(
+							boxMin.x - (max.x - min.x) / 2,
+							transform->GetWorldPosition().y));
+					}
+				}
+			}
+			for (int i = 0; i < box3Size; i++) {
+				if (Collision::IsOverlap(transform, collider,
+					box3[i]->GetTransform(), box3[i]->GetCollider())) {
+					box3[i]->GetCollider()->GetWorldAABBMinMax(box3[i]->GetTransform(),
+						&boxMin, &boxMax);
+					if (transform->GetWorldPosition().x < boxMin.x) {
+						transform->SetWorldPosition(Vector2(
+							boxMin.x - (max.x - min.x) / 2,
+							transform->GetWorldPosition().y));
+					}
+				}
+			}
 		}
 
 		isLeft = 0;

@@ -4,6 +4,7 @@
 #include "GameObject\Rect.h"
 #include "GameObject\BackGround.h"
 #include "GameObject\Box.h"
+#include "GameObject\Coin.h"
 #include "./Common/Camera.h"
 
 Program::Program()
@@ -28,6 +29,13 @@ Program::Program()
 	);
 	assert(SUCCEEDED(hr));
 
+	hr = D3DXCreateTextureFromFile(
+		D2D::GetDevice(),
+		L"Textures/coin.png",
+		&pTex[2]
+	);
+	assert(SUCCEEDED(hr));
+
 	mario = new Rect;
 	mario->Init(L"./Shader/ColorTexture.fx", Vector2(1, 1));
 	mario->SetTexture(pTex[0]);
@@ -39,6 +47,7 @@ Program::Program()
 	bg->SetCamera(mainCamera);
 
 	BoxInit();
+	CoinInit();
 
 	D2D::GetDevice()->SetRenderState(
 		// 라이트 지정
@@ -86,6 +95,11 @@ Program::~Program()
 	for (int i = 0; i < BOX3_MAX; i++) {
 		box3[i]->Release();
 		SAFE_DELETE(box3[i]);
+	}
+
+	for (int i = 0; i < COIN_MAX; i++) {
+		coin[i]->Release();
+		SAFE_DELETE(coin[i]);
 	}
 
 	for (int i = 0; i < 3; i++)
@@ -227,6 +241,24 @@ void Program::BoxInit()
 	mario->SetBox(box3, BOX3_MAX, 3);
 }
 
+void Program::CoinInit()
+{
+	for (int i = 0; i < COIN_MAX; i++)
+		coin[i] = new Coin;
+
+	float width = 25.0f;
+	float height = 25.0f;
+
+	coin[0]->Init(L"./Shader/ColorTexture.fx",
+		Vector2(-width / 2, -height / 2),
+		Vector2(width / 2, height / 2));
+	coin[0]->SetCamera(mainCamera);
+	//coin[0]->GetTransform()->SetWorldPosition(Vector2(
+	//	-WINSIZE_X / 2 + width / 2,
+	//	-WINSIZE_Y / 2 + 407.0f + height / 2));
+	coin[0]->SetTexture(pTex[2]);
+}
+
 void Program::Update()
 {
 	if (INPUT->GetKeyDown(VK_TAB))
@@ -244,6 +276,9 @@ void Program::Update()
 	for (int i = 0; i < BOX3_MAX; i++)
 		box3[i]->Update();
 
+	for (int i = 0; i < COIN_MAX; i++)
+		coin[i]->Update();
+
 	mario->Update();
 
 	GetCursorPos(&mousePos);
@@ -255,6 +290,9 @@ void Program::Render()
 	bg->Render();
 	mario->Render();
 	
+	for (int i = 0; i < COIN_MAX; i++)
+		coin[i]->Render();
+
 	if (isDebug) {
 		for (int i = 0; i < BOX_MAX; i++)
 			box[i]->Render();

@@ -260,8 +260,8 @@ bool Collision::IsOverlap(Transform * pTransA, RectCollider * pBoundA, Transform
 	pBoundA->GetWorldAABBMinMax(pTransA, &minA, &maxA);
 	pBoundB->GetWorldAABBMinMax(pTransB, &minB, &maxB);
 
-	if (minA.x <= maxB.x && minA.y <= maxB.y &&
-		maxA.x >= minB.x && maxA.y >= minB.y) {
+	if (minA.x < maxB.x && minA.y < maxB.y &&
+		maxA.x > minB.x && maxA.y > minB.y) {
 		return true;
 	}
 
