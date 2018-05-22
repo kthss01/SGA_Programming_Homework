@@ -5,7 +5,7 @@
 
 #define SPEED 2.5f
 #define GRAVITY 0.5f
-#define JUMP -10
+#define JUMP -15
 
 enum STATUS {
 	STATUS_NORMAL,
@@ -22,7 +22,6 @@ private:
 	float vy;
 	int isLeft;
 	float currentIndexX, currentIndexY;
-	Vector2 bottom;
 
 	struct Vertex {
 		Vector2 position;
@@ -42,6 +41,14 @@ private:
 
 	int shadowCnt;
 	bool check;
+
+	POINT currentBox;
+	int box1Size;
+	int box2Size;
+	int box3Size;
+	class Box** box1;
+	class Box** box2;
+	class Box** box3;
 public:
 	Rect();
 	~Rect();
@@ -63,4 +70,5 @@ public:
 
 	void SetCamera(Camera* camera) { this->camera = camera; }
 	void SetTexture(LPDIRECT3DTEXTURE9 tex) { pTex = tex; }
+	void SetBox(Box** box, int size, int num);
 };

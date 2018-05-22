@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-class BackGround : public GameObject
+class Box : public GameObject
 {
 private:
 	struct Vertex {
@@ -15,11 +15,14 @@ private:
 	LPD3DXEFFECT pEffect;
 
 	class Camera* camera;
+	bool isDebug;
 public:
-	BackGround();
-	~BackGround();
+	Box();
+	~Box();
 
-	void Init(wstring shaderFile, const Vector2 uv, const Vector2 pivot = Vector2(0, 0));
+	void Init(wstring shaderFile, const Vector2 min, const Vector2 max, 
+		bool isDebug = false, const Vector2 uv = Vector2(1, 1), 
+		const Vector2 pivot = Vector2(0, 0));
 	void Release();
 	void Update();
 	void Render();

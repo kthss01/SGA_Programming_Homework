@@ -24,5 +24,6 @@ public:
 	virtual void Render();
 
 	Transform * GetTransform() { return transform; }
+	RectCollider * GetCollider() { return collider; }
 };
 

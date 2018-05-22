@@ -3,6 +3,8 @@
 #include "Common\Camera.h"
 #include "./Animation/AnimationClip.h"
 
+#include "GameObject\Box.h"
+
 Rect::Rect() {
 
 }
@@ -137,6 +139,9 @@ void Rect::Init(wstring shaderFile, const Vector2 uv, const Vector2 pivot)
 
 	transform->SetWorldPosition(Vector2(-WINSIZE_X / 2 + 50, -17));
 	transform->SetScale(Vector2(0.5f, 0.5f));
+
+	currentBox.x = 1;
+	currentBox.y = 0;
 }
 
 void Rect::Release()
@@ -157,8 +162,11 @@ void Rect::Release()
 
 void Rect::Update()
 {
-	this->transform->DefaultControl2();
+	//this->transform->DefaultControl2();
 	this->DrawInterface();
+
+	Vector2 min, max;
+	Vector2 boxMin, boxMax;
 
 	switch (status)
 	{
@@ -178,8 +186,48 @@ void Rect::Update()
 
 		break;
 	case STATUS_ONLAND:
+	{
 		Move();
 		Jump();
+
+		this->collider->GetWorldAABBMinMax(this->transform, &min, &max);
+
+		switch (currentBox.x)
+		{
+		case 1:
+			box1[currentBox.y]->GetCollider()->GetWorldAABBMinMax(
+				box1[currentBox.y]->GetTransform(), &boxMin, &boxMax);
+
+			if (transform->GetWorldPosition().x < boxMin.x || 
+			transform->GetWorldPosition().x > boxMax.x) {
+				status = STATUS_TOLOW;
+				clips[status + isLeft]->Play();
+				vy = 0;
+			}
+			break;
+		case 2:
+			box2[currentBox.y]->GetCollider()->GetWorldAABBMinMax(
+				box2[currentBox.y]->GetTransform(), &boxMin, &boxMax);
+
+			if (max.x < boxMin.x ||
+				min.x > boxMax.x) {
+				status = STATUS_TOLOW;
+				clips[status + isLeft]->Play();
+				vy = 0;
+			}
+			break;
+		case 3:
+			box3[currentBox.y]->GetCollider()->GetWorldAABBMinMax(
+				box3[currentBox.y]->GetTransform(), &boxMin, &boxMax);
+
+			if (transform->GetWorldPosition().x < boxMin.x ||
+				transform->GetWorldPosition().x > boxMax.x) {
+				status = STATUS_TOLOW;
+				clips[status + isLeft]->Play();
+				vy = 0;
+			}
+			break;
+		}
 
 		if (INPUT->GetKeyUp(VK_LEFT)) {
 			status = STATUS_NORMAL;
@@ -193,26 +241,126 @@ void Rect::Update()
 		}
 
 		break;
+	}
 	case STATUS_TOUP:
-
+	{
 		Move();
 		transform->MovePositionSelf(Vector2(0, vy));
 		vy += GRAVITY;
+
+		float tempY = 25.0f;
+
+		for (int i = 0; i < box1Size; i++) {
+			if (Collision::IsOverlap(transform, collider,
+				box1[i]->GetTransform(), box1[i]->GetCollider())) {
+				box1[i]->GetCollider()->GetWorldAABBMinMax(box1[i]->GetTransform(),
+					&boxMin, &boxMax);
+				if (transform->GetWorldPosition().x > boxMin.x &&
+					transform->GetWorldPosition().x < boxMax.x) {
+					transform->SetWorldPosition(Vector2(
+						transform->GetWorldPosition().x, boxMax.y + (max.y - min.y) / 2 + tempY));
+					vy = 0;
+				}
+			}
+		}
+		for (int i = 0; i < box2Size; i++) {
+			if (Collision::IsOverlap(transform, collider,
+				box2[i]->GetTransform(), box2[i]->GetCollider())) {
+				box2[i]->GetCollider()->GetWorldAABBMinMax(box2[i]->GetTransform(),
+					&boxMin, &boxMax);
+				if (transform->GetWorldPosition().x > boxMin.x &&
+					transform->GetWorldPosition().x < boxMax.x) {
+					transform->SetWorldPosition(Vector2(
+						transform->GetWorldPosition().x, boxMax.y + (max.y - min.y) / 2 + tempY));
+					vy = 0;
+				}
+			}
+		}
+		for (int i = 0; i < box3Size; i++) {
+			if (Collision::IsOverlap(transform, collider,
+				box3[i]->GetTransform(), box3[i]->GetCollider())) {
+				box3[i]->GetCollider()->GetWorldAABBMinMax(box3[i]->GetTransform(),
+					&boxMin, &boxMax);
+				if (transform->GetWorldPosition().x > boxMin.x &&
+					transform->GetWorldPosition().x < boxMax.x) {
+					transform->SetWorldPosition(Vector2(
+						transform->GetWorldPosition().x, boxMax.y + (max.y - min.y) / 2 + tempY));
+					vy = 0;
+				}
+			}
+		}
+
 		if (vy >= 0) {
 			status = STATUS_TOLOW;
 			clips[status + isLeft]->Play();
 		}
 		break;
+	}
 	case STATUS_TOLOW:
 		Move();
 		transform->MovePositionSelf(Vector2(0, vy));
 		vy += GRAVITY;
-		if (transform->GetWorldPosition().y >= bottom.y) {
-			transform->SetWorldPosition(
-				Vector2(transform->GetWorldPosition().x,
-					bottom.y));
-			status = STATUS_NORMAL;
-			clips[status + isLeft]->Play();
+		
+		//if (transform->GetWorldPosition().y >= -25.0f) {
+		//	transform->SetWorldPosition(
+		//		Vector2(transform->GetWorldPosition().x,
+		//			-25.0f));
+		//	status = STATUS_NORMAL;
+		//	clips[status + isLeft]->Play();
+		//}
+
+		collider->GetWorldAABBMinMax(transform, &min, &max);
+
+		for (int i = 0; i < box1Size; i++) {
+			if (Collision::IsOverlap(transform, collider,
+				box1[i]->GetTransform(), box1[i]->GetCollider())) {
+				box1[i]->GetCollider()->GetWorldAABBMinMax(box1[i]->GetTransform(),
+					&boxMin, &boxMax);
+				if (transform->GetWorldPosition().x > boxMin.x &&
+					transform->GetWorldPosition().x < boxMax.x &&
+					transform->GetWorldPosition().y < boxMin.y) {
+					currentBox.x = 1;
+					currentBox.y = i;
+					transform->SetWorldPosition(Vector2(
+						transform->GetWorldPosition().x, boxMin.y - (max.y - min.y) / 2));
+					status = STATUS_NORMAL;
+					clips[status + isLeft]->Play();
+				}
+			}
+		}
+		for (int i = 0; i < box2Size; i++) {
+			if (Collision::IsOverlap(transform, collider,
+				box2[i]->GetTransform(), box2[i]->GetCollider())) {
+				box2[i]->GetCollider()->GetWorldAABBMinMax(box2[i]->GetTransform(),
+					&boxMin, &boxMax);
+				if (transform->GetWorldPosition().x > boxMin.x &&
+					transform->GetWorldPosition().x < boxMax.x &&
+					transform->GetWorldPosition().y < boxMin.y) {
+					currentBox.x = 2;
+					currentBox.y = i;
+					transform->SetWorldPosition(Vector2(
+						transform->GetWorldPosition().x, boxMin.y - (max.y - min.y) / 2));
+					status = STATUS_NORMAL;
+					clips[status + isLeft]->Play();
+				}
+			}
+		}
+		for (int i = 0; i < box3Size; i++) {
+			if (Collision::IsOverlap(transform, collider,
+				box3[i]->GetTransform(), box3[i]->GetCollider())) {
+				box3[i]->GetCollider()->GetWorldAABBMinMax(box3[i]->GetTransform(),
+					&boxMin, &boxMax);
+				if (transform->GetWorldPosition().x > boxMin.x &&
+					transform->GetWorldPosition().x < boxMax.x &&
+					transform->GetWorldPosition().y < boxMin.y) {
+					currentBox.x = 3;
+					currentBox.y = i;
+					transform->SetWorldPosition(Vector2(
+						transform->GetWorldPosition().x, boxMin.y - (max.y - min.y) / 2));
+					status = STATUS_NORMAL;
+					clips[status + isLeft]->Play();
+				}
+			}
 		}
 		break;
 	}
@@ -227,6 +375,10 @@ void Rect::Update()
 			shadows[i - 1],
 			// 이 값이 1에 가까우면 붙어서 움직임
 			Frame::Get()->GetFrameDeltaSec() * 10.0f);
+	}
+
+	if (transform->GetWorldPosition().y > WINSIZE_Y / 2) {
+		transform->SetWorldPosition(Vector2(-WINSIZE_X / 2 + 50, -17));
 	}
 
 	clips[status + isLeft]->Update(AniRepeatType_Loop);
@@ -388,7 +540,6 @@ void Rect::Jump() {
 		// 한번 점프만 하기 위해서 상태 바꾸고 거기서는 Jump() 함수 호출 안하게
 		// 이중 점프하고 싶으면 거기서도 Jump() 호출하면됨
 		status = STATUS_TOUP;
-		bottom = transform->GetWorldPosition();
 
 		clips[status + isLeft]->Play();
 	}
@@ -426,4 +577,23 @@ void Rect::ReadJsonData(wstring fileName, Json::Value * root)
 		reader.parse(stream, *root);
 	}
 	stream.close();
+}
+
+void Rect::SetBox(Box ** box, int size, int num)
+{
+	switch (num)
+	{
+	case 1:
+		box1 = box;
+		box1Size = size;
+		break;
+	case 2:
+		box2 = box;
+		box2Size = size;
+		break;
+	case 3:
+		box3 = box;
+		box3Size = size;
+		break;
+	}
 }
