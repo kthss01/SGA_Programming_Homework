@@ -4,6 +4,7 @@
 #include "./Animation/AnimationClip.h"
 
 #include "GameObject\Box.h"
+#include "GameObject\Coin.h"
 
 Rect::Rect() {
 
@@ -365,16 +366,15 @@ void Rect::Update()
 		break;
 	}
 
-	if (shadowCnt > 0) {
-		shadows[0]->Interpolate(this->shadows[0],
-			transform, Frame::Get()->GetFrameDeltaSec() * 10.0f);
-	}
-	for (int i = 1; i < shadowCnt; i++) {
+	shadows[0]->Interpolate(this->shadows[0],
+		transform, Frame::Get()->GetFrameDeltaSec() * 5.0f);
+
+	for (int i = 1; i < MAX_SHADOW; i++) {
 		shadows[i]->Interpolate(
 			this->shadows[i],
 			shadows[i - 1],
 			// 이 값이 1에 가까우면 붙어서 움직임
-			Frame::Get()->GetFrameDeltaSec() * 10.0f);
+			Frame::Get()->GetFrameDeltaSec() * 5.0f);
 	}
 
 	if (transform->GetWorldPosition().y > WINSIZE_Y / 2) {
@@ -409,13 +409,13 @@ void Rect::Render()
 
 	this->pEffect->SetTechnique("MyShader");
 	
-	this->pEffect->SetMatrix("matWorld", &transform->GetFinalMatrix().ToDXMatrix());
-	this->RenderRect();
-
 	for (int i = 0; i < shadowCnt; i++) {
 		this->pEffect->SetMatrix("matWorld", &shadows[i]->GetFinalMatrix().ToDXMatrix());
 		this->RenderRect();
 	}
+
+	this->pEffect->SetMatrix("matWorld", &transform->GetFinalMatrix().ToDXMatrix());
+	this->RenderRect();
 
 	D2D::GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 }
@@ -611,10 +611,21 @@ void Rect::Move() {
 
 		isLeft = 0;
 	}
+
+	for (int i = 0; i < coinSize; i++) {
+		if(!coin[i]->GetSelect() && 
+			Collision::IsOverlap(transform, collider,
+			coin[i]->GetTransform(), coin[i]->GetCollider())) {
+			SOUND->Play("coin", 0.35f);
+			coin[i]->SetSelect(true);
+			shadowCnt++;
+		}
+	}
 }
 
 void Rect::Jump() {
 	if (INPUT->GetKeyDown(VK_SPACE)) {
+		SOUND->Play("jump", 0.30f);
 		vy = JUMP;
 		// 한번 점프만 하기 위해서 상태 바꾸고 거기서는 Jump() 함수 호출 안하게
 		// 이중 점프하고 싶으면 거기서도 Jump() 호출하면됨

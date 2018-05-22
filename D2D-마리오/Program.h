@@ -5,7 +5,7 @@
 #define BOX_MAX 4
 #define BOX2_MAX 29
 #define BOX3_MAX 4
-#define COIN_MAX 1
+#define COIN_MAX 5
 
 class Program
 {

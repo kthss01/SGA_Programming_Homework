@@ -35,7 +35,7 @@ private:
 	float deltaTime;
 
 	class Camera* camera;
-	class AnimationClip* clips[STATUS_END*2];
+	class AnimationClip* clips[STATUS_END * 2];
 
 	Transform* shadows[MAX_SHADOW];
 
@@ -46,9 +46,11 @@ private:
 	int box1Size;
 	int box2Size;
 	int box3Size;
+	int coinSize;
 	class Box** box1;
 	class Box** box2;
 	class Box** box3;
+	class Coin** coin;
 public:
 	Rect();
 	~Rect();
@@ -71,4 +73,5 @@ public:
 	void SetCamera(Camera* camera) { this->camera = camera; }
 	void SetTexture(LPDIRECT3DTEXTURE9 tex) { pTex = tex; }
 	void SetBox(Box** box, int size, int num);
+	void SetCoin(Coin** coin, int size) { this->coin = coin; coinSize = size; }
 };

@@ -133,6 +133,7 @@ void Coin::Init(wstring shaderFile, const Vector2 min, const Vector2 max,
 	}
 
 	clips->Play();
+	isSelect = false;
 }
 
 void Coin::Release()
@@ -151,7 +152,7 @@ void Coin::Update()
 	if (isDebug)
 		this->transform->DefaultControl2();
 	this->DrawInterface();
-
+	
 	clips->Update(AniRepeatType_Loop);
 }
 

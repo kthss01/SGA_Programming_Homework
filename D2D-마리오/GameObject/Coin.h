@@ -18,6 +18,7 @@ private:
 	class AnimationClip* clips;
 
 	bool isDebug;
+	bool isSelect;
 public:
 	Coin();
 	~Coin();
@@ -32,6 +33,9 @@ public:
 
 	void DrawInterface();
 
+	bool GetSelect() { return isSelect; }
+
 	void SetCamera(Camera* camera) { this->camera = camera; }
 	void SetTexture(LPDIRECT3DTEXTURE9 tex) { pTex = tex; }
+	void SetSelect(bool isSelect) { this->isSelect = isSelect; }
 };

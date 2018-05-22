@@ -11,7 +11,10 @@ Program::Program()
 {
 	srand(time(NULL));
 
-	SOUND->AddSound("Test", "sounds/영전3.wav", true, true);
+	//SOUND->AddSound("Test", "sounds/영전3.wav", true, true);
+	SOUND->AddSound("bgm", "sounds/Super Mario Bros. 2 Overworld Theme on piano.mp3", true, true);
+	SOUND->AddSound("jump", "sounds/jump.mp3", false, false);
+	SOUND->AddSound("coin", "sounds/coin.mp3", false, false);
 
 	mainCamera = new Camera;
 
@@ -249,18 +252,33 @@ void Program::CoinInit()
 	float width = 25.0f;
 	float height = 25.0f;
 
-	coin[0]->Init(L"./Shader/ColorTexture.fx",
-		Vector2(-width / 2, -height / 2),
-		Vector2(width / 2, height / 2));
-	coin[0]->SetCamera(mainCamera);
-	//coin[0]->GetTransform()->SetWorldPosition(Vector2(
-	//	-WINSIZE_X / 2 + width / 2,
-	//	-WINSIZE_Y / 2 + 407.0f + height / 2));
-	coin[0]->SetTexture(pTex[2]);
+	for (int i = 0; i < COIN_MAX; i++) {
+		coin[i]->Init(L"./Shader/ColorTexture.fx",
+			Vector2(-width / 2, -height / 2),
+			Vector2(width / 2, height / 2));
+		coin[i]->SetCamera(mainCamera);
+		//coin[0]->GetTransform()->SetWorldPosition(Vector2(
+		//	-WINSIZE_X / 2 + width / 2,
+		//	-WINSIZE_Y / 2 + 407.0f + height / 2));
+		coin[i]->SetTexture(pTex[2]);
+	}
+
+	coin[0]->GetTransform()->MovePositionSelf(Vector2(-106, -125.0f));
+	coin[1]->GetTransform()->MovePositionSelf(Vector2(396, -125.0f));
+	coin[2]->GetTransform()->MovePositionSelf(Vector2(-213.0f, 150.0f));
+	coin[3]->GetTransform()->MovePositionSelf(Vector2(355, 220.0f));
+	coin[4]->GetTransform()->MovePositionSelf(Vector2(86, 220.0f));
+
+	mario->SetCoin(coin, COIN_MAX);
 }
 
 void Program::Update()
 {
+	if (INPUT->GetKeyDown(VK_SHIFT)) {
+		if (!SOUND->IsPlaySound("bgm"))
+			SOUND->Play("bgm");
+	}
+
 	if (INPUT->GetKeyDown(VK_TAB))
 		isDebug = !isDebug;
 
@@ -276,8 +294,10 @@ void Program::Update()
 	for (int i = 0; i < BOX3_MAX; i++)
 		box3[i]->Update();
 
-	for (int i = 0; i < COIN_MAX; i++)
-		coin[i]->Update();
+	for (int i = 0; i < COIN_MAX; i++) {
+		if(!coin[i]->GetSelect())
+			coin[i]->Update();
+	}
 
 	mario->Update();
 
@@ -290,8 +310,10 @@ void Program::Render()
 	bg->Render();
 	mario->Render();
 	
-	for (int i = 0; i < COIN_MAX; i++)
-		coin[i]->Render();
+	for (int i = 0; i < COIN_MAX; i++) {
+		if (!coin[i]->GetSelect())
+			coin[i]->Render();
+	}
 
 	if (isDebug) {
 		for (int i = 0; i < BOX_MAX; i++)
