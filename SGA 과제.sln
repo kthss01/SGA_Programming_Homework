@@ -135,6 +135,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-Bone Animation Practice
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-Interpolation Practice", "D2D-Interpolation Practice\D2D-Interpolation Practice.vcxproj", "{125240A8-B796-4BB6-A34E-A22279D73BE4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-마리오", "D2D-마리오\D2D-마리오.vcxproj", "{D7CB3B48-BED1-4452-8B4B-66847B1E3915}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -671,6 +673,14 @@ Global
 		{125240A8-B796-4BB6-A34E-A22279D73BE4}.Release|x64.Build.0 = Release|x64
 		{125240A8-B796-4BB6-A34E-A22279D73BE4}.Release|x86.ActiveCfg = Release|Win32
 		{125240A8-B796-4BB6-A34E-A22279D73BE4}.Release|x86.Build.0 = Release|Win32
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Debug|x64.ActiveCfg = Debug|x64
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Debug|x64.Build.0 = Debug|x64
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Debug|x86.ActiveCfg = Debug|Win32
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Debug|x86.Build.0 = Debug|Win32
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Release|x64.ActiveCfg = Release|x64
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Release|x64.Build.0 = Release|x64
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Release|x86.ActiveCfg = Release|Win32
+		{D7CB3B48-BED1-4452-8B4B-66847B1E3915}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
