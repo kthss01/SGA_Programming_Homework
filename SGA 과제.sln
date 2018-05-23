@@ -139,6 +139,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-마리오", "D2D-마리
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-RagDoll", "D2D-RagDoll\D2D-RagDoll.vcxproj", "{B4769909-847E-4756-9F6E-7876DA59B265}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-Gizmo Practice", "D2D-Gizmo Practice\D2D-Gizmo Practice.vcxproj", "{8437F977-930E-4E36-8C19-9217CFDDD2FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -691,6 +693,14 @@ Global
 		{B4769909-847E-4756-9F6E-7876DA59B265}.Release|x64.Build.0 = Release|x64
 		{B4769909-847E-4756-9F6E-7876DA59B265}.Release|x86.ActiveCfg = Release|Win32
 		{B4769909-847E-4756-9F6E-7876DA59B265}.Release|x86.Build.0 = Release|Win32
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Debug|x64.ActiveCfg = Debug|x64
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Debug|x64.Build.0 = Debug|x64
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Debug|x86.ActiveCfg = Debug|Win32
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Debug|x86.Build.0 = Debug|Win32
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Release|x64.ActiveCfg = Release|x64
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Release|x64.Build.0 = Release|x64
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Release|x86.ActiveCfg = Release|Win32
+		{8437F977-930E-4E36-8C19-9217CFDDD2FA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
