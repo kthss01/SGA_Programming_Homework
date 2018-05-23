@@ -124,17 +124,17 @@ Window::Window()
 	assert(g_hWnd != NULL);
 
 
-	RECT mario = { 0, 0, (LONG)WINSIZE_X, (LONG)WINSIZE_Y };
+	RECT rect = { 0, 0, (LONG)WINSIZE_X, (LONG)WINSIZE_Y };
 
 	UINT centerX = (GetSystemMetrics(SM_CXSCREEN) - (UINT)WINSIZE_X) / 2;
 	UINT centerY = (GetSystemMetrics(SM_CYSCREEN) - (UINT)WINSIZE_Y) / 2;
 
-	AdjustWindowRect(&mario, WS_OVERLAPPEDWINDOW, FALSE);
+	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 	MoveWindow
 	(
 		g_hWnd
 		, centerX, centerY - 30
-		, mario.right - mario.left, mario.bottom - mario.top
+		, rect.right - rect.left, rect.bottom - rect.top
 		, TRUE
 	);
 	ShowWindow(g_hWnd, SW_SHOWNORMAL);

@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define MAX_SHADOW 10
+#define MAX_SHADOW 5
 
 #define SPEED 2.5f
 #define GRAVITY 0.5f
