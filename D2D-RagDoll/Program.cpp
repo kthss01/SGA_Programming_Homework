@@ -2,6 +2,8 @@
 #include "Program.h"
 
 #include "GameObject\Rect.h"
+#include "GameObject\BackGround.h"
+
 #include "./Common/Camera.h"
 #include "./Common/Transform.h"
 
@@ -9,12 +11,24 @@ Program::Program()
 {
 	srand(time(NULL));
 
-	SOUND->AddSound("Test", "sounds/영전3.wav", true, true);
+	//SOUND->AddSound("Test", "sounds/영전3.wav", true, true);
+	SOUND->AddSound("bgm", "sounds/클라 인 러브 - Linda 행진곡.mp3", true, true);
 
 	mainCamera = new Camera;
 
-	////////////////////////////////////////////////////
+	bg = new BackGround;
 	HRESULT hr = D3DXCreateTextureFromFile(
+		D2D::GetDevice(),
+		L"Textures/bg.jpg",
+		&pTex2
+	);
+	assert(SUCCEEDED(hr));
+	bg->Init(L"./Shader/ColorTexture.fx", Vector2(1, 1));
+	bg->SetCamera(mainCamera);
+	bg->SetTexture(pTex2);
+
+	////////////////////////////////////////////////////
+	hr = D3DXCreateTextureFromFile(
 		D2D::GetDevice(),
 		L"Textures/BodyParts_Head.png",
 		&pTex[BODYPART_HEAD]
@@ -113,6 +127,17 @@ Program::Program()
 	
 	root = new Json::Value();
 	readJson = new Json::Value();
+
+	aniStart = false;
+
+	bottom = new Transform;
+	bottom->MovePositionSelf(Vector2(0,150));
+	bottom->AddChild(bodyPart[BODYPART_BODY]->GetTransform());
+	bottom->AddChild(bodyPart[BODYPART_HEAD]->GetTransform());
+	bodyPart[BODYPART_BODY]->GetTransform()->AddChild(bodyPart[BODYPART_LEFTARM]->GetTransform());
+	bodyPart[BODYPART_BODY]->GetTransform()->AddChild(bodyPart[BODYPART_RIGHTARM]->GetTransform());
+	bodyPart[BODYPART_BODY]->GetTransform()->AddChild(bodyPart[BODYPART_LEFTLEG]->GetTransform());
+	bodyPart[BODYPART_BODY]->GetTransform()->AddChild(bodyPart[BODYPART_RIGHTLEG]->GetTransform());
 }
 
 Program::~Program()
@@ -122,18 +147,26 @@ Program::~Program()
 		SAFE_DELETE(bodyPart[i]);
 	}
 
+	bg->Release();
+	SAFE_DELETE(bg);
+
 	for(int i=0; i<6; i++)
 		SAFE_RELEASE(pTex[i]);
+	SAFE_RELEASE(pTex2);
 	
 	SAFE_DELETE(mainCamera);
 
 	SAFE_DELETE(readJson);
 	SAFE_DELETE(root);
+
+	SAFE_DELETE(bottom);
 }
 
 void Program::Update()
 {
 	mainCamera->UpdateCamToDevice();
+
+	bg->Update();
 
 	if (INPUT->GetKeyDown(VK_LBUTTON)) {
 		currentPart = -1;
@@ -152,6 +185,7 @@ void Program::Update()
 		bodyPart[BODYPART_RIGHTARM]->GetTransform()->MovePositionSelf(Vector2(100, 0));
 		bodyPart[BODYPART_LEFTLEG]->GetTransform()->MovePositionSelf(Vector2(-50, 100));
 		bodyPart[BODYPART_RIGHTLEG]->GetTransform()->MovePositionSelf(Vector2(50, 100));
+		bottom->Reset();
 	}
 	if (INPUT->GetKeyDown('I')) {
 		for (int i = 0; i < BODYPART_END; i++)
@@ -166,6 +200,51 @@ void Program::Update()
 				bodyPart[i]->GetTransform(), L"Init_" + to_wstring(i));
 		}
 	}
+	if (INPUT->GetKeyDown(VK_SPACE)) {
+		Transform temp;
+		vector<Transform> vTemp;
+		for (int i = 0; i < BODYPART_END; i++) {
+			Transform* part = bodyPart[i]->GetTransform();
+			temp.SetScale(part->GetScale());
+			//temp.SetWorldPosition(part->GetWorldPosition());
+			temp.SetLocalPosition(part->GetLocalPosition());
+			//D3DXQUATERNION quat = part->GetWorldRotateQuaternion();
+			D3DXQUATERNION quat = part->GetLocalRotateQuaternion();
+			temp.SetRotateLocal(quat);
+			vTemp.push_back(temp);
+		}
+		vTrans.push_back(vTemp);
+	}
+	if (INPUT->GetKeyDown(VK_RETURN)) {
+		aniStart = !aniStart;
+		deltaTime = 0;
+		currentAni = 0;
+	}
+
+	if (INPUT->GetKeyDown('C')) {
+		if (!SOUND->IsPlaySound("bgm"))
+			SOUND->Play("bgm");
+	}
+
+	if (INPUT->GetKeyDown('K')) { SaveAnimation(); }
+	if (INPUT->GetKeyDown('L')) { LoadAnimation(); }
+	if (INPUT->GetKeyDown('J')) { vTrans.clear(); }
+
+	if (aniStart) {
+		deltaTime += FRAME->GetFrameDeltaSec();
+		if (deltaTime > 0.5f) {
+			deltaTime = 0;
+			if (currentAni < vTrans.size()) {
+				for (int i = 0; i < BODYPART_END; i++) {
+					bodyPart[i]->SetTransform(&vTrans[currentAni][i]);
+				}
+				currentAni++;
+			}
+			else {
+				currentAni = 0;
+			}
+		}
+	}
 
 	for (int i = 0; i < BODYPART_END; i++) {
 		bodyPart[i]->Update();
@@ -173,10 +252,14 @@ void Program::Update()
 
 	if (currentPart != -1)
 		bodyPart[currentPart]->GetTransform()->DefaultControl2();
+	else
+		bottom->DefaultControl2();
 }
 
 void Program::Render()
 {
+	bg->Render();
+
 	for (int i = BODYPART_END - 1; i >= 0; i--) {
 		bodyPart[i]->Render();
 	}
@@ -213,8 +296,8 @@ void Program::InitTransform(Transform * pTrans)
 void Program::SaveTransform(Transform * pTrans, wstring name)
 {
 	Vector2 scale = pTrans->GetScale();
-	Vector2 pos = pTrans->GetWorldPosition();
-	D3DXQUATERNION quat = pTrans->GetWorldRotateQuaternion();
+	Vector2 pos = pTrans->GetLocalPosition();
+	D3DXQUATERNION quat = pTrans->GetLocalRotateQuaternion();
 
 	Json::SetValue(*root, String::WStringToString(name + L"_scale_x"), scale.x);
 	Json::SetValue(*root, String::WStringToString(name + L"_scale_y"), scale.y);
@@ -248,6 +331,42 @@ void Program::LoadTransform(Transform * outTrans, wstring name)
 	D3DXQUATERNION newQuat = D3DXQUATERNION(quat[0], quat[1], quat[2], quat[3]);
 
 	outTrans->SetScale(Vector2(scale[0], scale[1]));
-	outTrans->SetWorldPosition(Vector2(pos[0], pos[1]));
-	outTrans->SetRotateWorld(newQuat);
+	outTrans->SetLocalPosition(Vector2(pos[0], pos[1]));
+	outTrans->SetRotateLocal(newQuat);
+}
+
+void Program::SaveAnimation()
+{
+	aniSize = vTrans.size();
+	float temp = (float)aniSize;
+	Json::SetValue(*root, "AniSize", temp);
+
+	for (int i = 0; i < aniSize; i++) {
+		for (int j = 0; j < BODYPART_END; j++) {
+			this->SaveTransform(
+				&vTrans[i][j], L"Ani_" + to_wstring(i) + L"_" + to_wstring(j));
+		}
+	}
+	WriteJsonData(L"./saves/Ani.Json", root);
+}
+
+void Program::LoadAnimation()
+{
+	ReadJsonData(L"./saves/Ani.Json", readJson);
+	float temp;
+	Json::GetValue(*readJson, "AniSize", temp);
+	aniSize = (int)temp;
+
+	vTrans.clear();
+
+	for (int i = 0; i < aniSize; i++) {
+		vector<Transform> vTemp;
+		Transform tempTrans;
+		for (int j = 0; j < BODYPART_END; j++) {
+			this->LoadTransform(
+				&tempTrans, L"Ani_" + to_wstring(i) + L"_" + to_wstring(j));
+			vTemp.push_back(tempTrans);
+		}
+		vTrans.push_back(vTemp);
+	}
 }

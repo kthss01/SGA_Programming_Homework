@@ -30,7 +30,8 @@ void GameObject::Render()
 void GameObject::SetTransform(Transform* transform)
 {
 	this->transform->SetScale(transform->GetScale());
-	this->transform->SetWorldPosition(transform->GetWorldPosition());
+	//this->transform->SetWorldPosition(transform->GetWorldPosition());
+	this->transform->SetLocalPosition(transform->GetLocalPosition());
 	D3DXQUATERNION quat = transform->GetWorldRotateQuaternion();
-	this->transform->SetRotateWorld(quat);
+	this->transform->SetRotateLocal(quat);
 }

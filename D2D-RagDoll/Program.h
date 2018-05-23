@@ -18,6 +18,10 @@ private:
 	class Camera* mainCamera;
 
 	class Rect* bodyPart[BODYPART_END];
+	class Transform* bottom;
+
+	class BackGround* bg;
+	LPDIRECT3DTEXTURE9 pTex2;
 
 	int currentPart;
 
@@ -25,6 +29,12 @@ private:
 
 	Json::Value* root;
 	Json::Value* readJson;
+
+	vector< vector<class Transform> > vTrans;
+	bool aniStart;
+	float deltaTime;
+	int currentAni;
+	int aniSize;
 public:
 	Program();
 	~Program();
@@ -38,4 +48,6 @@ public:
 	void InitTransform(class Transform* pTrans);
 	void SaveTransform(class Transform* pTrans, wstring name);
 	void LoadTransform(class Transform* outTrans, wstring name);
+	void SaveAnimation();
+	void LoadAnimation();
 };

@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="Common\Camera.h" />
+    <ClInclude Include="GameObject\BackGround.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GameObject\Rect.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -183,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="Animation\AnimationClip.cpp" />
     <ClCompile Include="Common\Camera.cpp" />
+    <ClCompile Include="GameObject\BackGround.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\Rect.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />

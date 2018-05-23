@@ -252,6 +252,25 @@ void Transform::SetRotateLocal(const Matrix matLocalRotate)
 {
 }
 
+void Transform::SetRotateLocal(D3DXQUATERNION & worldRotate)
+{
+	D3DXQUATERNION quatRot = worldRotate;
+
+	D3DXMATRIX matRotate;
+	D3DXMatrixRotationQuaternion(&matRotate, &quatRot);
+
+	Matrix matRot = Matrix(matRotate);
+
+	this->right = Vector2(1, 0);
+	this->up = Vector2(0, 1);
+
+	for (int i = 0; i < 2; i++)
+		this->axis[i] = this->axis[i].TransformNormal(matRot);
+
+	if (this->bAutoUpdate)
+		this->UpdateTransform();
+}
+
 void Transform::LookPosition(Vector2 pos, Vector2 up)
 {
 }
@@ -443,6 +462,11 @@ Vector2 Transform::GetWorldPosition()
 	return position;
 }
 
+Vector2 Transform::GetLocalPosition()
+{
+	return this->position;
+}
+
 void Transform::GetUnitAxis(Vector2 * pVecArr) const
 {
 	for (int i = 0; i < 2; i++) {
@@ -472,6 +496,14 @@ Vector2 Transform::GetUnitAxis(int axisNum) const
 	return result;
 }
 
+void Transform::GetLocalUnitAxis(Vector2 * pVecArr) const
+{
+	for (int i = 0; i < 2; i++) {
+		pVecArr[i] = axis[i];
+		pVecArr[i] = pVecArr[i].Normalize();
+	}
+}
+
 Vector2 Transform::GetScale() const
 {
 	return this->scale;
@@ -495,6 +527,26 @@ Matrix Transform::GetWorldRotateMatrix()
 
 	return matRotate;
 }
+
+Matrix Transform::GetLocalRotateMatrix()
+{
+	Matrix matRotate;
+	matRotate = Matrix::Identity(4);
+	Vector2 axis[2];
+	this->GetLocalUnitAxis(axis);
+	// 부모로 들어가면 정규화 필요
+
+	matRotate[0][0] = axis[0].x;
+	matRotate[0][1] = axis[0].y;
+
+	matRotate[1][0] = axis[1].x;
+	matRotate[1][1] = axis[1].y;
+
+	// 3차원이면 z값까지 처리 필요
+
+	return matRotate;
+}
+
 D3DXQUATERNION Transform::GetWorldRotateQuaternion()
 {
 	D3DXQUATERNION quat;
@@ -504,6 +556,22 @@ D3DXQUATERNION Transform::GetWorldRotateQuaternion()
 	// 그녀석을 matWorld라는 녀석에 집어넣어야함
 
 	D3DXMATRIX matWorld = this->GetWorldRotateMatrix().ToDXMatrix();
+
+	// quat 값으로 변환됨 (행렬중 회전값만 반환됨)
+	D3DXQuaternionRotationMatrix(&quat, &matWorld);
+
+	return quat;
+}
+
+D3DXQUATERNION Transform::GetLocalRotateQuaternion()
+{
+	D3DXQUATERNION quat;
+
+	// 월드 축으로 받아오는 녀석으로 해야됨
+	// GetUnitAxis()를 월드축으로 받아와서 행렬로 변환 시켜서
+	// 그녀석을 matWorld라는 녀석에 집어넣어야함
+
+	D3DXMATRIX matWorld = this->GetLocalRotateMatrix().ToDXMatrix();
 
 	// quat 값으로 변환됨 (행렬중 회전값만 반환됨)
 	D3DXQuaternionRotationMatrix(&quat, &matWorld);

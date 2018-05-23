@@ -85,6 +85,7 @@ public:
 	void SetRotateWorld(const Matrix matWorldRotate);
 	void SetRotateWorld(D3DXQUATERNION& worldRotate);
 	void SetRotateLocal(const Matrix matLocalRotate);
+	void SetRotateLocal(D3DXQUATERNION& worldRotate);
 
 	// Rotation (사원수 회전 == QUATERNION)
 
@@ -112,6 +113,7 @@ public:
 	Matrix GetFinalMatrix() const;	// 월드 세 팅할때만 쓸 예정
 
 	Vector2 GetWorldPosition();
+	Vector2 GetLocalPosition();
 
 	// world 축은 위로가면 y축이 1 오른쪽으로가면 x축이 1
 
@@ -119,11 +121,14 @@ public:
 	void GetUnitAxis(Vector2* pVecArr) const;
 	// 지정한 번호의 axis만 받아오는거
 	Vector2 GetUnitAxis(int axisNum) const;
+	void GetLocalUnitAxis(Vector2* pVecArr) const;
 
 	Vector2 GetScale() const;
 	Matrix GetWorldRotateMatrix();
+	Matrix GetLocalRotateMatrix();
 
 	D3DXQUATERNION GetWorldRotateQuaternion();
+	D3DXQUATERNION GetLocalRotateQuaternion();
 
 	void DrawInterface();
 };
