@@ -125,6 +125,9 @@ void Rect::Init(wstring shaderFile, const Vector2 uv, const Vector2 pivot)
 	}
 	tempTrans[0]->MovePositionSelf(Vector2(-300, 0));
 	tempTrans[1]->MovePositionSelf(Vector2(300, 0));
+
+	showGizmo = true;
+	showGizmoSpecial = false;
 }
 
 void Rect::Release()
@@ -158,6 +161,11 @@ void Rect::Update()
 		tempTrans[0]->MovePositionSelf(Vector2(-300, 0));
 		tempTrans[1]->MovePositionSelf(Vector2(300, 0));
 	}
+
+	if (INPUT->GetKeyDown(VK_SPACE))
+		showGizmo = !showGizmo;
+	if (INPUT->GetKeyDown(VK_SHIFT))
+		showGizmoSpecial = !showGizmoSpecial;
 }
 
 void Rect::Render()
@@ -191,11 +199,21 @@ void Rect::Render()
 
 	D2D::GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 
-	//transform->RenderGizmo(true);
-	//collider->RenderGizmo(transform);
-	collider->RenderGizmoSpecialRed(tempTrans[0]);
-	collider->RenderGizmoSpecialGreen(transform);
-	collider->RenderGizmoSpecialBlue(tempTrans[1]);
+	if (showGizmo) {
+		transform->RenderGizmo(true);
+		tempTrans[0]->RenderGizmo(true);
+		tempTrans[1]->RenderGizmo(true);
+
+		collider->RenderGizmo(transform);
+		collider->RenderGizmo(tempTrans[0]);
+		collider->RenderGizmo(tempTrans[1]);
+	}
+
+	if (showGizmoSpecial) {
+		collider->RenderGizmoSpecialRed(tempTrans[0]);
+		collider->RenderGizmoSpecialGreen(transform);
+		collider->RenderGizmoSpecialBlue(tempTrans[1]);
+	}
 }
 
 void Rect::RenderRect()

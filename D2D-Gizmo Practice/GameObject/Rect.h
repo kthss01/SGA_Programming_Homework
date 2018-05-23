@@ -15,6 +15,9 @@ private:
 
 	class Camera* camera;
 	class Transform* tempTrans[2];
+
+	bool showGizmo;
+	bool showGizmoSpecial;
 public:
 	Rect();
 	~Rect();
