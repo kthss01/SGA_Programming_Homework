@@ -145,6 +145,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-LockRect Practice", "D2
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-OBB Collision Practice", "D2D-OBB Collision Practice\D2D-OBB Collision Practice.vcxproj", "{9EEAD880-888A-4FEF-A67B-97105E7848FA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Postfix Notation (후위표기법)", "Postfix Notation (후위표기법)\Postfix Notation (후위표기법).vcxproj", "{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -721,6 +723,14 @@ Global
 		{9EEAD880-888A-4FEF-A67B-97105E7848FA}.Release|x64.Build.0 = Release|x64
 		{9EEAD880-888A-4FEF-A67B-97105E7848FA}.Release|x86.ActiveCfg = Release|Win32
 		{9EEAD880-888A-4FEF-A67B-97105E7848FA}.Release|x86.Build.0 = Release|Win32
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Debug|x64.ActiveCfg = Debug|x64
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Debug|x64.Build.0 = Debug|x64
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Debug|x86.ActiveCfg = Debug|Win32
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Debug|x86.Build.0 = Debug|Win32
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Release|x64.ActiveCfg = Release|x64
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Release|x64.Build.0 = Release|x64
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Release|x86.ActiveCfg = Release|Win32
+		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
