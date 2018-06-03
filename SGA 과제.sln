@@ -147,6 +147,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2D-OBB Collision Practice"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Postfix Notation (후위표기법)", "Postfix Notation (후위표기법)\Postfix Notation (후위표기법).vcxproj", "{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Circular Queue", "Circular Queue\Circular Queue.vcxproj", "{5F53618B-FF9A-4789-8023-C5C00AB61233}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinarySearch Tree", "BinarySearch Tree\BinarySearch Tree.vcxproj", "{419FD325-7407-4DA0-847D-0424E20ACD35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -731,6 +735,22 @@ Global
 		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Release|x64.Build.0 = Release|x64
 		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Release|x86.ActiveCfg = Release|Win32
 		{35C673F5-6A95-4AC4-83D5-4ACB97FE0B05}.Release|x86.Build.0 = Release|Win32
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Debug|x64.ActiveCfg = Debug|x64
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Debug|x64.Build.0 = Debug|x64
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Debug|x86.ActiveCfg = Debug|Win32
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Debug|x86.Build.0 = Debug|Win32
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Release|x64.ActiveCfg = Release|x64
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Release|x64.Build.0 = Release|x64
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Release|x86.ActiveCfg = Release|Win32
+		{5F53618B-FF9A-4789-8023-C5C00AB61233}.Release|x86.Build.0 = Release|Win32
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Debug|x64.ActiveCfg = Debug|x64
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Debug|x64.Build.0 = Debug|x64
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Debug|x86.ActiveCfg = Debug|Win32
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Debug|x86.Build.0 = Debug|Win32
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Release|x64.ActiveCfg = Release|x64
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Release|x64.Build.0 = Release|x64
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Release|x86.ActiveCfg = Release|Win32
+		{419FD325-7407-4DA0-847D-0424E20ACD35}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
